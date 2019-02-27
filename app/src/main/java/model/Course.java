@@ -20,14 +20,6 @@ public class Course {
         this.notes = notes;
     }
 
-    // partial constructor
-    public Course(String title, String startDate, String expectedEnd, String status) {
-        this.title = title;
-        this.startDate = startDate;
-        this.expectedEnd = expectedEnd;
-        this.status = status;
-    }
-
     // empty constructor
     public Course() {
     }

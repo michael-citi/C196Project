@@ -1,6 +1,7 @@
 package tools;
 
 import android.content.Context;
+import android.database.SQLException;
 import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteOpenHelper;
 import android.support.annotation.Nullable;
@@ -42,7 +43,7 @@ public class DBHelper extends SQLiteOpenHelper {
     @Override
     public void onCreate(SQLiteDatabase db) {
         // create table 1 "TERMS"
-        db.execSQL("CREATE TABLE " + TABLE_1 + " ("
+        db.execSQL("CREATE TABLE IF NOT EXISTS " + TABLE_1 + " ("
                 + TABLE_1_COL_1 + " INTEGER PRIMARY KEY AUTOINCREMENT NOT NULL UNIQUE, "
                 + TABLE_1_COL_2 + " TEXT NOT NULL, "
                 + TABLE_1_COL_3 + " DATE NOT NULL, "
@@ -51,7 +52,7 @@ public class DBHelper extends SQLiteOpenHelper {
         );
 
         // create table 2 "COURSES"
-        db.execSQL("CREATE TABLE " + TABLE_2 + " ("
+        db.execSQL("CREATE TABLE IF NOT EXISTS " + TABLE_2 + " ("
                 + TABLE_2_COL_1 + " INTEGER PRIMARY KEY AUTOINCREMENT NOT NULL UNIQUE, "
                 + TABLE_2_COL_2 + " TEXT NOT NULL, "
                 + TABLE_2_COL_3 + " DATE NOT NULL, "
@@ -64,7 +65,7 @@ public class DBHelper extends SQLiteOpenHelper {
         );
 
         // create table 3 "INSTRUCTORS"
-        db.execSQL("CREATE TABLE " + TABLE_3 + " ("
+        db.execSQL("CREATE TABLE IF NOT EXISTS " + TABLE_3 + " ("
                 + TABLE_3_COL_1 + " INTEGER PRIMARY KEY AUTOINCREMENT NOT NULL UNIQUE, "
                 + TABLE_3_COL_2 + " INTEGER NOT NULL, "
                 + TABLE_3_COL_3 + " TEXT NOT NULL, "
@@ -75,7 +76,7 @@ public class DBHelper extends SQLiteOpenHelper {
         );
 
         // create table 4 "OBJECTIVES"
-        db.execSQL("CREATE TABLE " + TABLE_4 + " ("
+        db.execSQL("CREATE TABLE IF NOT EXISTS " + TABLE_4 + " ("
                 + TABLE_4_COL_1 + " INTEGER PRIMARY KEY AUTOINCREMENT NOT NULL UNIQUE, "
                 + TABLE_4_COL_2 + " INTEGER NOT NULL, "
                 + TABLE_4_COL_3 + " TEXT NOT NULL, "
@@ -86,7 +87,7 @@ public class DBHelper extends SQLiteOpenHelper {
     }
 
     @Override
-    public void onUpgrade(SQLiteDatabase db, int i, int i1) {
+    public void onUpgrade(SQLiteDatabase db, int oldVer, int newVer) {
         db.execSQL("DROP TABLE IF EXISTS " + TABLE_1);
         db.execSQL("DROP TABLE IF EXISTS " + TABLE_2);
         db.execSQL("DROP TABLE IF EXISTS " + TABLE_3);

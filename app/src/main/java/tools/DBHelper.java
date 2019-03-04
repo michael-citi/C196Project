@@ -57,7 +57,7 @@ public class DBHelper extends SQLiteOpenHelper {
                 + TABLE_2_COL_3 + " DATE NOT NULL, "
                 + TABLE_2_COL_4 + " DATE NOT NULL, "
                 + TABLE_2_COL_5 + " TEXT NOT NULL, "
-                + TABLE_2_COL_6 + " INTEGER, "
+                + TABLE_2_COL_6 + " INTEGER NOT NULL, "
                 + TABLE_2_COL_7 + " TEXT NOT NULL DEFAULT '', "
                 // FK 'courses.termId' referencing 'terms.termId'
                 + "FOREIGN KEY (" + TABLE_2_COL_6 + ") REFERENCES " + TABLE_1 + " (" + TABLE_1_COL_1 + "))"
@@ -66,7 +66,7 @@ public class DBHelper extends SQLiteOpenHelper {
         // create table 3 "INSTRUCTORS"
         db.execSQL("CREATE TABLE " + TABLE_3 + " ("
                 + TABLE_3_COL_1 + " INTEGER PRIMARY KEY AUTOINCREMENT NOT NULL UNIQUE, "
-                + TABLE_3_COL_2 + " INTEGER, "
+                + TABLE_3_COL_2 + " INTEGER NOT NULL, "
                 + TABLE_3_COL_3 + " TEXT NOT NULL, "
                 + TABLE_3_COL_4 + " TEXT NOT NULL, "
                 + TABLE_3_COL_5 + " TEXT NOT NULL, "
@@ -77,7 +77,7 @@ public class DBHelper extends SQLiteOpenHelper {
         // create table 4 "OBJECTIVES"
         db.execSQL("CREATE TABLE " + TABLE_4 + " ("
                 + TABLE_4_COL_1 + " INTEGER PRIMARY KEY AUTOINCREMENT NOT NULL UNIQUE, "
-                + TABLE_4_COL_2 + " INTEGER, "
+                + TABLE_4_COL_2 + " INTEGER NOT NULL, "
                 + TABLE_4_COL_3 + " TEXT NOT NULL, "
                 + TABLE_4_COL_4 + " DATETIME NOT NULL, "
                 // FK 'objectives.courseId' referencing 'courses.courseId'

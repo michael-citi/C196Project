@@ -8,8 +8,11 @@ import android.view.MenuItem;
 import android.view.View;
 import android.content.Intent;
 import com.michaelciti.c196project.view.*;
+import tools.DBHelper;
 
 public class MainActivity extends AppCompatActivity {
+
+    DBHelper dbHelper;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {

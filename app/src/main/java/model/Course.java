@@ -1,8 +1,21 @@
 package model;
 
+import android.content.Context;
+import android.database.Cursor;
+import android.database.SQLException;
+import android.database.sqlite.SQLiteDatabase;
+import android.util.Log;
+
+import java.util.ArrayList;
+import tools.DBHelper;
+
+import static android.support.constraint.Constraints.TAG;
+
 public class Course {
+
     private int courseId;
     private String title;
+    private String description;
     private String startDate;
     private String expectedEnd;
     private String status;
@@ -10,9 +23,10 @@ public class Course {
     private String notes;
 
     // main constructor
-    public Course(int courseId, String title, String startDate, String expectedEnd, String status, int termId, String notes) {
+    public Course(int courseId, String title, String description, String startDate, String expectedEnd, String status, int termId, String notes) {
         this.courseId = courseId;
         this.title = title;
+        this.description = description;
         this.startDate = startDate;
         this.expectedEnd = expectedEnd;
         this.status = status;
@@ -20,8 +34,48 @@ public class Course {
         this.notes = notes;
     }
 
+    // partial constructor for Course View
+    public Course(String title, String description, String startDate, String expectedEnd) {
+        this.title = title;
+        this.description = description;
+        this.startDate = startDate;
+        this.expectedEnd = expectedEnd;
+    }
+
     // empty constructor
     public Course() {
+    }
+
+    public ArrayList<Course> queryAll(Context context) {
+        ArrayList<Course> courseArrayList = new ArrayList<>();
+        final String COURSE_QUERY = "SELECT * FROM courses";
+        SQLiteDatabase db = DBHelper.getInstance(context).getReadableDatabase();
+        Cursor cursor = db.rawQuery(COURSE_QUERY, null);
+        try {
+            if (cursor.moveToFirst()) {
+                while (cursor.moveToNext()) {
+                    //TODO: convert startDate and expectedEndDate to String objects
+                    int courseId = cursor.getInt(cursor.getColumnIndex("courseId"));
+                    String title = cursor.getString(cursor.getColumnIndex("title"));
+                    String description = cursor.getString(cursor.getColumnIndex("description"));
+                    // String startDate =
+                    // String endDate =
+                    String status = cursor.getString(cursor.getColumnIndex("status"));
+                    int termId = cursor.getInt(cursor.getColumnIndex("termId"));
+                    String notes = cursor.getString(cursor.getColumnIndex("notes"));
+
+                    //TODO: create Course object and add to courseArrayList
+
+                }
+            }
+        } catch (Exception ex) {
+            Log.d(TAG, "Error while querying courses from database.");
+        } finally {
+            if (cursor != null) {
+                cursor.close();
+            }
+        }
+        return courseArrayList;
     }
 
     // getters & setters
@@ -39,6 +93,14 @@ public class Course {
 
     public void setTitle(String title) {
         this.title = title;
+    }
+
+    public String getDescription() {
+        return this.description;
+    }
+
+    public void setDescription(String description) {
+        this.description = description;
     }
 
     public String getStartDate() {

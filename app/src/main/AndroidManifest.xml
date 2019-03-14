@@ -10,9 +10,17 @@
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
         <activity
+            android:name=".AddCourseActivity"
+            android:label="@string/title_activity_add_course"
+            android:theme="@style/AppTheme.NoActionBar"></activity>
+        <activity
+            android:name=".ViewCoursesActivity"
+            android:label="@string/title_activity_view_courses"
+            android:theme="@style/AppTheme.NoActionBar" />
+        <activity
             android:name=".view.NotificationActivity"
             android:label="@string/title_activity_notification"
-            android:theme="@style/AppTheme.NoActionBar"></activity>
+            android:theme="@style/AppTheme.NoActionBar" />
         <activity
             android:name=".view.DegreePlanActivity"
             android:label="@string/title_activity_instructor"

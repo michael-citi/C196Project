@@ -7,7 +7,6 @@ import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.content.Intent;
-import com.michaelciti.c196project.view.*;
 
 public class MainActivity extends AppCompatActivity {
 
@@ -19,23 +18,13 @@ public class MainActivity extends AppCompatActivity {
         setSupportActionBar(toolbar);
     }
 
-    public void openTermAct(View view) {
-        Intent intent = new Intent(this, TermActivity.class);
+    public void addCourseAct(View view) {
+        Intent intent = new Intent(this, AddCourseActivity.class);
         startActivity(intent);
     }
 
-    public void openCourseAct(View view) {
-        Intent intent = new Intent(this, CourseActivity.class);
-        startActivity(intent);
-    }
-
-    public void openDegreePlanAct(View view) {
-        Intent intent = new Intent(this, DegreePlanActivity.class);
-        startActivity(intent);
-    }
-
-    public void openNotificationAct(View view) {
-        Intent intent = new Intent(this, NotificationActivity.class);
+    public void viewCourseAct(View view) {
+        Intent intent = new Intent(this, ViewCoursesActivity.class);
         startActivity(intent);
     }
 

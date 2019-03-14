@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
-<android.support.constraint.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<android.support.constraint.ConstraintLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/constraintLayout"
@@ -10,64 +11,94 @@
     tools:layout_editor_absoluteY="56dp"
     tools:showIn="@layout/activity_main">
 
-    <TextView
-        android:id="@+id/welcomeMsg"
-        android:layout_width="0dp"
-        android:layout_height="wrap_content"
-        android:layout_marginStart="8dp"
-        android:layout_marginTop="24dp"
-        android:layout_marginEnd="8dp"
-        android:gravity="center"
-        android:text="@string/welcome_message"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
+    <ScrollView
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
 
-    <Button
-        android:id="@+id/courseBtn"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="16dp"
-        android:text="@string/courses_button"
-        android:onClick="openCourseAct"
-        app:layout_constraintEnd_toEndOf="@+id/termBtn"
-        app:layout_constraintStart_toStartOf="@+id/termBtn"
-        app:layout_constraintTop_toBottomOf="@+id/termBtn" />
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical" >
 
-    <Button
-        android:id="@+id/termBtn"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginStart="8dp"
-        android:layout_marginTop="16dp"
-        android:onClick="openTermAct"
-        android:text="@string/term_button"
-        app:layout_constraintEnd_toEndOf="@+id/welcomeMsg"
-        app:layout_constraintStart_toStartOf="@+id/welcomeMsg"
-        app:layout_constraintTop_toBottomOf="@+id/welcomeMsg" />
+            <TextView
+                android:id="@+id/welcomeMsg"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:layout_marginStart="8dp"
+                android:layout_marginTop="8dp"
+                android:layout_marginEnd="8dp"
+                android:layout_marginBottom="8dp"
+                android:fontFamily="sans-serif-black"
+                android:gravity="center"
+                android:text="@string/welcome_message" />
 
-    <Button
-        android:id="@+id/alertBtn"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="16dp"
-        android:text="@string/alerts_button"
-        android:onClick="openNotificationAct"
-        app:layout_constraintEnd_toEndOf="@+id/courseBtn"
-        app:layout_constraintStart_toStartOf="@+id/courseBtn"
-        app:layout_constraintTop_toBottomOf="@+id/courseBtn" />
+            <TextView
+                android:id="@+id/termTextView"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:layout_marginTop="8dp"
+                android:layout_marginBottom="8dp"
+                android:fontFamily="sans-serif-black"
+                android:gravity="center"
+                android:text="@string/term_name" />
 
-    <Button
-        android:id="@+id/degPlanBtn"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="16dp"
-        android:layout_marginBottom="8dp"
-        android:onClick="openDegreePlanAct"
-        android:text="@string/degree_plan_button"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="@+id/alertBtn"
-        app:layout_constraintStart_toStartOf="@+id/alertBtn"
-        app:layout_constraintTop_toBottomOf="@+id/alertBtn"
-        app:layout_constraintVertical_bias="0.0" />
+            <Button
+                android:id="@+id/addTermBtn"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="@string/term_add" />
+
+            <Button
+                android:id="@+id/degreePlanBtn"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="@string/term_view" />
+
+            <TextView
+                android:id="@+id/courseTextView"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:layout_marginTop="8dp"
+                android:layout_marginBottom="8dp"
+                android:fontFamily="sans-serif-black"
+                android:gravity="center"
+                android:text="@string/course_name" />
+
+            <Button
+                android:id="@+id/addCourseBtn"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:onClick="addCourseAct"
+                android:text="@string/course_add" />
+
+            <Button
+                android:id="@+id/viewCoursesBtn"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:onClick="viewCourseAct"
+                android:text="@string/course_view" />
+
+            <TextView
+                android:id="@+id/notificationTextView"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:layout_marginTop="8dp"
+                android:layout_marginBottom="8dp"
+                android:fontFamily="sans-serif-black"
+                android:gravity="center"
+                android:text="@string/manage_notifications" />
+
+            <Button
+                android:id="@+id/button5"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="@string/notification_button" />
+
+        </LinearLayout>
+    </ScrollView>
+
 </android.support.constraint.ConstraintLayout>

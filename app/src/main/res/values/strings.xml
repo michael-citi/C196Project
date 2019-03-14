@@ -1,13 +1,20 @@
 <resources>
+    <!--MainActivity Strings-->
     <string name="app_name">C196 Project</string>
     <string name="action_settings">Settings</string>
     <string name="welcome_message">Welcome to the WGU personal degree program management application!\n\nPlease select from the choices below to get started.</string>
-    <string name="title_activity_term">Terms</string>
-    <string name="title_activity_course">Courses</string>
-    <string name="title_activity_instructor">Instructors</string>
-    <string name="term_button">Terms</string>
-    <string name="courses_button">Courses</string>
-    <string name="alerts_button">Manage Alerts</string>
-    <string name="title_activity_notification">Notification List</string>
-    <string name="degree_plan_button">Degree Plan</string>
+    <string name="term_name">Terms</string>
+    <string name="term_add">Add Term</string>
+    <string name="term_view">View Degree Plan</string>
+    <string name="course_name">Courses</string>
+    <string name="course_add">Add Course</string>
+    <string name="course_view">View Courses</string>
+    <string name="manage_notifications">Manage Your Notifications</string>
+    <string name="notification_button">Notifications</string>
+    <!--AddCourseActivity Strings-->
+    <string name="title_activity_add_course">Add A Course</string>
+
+    <!--ViewCoursesActivity Strings-->
+    <string name="title_activity_view_courses">Course List</string>
+
 </resources>

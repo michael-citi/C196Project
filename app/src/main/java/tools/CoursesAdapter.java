@@ -6,7 +6,6 @@ import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.Button;
 import android.widget.TextView;
 import com.michaelciti.c196project.R;
 import java.util.List;
@@ -25,7 +24,6 @@ public class CoursesAdapter extends RecyclerView.Adapter<CoursesAdapter.ViewHold
         public TextView courseDescription;
         public TextView courseStartDate;
         public TextView courseEndDate;
-        public Button notesBtn;
 
         public ViewHolder(View view) {
             super(view);
@@ -33,7 +31,6 @@ public class CoursesAdapter extends RecyclerView.Adapter<CoursesAdapter.ViewHold
             courseDescription = view.findViewById(R.id.courseDescription);
             courseStartDate = view.findViewById(R.id.courseStartDate);
             courseEndDate = view.findViewById(R.id.courseEndDate);
-            notesBtn = view.findViewById(R.id.notesButton);
         }
     }
 
@@ -45,8 +42,8 @@ public class CoursesAdapter extends RecyclerView.Adapter<CoursesAdapter.ViewHold
 
         View coursesView = inflater.inflate(R.layout.course_content, viewGroup, false);
 
-        ViewHolder viewHolder = new ViewHolder(coursesView);
-        return viewHolder;
+        ViewHolder holder = new ViewHolder(coursesView);
+        return holder;
     }
 
     @Override

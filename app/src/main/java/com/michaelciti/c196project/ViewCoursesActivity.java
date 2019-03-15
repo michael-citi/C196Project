@@ -1,6 +1,5 @@
 package com.michaelciti.c196project;
 
-import android.content.Context;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.LinearLayoutManager;
@@ -12,7 +11,7 @@ import tools.CoursesAdapter;
 
 public class ViewCoursesActivity extends AppCompatActivity {
 
-    ArrayList<Course> courses;
+    ArrayList<Course> courses = new ArrayList<>();
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -22,7 +21,7 @@ public class ViewCoursesActivity extends AppCompatActivity {
         setSupportActionBar(toolbar);
 
         RecyclerView courseList = findViewById(R.id.coursesView);
-        //TODO: populate courses ArrayList
+        courses = Course.queryAll(getApplicationContext());
         CoursesAdapter adapter = new CoursesAdapter(courses);
         courseList.setAdapter(adapter);
         courseList.setLayoutManager(new LinearLayoutManager(this));

@@ -1,4 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
+<!--Nested LinearLayout needed for each RecylerView item in the list-->
 <LinearLayout
     xmlns:android="http://schemas.android.com/apk/res/android"
     android:orientation="horizontal"
@@ -26,12 +27,6 @@
 
     <TextView
         android:id="@+id/courseEndDate"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content" />
-
-    <Button
-        android:id="@+id/notesButton"
-        android:text="Notes"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content" />
 

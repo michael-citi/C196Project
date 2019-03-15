@@ -13,7 +13,18 @@
     <string name="notification_button">Notifications</string>
     <!--AddCourseActivity Strings-->
     <string name="title_activity_add_course">Add A Course</string>
-
+    <string name="add_course_title">Course Title</string>
+    <string name="add_course_title_hint">Enter course title here</string>
+    <string name="add_course_description">Course Description</string>
+    <string name="add_course_description_hint">Enter course description here</string>
+    <string name="add_course_start">Start Date</string>
+    <string name="add_course_end">Expected End Date</string>
+    <string name="add_course_instructor">Course Instructor(s)</string>
+    <string name="add_course_objective">Course Objective(s)</string>
+    <string name="add_course_status">Course Status</string>
+    <string name="add_course_button">Add Course</string>
+    <string name="add_course_notes">Notes</string>
+    <string name="add_course_notes_hint">Optional</string>
     <!--ViewCoursesActivity Strings-->
     <string name="title_activity_view_courses">Course List</string>
 

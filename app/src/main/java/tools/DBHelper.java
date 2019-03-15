@@ -37,6 +37,7 @@ public class DBHelper extends SQLiteOpenHelper {
         private static final String TABLE_4_COL_2 = "courseId";
         private static final String TABLE_4_COL_3 = "title";
         private static final String TABLE_4_COL_4 = "time";
+        private static final String TABLE_4_COL_5 = "type";
 
     // private constructor to prevent direct instantiation of database
     // call getInstance() instead
@@ -101,6 +102,7 @@ public class DBHelper extends SQLiteOpenHelper {
                 + TABLE_4_COL_2 + " INTEGER NOT NULL, "
                 + TABLE_4_COL_3 + " TEXT NOT NULL, "
                 + TABLE_4_COL_4 + " DATETIME NOT NULL, "
+                + TABLE_4_COL_5 + " TEXT NOT NULL,"
                 // FK 'objectives.courseId' referencing 'courses.courseId'
                 + "FOREIGN KEY (" + TABLE_4_COL_2 + ") REFERENCES " + TABLE_2 + " (" + TABLE_2_COL_1 + "))"
         );

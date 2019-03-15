@@ -2,13 +2,10 @@ package model;
 
 import android.content.Context;
 import android.database.Cursor;
-import android.database.SQLException;
 import android.database.sqlite.SQLiteDatabase;
 import android.util.Log;
-
 import java.util.ArrayList;
 import tools.DBHelper;
-
 import static android.support.constraint.Constraints.TAG;
 
 public class Course {
@@ -46,7 +43,7 @@ public class Course {
     public Course() {
     }
 
-    public ArrayList<Course> queryAll(Context context) {
+    public static ArrayList<Course> queryAll(Context context) {
         ArrayList<Course> courseArrayList = new ArrayList<>();
         final String COURSE_QUERY = "SELECT * FROM courses";
         SQLiteDatabase db = DBHelper.getInstance(context).getReadableDatabase();
@@ -96,7 +93,7 @@ public class Course {
     }
 
     public String getDescription() {
-        return this.description;
+        return description;
     }
 
     public void setDescription(String description) {

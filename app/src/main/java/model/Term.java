@@ -1,6 +1,15 @@
 package model;
 
+import android.content.Context;
+import android.database.Cursor;
+import android.database.sqlite.SQLiteDatabase;
+import android.util.Log;
+import java.util.ArrayList;
+import tools.DBHelper;
+import static android.support.constraint.Constraints.TAG;
+
 public class Term {
+
     private int termId;
     private String title;
     private String startDate;
@@ -23,6 +32,32 @@ public class Term {
 
     // empty constructor
     public Term() {
+    }
+
+    public static ArrayList<Term> queryAll(Context context) {
+        ArrayList<Term> termArrayList = new ArrayList<>();
+        final String TERM_QUERY = "SELECT * FROM terms";
+        SQLiteDatabase db = DBHelper.getInstance(context).getReadableDatabase();
+        Cursor cursor = db.rawQuery(TERM_QUERY, null);
+        try {
+            if (cursor.moveToFirst()) {
+                while (cursor.moveToNext()) {
+                    //TODO: convert startDate and endDate to String objects
+                    int termId = cursor.getInt(cursor.getColumnIndex("termId"));
+                    String title = cursor.getString(cursor.getColumnIndex("title"));
+                    // String startDate =
+                    // String endDate =
+                    //TODO: create Term objects and populate ArrayList
+                }
+            }
+        } catch (Exception ex) {
+            Log.d(TAG, "Error while querying terms from database.");
+        } finally {
+            if (cursor != null) {
+                cursor.close();
+            }
+        }
+        return termArrayList;
     }
 
     // getters & setters

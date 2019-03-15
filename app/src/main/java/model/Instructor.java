@@ -1,6 +1,15 @@
 package model;
 
+import android.content.Context;
+import android.database.Cursor;
+import android.database.sqlite.SQLiteDatabase;
+import android.util.Log;
+import java.util.ArrayList;
+import tools.DBHelper;
+import static android.support.constraint.Constraints.TAG;
+
 public class Instructor {
+
     private int instructorId;
     private int courseId;
     private String name;
@@ -25,6 +34,34 @@ public class Instructor {
 
     // empty constructor
     public Instructor() {
+    }
+
+    public static ArrayList<Instructor> queryAll(Context context) {
+        ArrayList<Instructor> instructorArrayList = new ArrayList<>();
+        final String INSTRUCT_QUERY = "SELECT * FROM instructors";
+        SQLiteDatabase db = DBHelper.getInstance(context).getReadableDatabase();
+        Cursor cursor = db.rawQuery(INSTRUCT_QUERY, null);
+        try {
+            if (cursor.moveToFirst()) {
+                while (cursor.moveToNext()) {
+                    int instId = cursor.getInt(cursor.getColumnIndex("instructorId"));
+                    int courseId = cursor.getInt(cursor.getColumnIndex("courseId"));
+                    String instName = cursor.getString(cursor.getColumnIndex("name"));
+                    String instPhone = cursor.getString(cursor.getColumnIndex("phone"));
+                    String instEmail = cursor.getString(cursor.getColumnIndex("email"));
+
+                    Instructor instructor = new Instructor(instId, courseId, instName, instPhone, instEmail);
+                    instructorArrayList.add(instructor);
+                }
+            }
+        } catch (Exception ex) {
+            Log.d(TAG, "Error while running query for instructors from database.");
+        } finally {
+            if (cursor != null) {
+                cursor.close();
+            }
+        }
+        return instructorArrayList;
     }
 
     // getters & setters

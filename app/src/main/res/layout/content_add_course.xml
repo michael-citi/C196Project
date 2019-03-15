@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
-<android.support.constraint.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<android.support.constraint.ConstraintLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
@@ -19,9 +20,12 @@
 
             <TextView
                 android:id="@+id/courseTitle"
+                android:fontFamily="sans-serif-black"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_gravity="center"
+                android:layout_marginBottom="8dp"
+                android:layout_marginTop="8dp"
                 android:gravity="center"
                 android:text="@string/add_course_title" />
 
@@ -35,8 +39,11 @@
 
             <TextView
                 android:id="@+id/courseDescription"
+                android:fontFamily="sans-serif-black"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
+                android:layout_marginBottom="8dp"
+                android:layout_marginTop="8dp"
                 android:layout_gravity="center"
                 android:gravity="center"
                 android:text="@string/add_course_description" />
@@ -46,47 +53,60 @@
                 android:id="@+id/courseDescriptionInput"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
+                android:layout_marginBottom="8dp"
+                android:layout_marginTop="8dp"
                 android:ems="10"
                 android:inputType="textMultiLine" />
 
             <TextView
                 android:id="@+id/startDate"
+                android:fontFamily="sans-serif-black"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_gravity="center"
+                android:layout_marginBottom="8dp"
+                android:layout_marginTop="8dp"
                 android:gravity="center"
                 android:text="@string/add_course_start" />
 
-            <DatePicker
-                android:id="@+id/startDatePicker"
-                android:layout_width="wrap_content"
+            <EditText
+                android:id="@+id/startDateInput"
+                android:hint="@string/add_course_start_hint"
+                android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:datePickerMode="spinner"
-                android:layout_gravity="center"
-                android:gravity="center"
-                android:calendarViewShown="false"/>
+                android:layout_marginBottom="8dp"
+                android:layout_marginTop="8dp"
+                android:ems="10"
+                android:inputType="date" />
 
             <TextView
                 android:id="@+id/endDate"
+                android:fontFamily="sans-serif-black"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_gravity="center"
+                android:layout_marginBottom="8dp"
+                android:layout_marginTop="8dp"
                 android:gravity="center"
                 android:text="@string/add_course_end" />
 
-            <DatePicker
-                android:id="@+id/endDatePicker"
-                android:layout_width="wrap_content"
+            <EditText
+                android:id="@+id/endDateInput"
+                android:hint="@string/add_course_end_hint"
+                android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:datePickerMode="spinner"
-                android:layout_gravity="center"
-                android:gravity="center"
-                android:calendarViewShown="false"/>
+                android:layout_marginBottom="8dp"
+                android:layout_marginTop="8dp"
+                android:ems="10"
+                android:inputType="date" />
 
             <TextView
                 android:id="@+id/courseObjectives"
+                android:fontFamily="sans-serif-black"
                 android:layout_gravity="center"
                 android:gravity="center"
+                android:layout_marginBottom="8dp"
+                android:layout_marginTop="8dp"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:text="@string/add_course_objective" />
@@ -95,14 +115,19 @@
                 android:id="@+id/courseObjectivesSpinner"
                 android:layout_gravity="center"
                 android:gravity="center"
+                android:layout_marginBottom="8dp"
+                android:layout_marginTop="8dp"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content" />
 
             <TextView
                 android:id="@+id/courseInstructors"
+                android:fontFamily="sans-serif-black"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_gravity="center"
+                android:layout_marginBottom="8dp"
+                android:layout_marginTop="8dp"
                 android:gravity="center"
                 android:text="@string/add_course_instructor" />
 
@@ -110,27 +135,37 @@
                 android:id="@+id/courseInstructorsSpinner"
                 android:layout_gravity="center"
                 android:gravity="center"
+                android:layout_marginBottom="8dp"
+                android:layout_marginTop="8dp"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content" />
 
             <TextView
                 android:id="@+id/status"
+                android:fontFamily="sans-serif-black"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
+                android:layout_marginBottom="8dp"
+                android:layout_marginTop="8dp"
                 android:layout_gravity="center"
                 android:gravity="center"
                 android:text="@string/add_course_status" />
 
             <Spinner
                 android:id="@+id/statusSpinner"
+                android:layout_marginBottom="8dp"
+                android:layout_marginTop="8dp"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content" />
 
             <TextView
                 android:id="@+id/notes"
+                android:fontFamily="sans-serif-black"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_gravity="center"
+                android:layout_marginBottom="8dp"
+                android:layout_marginTop="8dp"
                 android:gravity="center"
                 android:text="@string/add_course_notes" />
 
@@ -139,14 +174,19 @@
                 android:hint="@string/add_course_notes_hint"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
+                android:layout_marginBottom="8dp"
+                android:layout_marginTop="8dp"
                 android:ems="10"
                 android:inputType="textMultiLine" />
 
             <Button
                 android:id="@+id/addCourseBtn"
-                android:onClick="addNewCourse"
-                android:layout_width="match_parent"
+                android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
+                android:onClick="addNewCourse"
+                android:layout_marginBottom="8dp"
+                android:layout_marginTop="8dp"
+                android:layout_gravity="center"
                 android:text="@string/add_course_button" />
 
         </LinearLayout>

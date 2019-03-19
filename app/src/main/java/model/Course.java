@@ -75,6 +75,16 @@ public class Course {
         return courseArrayList;
     }
 
+    public static int checkStartDate(int courseId) {
+
+        return 0;
+    }
+
+    public static int checkEndDate(int courseId) {
+
+        return 0;
+    }
+
     // getters & setters
     public int getCourseId() {
         return courseId;

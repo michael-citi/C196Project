@@ -1,6 +1,7 @@
 package com.michaelciti.c196project;
 
 import android.app.DatePickerDialog;
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.design.widget.Snackbar;
 import android.support.v7.app.AppCompatActivity;
@@ -9,7 +10,6 @@ import android.view.View;
 import android.widget.DatePicker;
 import android.widget.EditText;
 import android.widget.Spinner;
-
 import java.util.Calendar;
 
 public class AddCourseActivity extends AppCompatActivity {
@@ -90,6 +90,8 @@ public class AddCourseActivity extends AppCompatActivity {
         String errorMsg = validateCourseData();
         if (errorMsg.equals("None")) {
 
+
+        returnToMain();
         } else {
             Snackbar error = Snackbar.make(findViewById(R.id.constraintLayout), errorMsg, Snackbar.LENGTH_LONG);
             error.show();
@@ -100,6 +102,8 @@ public class AddCourseActivity extends AppCompatActivity {
         String errorMsg;
         String title = courseTitle.getText().toString();
         String description = courseDescription.getText().toString();
+        String startDate = startDatePicker.getText().toString();
+        String endDate = endDatePicker.getText().toString();
 
         if (title.equals("")) {
             errorMsg = "Course Title cannot be empty. Please enter a title and try again.";
@@ -107,18 +111,21 @@ public class AddCourseActivity extends AppCompatActivity {
         } else if (description.equals("")) {
             errorMsg = "Course Description cannot be empty. Please enter a description and try again.";
             courseDescription.requestFocus();
-        } else if () {
-
-        } else if () {
-
-        } else if () {
-
-        } else if () {
-
+        } else if (startDate.equals("")) {
+            errorMsg = "Start date cannot be empty. Please select a start date for the course.";
+            startDatePicker.requestFocus();
+        } else if (endDate.equals("")) {
+            errorMsg = "Expected end date cannot be empty. Please select an expected end date for the course.";
+            endDatePicker.requestFocus();
         } else {
             errorMsg = "None";
         }
         return errorMsg;
+    }
+
+    private void returnToMain() {
+        Intent intent = new Intent(this, MainActivity.class);
+        startActivity(intent);
     }
 
 }

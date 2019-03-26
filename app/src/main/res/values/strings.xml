@@ -27,6 +27,9 @@
     <string name="add_course_button">Add Course</string>
     <string name="add_course_notes">Notes</string>
     <string name="add_course_notes_hint">Enter optional notes here</string>
+    <string name="add_course_instructor_btn">Add</string>
+    <string name="add_course_objective_btn">Add</string>
+    <string name="add_course_cancel_btn">Cancel</string>
     <!--ViewCoursesActivity Strings-->
     <string name="title_activity_view_courses">Course List</string>
 

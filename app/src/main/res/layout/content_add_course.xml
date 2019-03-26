@@ -111,34 +111,92 @@
                 android:layout_height="wrap_content"
                 android:text="@string/add_course_objective" />
 
-            <Spinner
-                android:id="@+id/courseObjectivesSpinner"
-                android:layout_gravity="center"
-                android:gravity="center"
-                android:layout_marginBottom="8dp"
-                android:layout_marginTop="8dp"
+            <LinearLayout
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content" />
+                android:layout_height="match_parent"
+                android:orientation="horizontal" >
+
+                <Spinner
+                    android:id="@+id/courseObjectivesSpinner"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center"
+                    android:layout_marginEnd="8dp"
+                    android:layout_marginStart="8dp"
+                    android:layout_marginTop="8dp"
+                    android:layout_marginBottom="8dp"
+                    android:layout_weight="1"
+                    android:gravity="center" />
+
+                <Button
+                    android:id="@+id/addObjBtn"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_marginEnd="8dp"
+                    android:layout_marginStart="8dp"
+                    android:layout_marginTop="8dp"
+                    android:layout_marginBottom="8dp"
+                    android:layout_weight="1"
+                    android:text="@string/add_course_objective_btn" />
+
+            </LinearLayout>
 
             <TextView
-                android:id="@+id/courseInstructors"
-                android:fontFamily="sans-serif-black"
+                android:id="@+id/addObjTextView"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_gravity="center"
-                android:layout_marginBottom="8dp"
                 android:layout_marginTop="8dp"
+                android:layout_marginBottom="8dp" />
+
+
+            <TextView
+                android:id="@+id/courseInstructors"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:layout_marginTop="8dp"
+                android:layout_marginBottom="8dp"
+                android:fontFamily="sans-serif-black"
                 android:gravity="center"
                 android:text="@string/add_course_instructor" />
 
-            <Spinner
-                android:id="@+id/courseInstructorsSpinner"
-                android:layout_gravity="center"
-                android:gravity="center"
-                android:layout_marginBottom="8dp"
-                android:layout_marginTop="8dp"
+            <LinearLayout
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content" />
+                android:layout_height="match_parent"
+                android:orientation="horizontal">
+
+                <Spinner
+                    android:id="@+id/courseInstructorsSpinner"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center"
+                    android:layout_marginEnd="8dp"
+                    android:layout_marginStart="8dp"
+                    android:layout_marginTop="8dp"
+                    android:layout_marginBottom="8dp"
+                    android:layout_weight="1"
+                    android:gravity="center" />
+
+                <Button
+                    android:id="@+id/addCIBtn"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_marginEnd="8dp"
+                    android:layout_marginStart="8dp"
+                    android:layout_marginTop="8dp"
+                    android:layout_marginBottom="8dp"
+                    android:layout_weight="1"
+                    android:text="@string/add_course_instructor_btn" />
+            </LinearLayout>
+
+            <TextView
+                android:id="@+id/addCITextView"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:layout_marginTop="8dp"
+                android:layout_marginBottom="8dp" />
 
             <TextView
                 android:id="@+id/status"
@@ -179,15 +237,40 @@
                 android:ems="10"
                 android:inputType="textMultiLine" />
 
-            <Button
-                android:id="@+id/addCourseBtn"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:onClick="addNewCourse"
-                android:layout_marginBottom="8dp"
-                android:layout_marginTop="8dp"
-                android:layout_gravity="center"
-                android:text="@string/add_course_button" />
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:orientation="horizontal">
+
+                <Button
+                    android:id="@+id/addCourseBtn"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:onClick="addNewCourse"
+                    android:layout_marginBottom="8dp"
+                    android:layout_marginTop="8dp"
+                    android:layout_marginStart="8dp"
+                    android:layout_marginEnd="8dp"
+                    android:layout_gravity="center"
+                    android:layout_weight="1"
+                    android:text="@string/add_course_button" />
+
+                <Button
+                    android:id="@+id/cancelCourseBtn"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:onClick="addNewCourse"
+                    android:layout_marginBottom="8dp"
+                    android:layout_marginTop="8dp"
+                    android:layout_marginStart="8dp"
+                    android:layout_marginEnd="8dp"
+                    android:layout_gravity="center"
+                    android:layout_weight="1"
+                    android:text="@string/add_course_cancel_btn" />
+
+            </LinearLayout>
+
+
 
         </LinearLayout>
     </ScrollView>

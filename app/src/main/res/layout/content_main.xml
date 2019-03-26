@@ -46,14 +46,20 @@
 
             <Button
                 android:id="@+id/addTermBtn"
-                android:layout_width="match_parent"
+                android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:layout_marginTop="8dp"
+                android:layout_marginBottom="8dp"
                 android:text="@string/term_add" />
 
             <Button
                 android:id="@+id/degreePlanBtn"
-                android:layout_width="match_parent"
+                android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:layout_marginTop="8dp"
+                android:layout_marginBottom="8dp"
                 android:text="@string/term_view" />
 
             <TextView
@@ -69,15 +75,21 @@
 
             <Button
                 android:id="@+id/addCourseBtn"
-                android:layout_width="match_parent"
+                android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:layout_marginTop="8dp"
+                android:layout_marginBottom="8dp"
                 android:onClick="addCourseAct"
                 android:text="@string/course_add" />
 
             <Button
                 android:id="@+id/viewCoursesBtn"
-                android:layout_width="match_parent"
+                android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:layout_marginTop="8dp"
+                android:layout_marginBottom="8dp"
                 android:onClick="viewCourseAct"
                 android:text="@string/course_view" />
 
@@ -94,8 +106,11 @@
 
             <Button
                 android:id="@+id/button5"
-                android:layout_width="match_parent"
+                android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:layout_marginTop="8dp"
+                android:layout_marginBottom="8dp"
                 android:text="@string/notification_button" />
 
         </LinearLayout>

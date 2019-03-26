@@ -7,9 +7,11 @@ import android.support.design.widget.Snackbar;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.view.View;
+import android.widget.Button;
 import android.widget.DatePicker;
 import android.widget.EditText;
 import android.widget.Spinner;
+import android.widget.TextView;
 import java.util.Calendar;
 
 public class AddCourseActivity extends AppCompatActivity {
@@ -21,6 +23,8 @@ public class AddCourseActivity extends AppCompatActivity {
     Spinner instructorSpinner;
     Spinner objectiveSpinner;
     Spinner statusSpinner;
+    TextView addCITextView;
+    Button addCIBtn;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -36,6 +40,8 @@ public class AddCourseActivity extends AppCompatActivity {
         instructorSpinner = findViewById(R.id.courseInstructorsSpinner);
         objectiveSpinner = findViewById(R.id.courseObjectivesSpinner);
         statusSpinner = findViewById(R.id.statusSpinner);
+        addCITextView = findViewById(R.id.addCITextView);
+        addCIBtn = findViewById(R.id.addCIBtn);
 
         startDatePicker.setOnClickListener(new View.OnClickListener() {
             @Override

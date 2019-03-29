@@ -12,7 +12,7 @@
     <string name="manage_notifications">Manage Your Notifications</string>
     <string name="notification_button">Notifications</string>
     <!--AddCourseActivity Strings-->
-    <string name="title_activity_add_course">Add A Course</string>
+    <string name="title_activity_add_course">Add New Course</string>
     <string name="add_course_title">Course Title</string>
     <string name="add_course_title_hint">Enter course title here</string>
     <string name="add_course_description">Course Description</string>

@@ -18,19 +18,16 @@
     <string name="add_course_description">Course Description</string>
     <string name="add_course_description_hint">Enter course description here</string>
     <string name="add_course_start">Start Date</string>
-    <string name="add_course_start_hint">Click to enter start date</string>
+    <string name="add_course_start_hint">Click button for start date</string>
     <string name="add_course_end">Expected End Date</string>
-    <string name="add_course_end_hint">Click to enter end date</string>
+    <string name="add_course_end_hint">Click button for end date</string>
     <string name="add_course_instructor">Course Instructor(s)</string>
     <string name="add_course_objective">Course Objective(s)</string>
-    <string name="add_course_status">Course Status</string>
-    <string name="add_course_button">Add Course</string>
-    <string name="add_course_notes">Notes</string>
-    <string name="add_course_notes_hint">Enter optional notes here</string>
-    <string name="add_course_instructor_btn">Add</string>
-    <string name="add_course_objective_btn">Add</string>
+    <string name="add_course_button">Confirm Course</string>
     <string name="add_course_cancel_btn">Cancel</string>
+    <string name="add_course_date_btn">Select</string>
     <!--ViewCoursesActivity Strings-->
     <string name="title_activity_view_courses">Course List</string>
+    <string name="title_activity_course_detail">Course Details</string>
 
 </resources>

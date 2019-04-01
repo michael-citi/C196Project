@@ -10,6 +10,15 @@
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
         <activity
+            android:name=".CourseDetail"
+            android:label="@string/title_activity_course_detail"
+            android:parentActivityName=".MainActivity"
+            android:theme="@style/AppTheme.NoActionBar">
+            <meta-data
+                android:name="android.support.PARENT_ACTIVITY"
+                android:value="com.michaelciti.c196project.MainActivity" />
+        </activity>
+        <activity
             android:name=".AddCourseActivity"
             android:label="@string/title_activity_add_course"
             android:parentActivityName=".MainActivity"
@@ -18,10 +27,6 @@
                 android:name="android.support.PARENT_ACTIVITY"
                 android:value="com.michaelciti.c196project.MainActivity" />
         </activity>
-        <activity
-            android:name=".ViewCoursesActivity"
-            android:label="@string/title_activity_view_courses"
-            android:theme="@style/AppTheme.NoActionBar" />
         <activity
             android:name=".MainActivity"
             android:label="@string/app_name"
@@ -32,6 +37,10 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
+
+        <meta-data
+            android:name="preloaded_fonts"
+            android:resource="@array/preloaded_fonts" />
     </application>
 
 </manifest>

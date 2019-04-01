@@ -51,18 +51,17 @@ public class Course {
         try {
             if (cursor.moveToFirst()) {
                 while (cursor.moveToNext()) {
-                    //TODO: convert startDate and expectedEndDate to String objects
                     int courseId = cursor.getInt(cursor.getColumnIndex("courseId"));
                     String title = cursor.getString(cursor.getColumnIndex("title"));
                     String description = cursor.getString(cursor.getColumnIndex("description"));
-                    // String startDate =
-                    // String endDate =
+                    String startDate = cursor.getString(cursor.getColumnIndex("startDate"));
+                    String endDate = cursor.getString(cursor.getColumnIndex("endDate"));
                     String status = cursor.getString(cursor.getColumnIndex("status"));
                     int termId = cursor.getInt(cursor.getColumnIndex("termId"));
                     String notes = cursor.getString(cursor.getColumnIndex("notes"));
 
-                    //TODO: create Course object and add to courseArrayList
-
+                    Course tempCourse = new Course(courseId, title, description, startDate, endDate, status, termId, notes);
+                    courseArrayList.add(tempCourse);
                 }
             }
         } catch (Exception ex) {

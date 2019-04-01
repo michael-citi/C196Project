@@ -70,8 +70,8 @@ public class DBHelper extends SQLiteOpenHelper {
         db.execSQL("CREATE TABLE IF NOT EXISTS " + TABLE_1 + " ("
                 + TABLE_1_COL_1 + " INTEGER PRIMARY KEY AUTOINCREMENT NOT NULL UNIQUE, "
                 + TABLE_1_COL_2 + " TEXT NOT NULL, "
-                + TABLE_1_COL_3 + " DATE NOT NULL, "
-                + TABLE_1_COL_4 + " DATE NOT NULL)"
+                + TABLE_1_COL_3 + " DATE, "
+                + TABLE_1_COL_4 + " DATE)"
         );
 
         // create table 2 "COURSES"
@@ -81,7 +81,7 @@ public class DBHelper extends SQLiteOpenHelper {
                 + TABLE_2_COL_3 + " TEXT NOT NULL, "
                 + TABLE_2_COL_4 + " DATE NOT NULL, "
                 + TABLE_2_COL_5 + " DATE NOT NULL, "
-                + TABLE_2_COL_6 + " TEXT NOT NULL, "
+                + TABLE_2_COL_6 + " TEXT NOT NULL DEFAULT 'planning', "
                 + TABLE_2_COL_7 + " INTEGER NOT NULL DEFAULT 0, "
                 + TABLE_2_COL_8 + " TEXT NOT NULL DEFAULT '', "
                 // FK 'courses.termId' referencing 'terms.termId'
@@ -118,6 +118,9 @@ public class DBHelper extends SQLiteOpenHelper {
                 // FK 'full_course.objectiveId' referencing 'objectives.objectiveId'
                 + "FOREIGN KEY (" + TABLE_5_COL_4 + ") REFERENCES " + TABLE_4 + " (" + TABLE_4_COL_1 + "))"
         );
+
+        // initial Term 0 insert to allow courses to be listed as Unallocated (not in any specific term)
+        db.execSQL("INSERT INTO terms (title) VALUES ('Unallocated')");
     }
 
     @Override

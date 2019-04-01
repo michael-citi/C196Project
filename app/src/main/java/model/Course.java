@@ -2,6 +2,7 @@ package model;
 
 import android.content.Context;
 import android.database.Cursor;
+import android.database.SQLException;
 import android.database.sqlite.SQLiteDatabase;
 import android.util.Log;
 import java.util.ArrayList;
@@ -31,7 +32,7 @@ public class Course {
         this.notes = notes;
     }
 
-    // partial constructor for Course View
+    // partial constructor for Add Course
     public Course(String title, String description, String startDate, String expectedEnd) {
         this.title = title;
         this.description = description;
@@ -65,7 +66,7 @@ public class Course {
                 }
             }
         } catch (Exception ex) {
-            Log.d(TAG, "Error while querying courses from database.");
+            Log.d(TAG, ex.getMessage());
         } finally {
             if (cursor != null) {
                 cursor.close();
@@ -74,13 +75,42 @@ public class Course {
         return courseArrayList;
     }
 
-    public static int checkStartDate(int courseId) {
+    public static int courseComparator(int year, int month, int day, Context context) {
+        int startYear, startMonth, startDay;
+        int endYear, endMonth, endDay;
+        final String COURSE_QUERY = "SELECT startDate, expectedEnd, " +
+                "strftime('%Y', startDate) as sYEAR, " +
+                "strftime('%m', startDate) as sMONTH, " +
+                "strftime('%d', startDate) as sDAY, " +
+                "strftime('%Y', expectedEnd) as eYEAR, " +
+                "strftime('%m', expectedEnd) as eMONTH, " +
+                "strftime('%d', expectedEnd) as eDAY " +
+                "FROM courses";
+        SQLiteDatabase db = DBHelper.getInstance(context).getReadableDatabase();
+        Cursor cursor = db.rawQuery(COURSE_QUERY, null);
+        try {
+            if (cursor.moveToFirst()) {
+                while (cursor.moveToNext()) {
+                    startYear = cursor.getInt(cursor.getColumnIndex("sYEAR"));
+                    startMonth = cursor.getInt(cursor.getColumnIndex("sMONTH"));
+                    startDay = cursor.getInt(cursor.getColumnIndex("sDAY"));
+                    endYear = cursor.getInt(cursor.getColumnIndex("eYEAR"));
+                    endMonth = cursor.getInt(cursor.getColumnIndex("eMONTH"));
+                    endDay = cursor.getInt(cursor.getColumnIndex("eDAY"));
 
-        return 0;
-    }
-
-    public static int checkEndDate(int courseId) {
-
+                    if ((year >= startYear) && (year <= endYear) && (month >= startMonth) && (month <= endMonth) && (day >= startDay) && (day <= endDay)) {
+                        Log.i(TAG, "Course date range set within another active course date range.");
+                        return 1;
+                    }
+                }
+            }
+        } catch (SQLException ex) {
+            Log.d(TAG, ex.getMessage());
+        } finally {
+            if (cursor != null) {
+                cursor.close();
+            }
+        }
         return 0;
     }
 

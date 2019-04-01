@@ -110,7 +110,7 @@ public class DBHelper extends SQLiteOpenHelper {
                 + TABLE_5_COL_1 + " INTEGER PRIMARY KEY AUTOINCREMENT NOT NULL UNIQUE, "
                 + TABLE_5_COL_2 + " INTEGER NOT NULL, "
                 + TABLE_5_COL_3 + " INTEGER, "
-                + TABLE_5_COL_4 + " INTEGER, "
+                + TABLE_5_COL_4 + " INTEGER UNIQUE, "
                 // FK 'full_course.courseId' referencing 'courses.courseId'
                 + "FOREIGN KEY (" + TABLE_5_COL_2 + ") REFERENCES " + TABLE_2 + " (" + TABLE_2_COL_1 + "), "
                 // FK 'full_course.instructorId' referencing 'instructors.instructorId'

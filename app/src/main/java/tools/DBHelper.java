@@ -99,9 +99,9 @@ public class DBHelper extends SQLiteOpenHelper {
         // create table 4 "OBJECTIVES"
         db.execSQL("CREATE TABLE IF NOT EXISTS " + TABLE_4 + " ("
                 + TABLE_4_COL_1 + " INTEGER PRIMARY KEY AUTOINCREMENT NOT NULL UNIQUE, "
-                + TABLE_4_COL_2 + " INTEGER NOT NULL, "
-                + TABLE_4_COL_3 + " TEXT NOT NULL, "
-                + TABLE_4_COL_4 + " DATETIME NOT NULL, "
+                + TABLE_4_COL_2 + " TEXT NOT NULL, "
+                + TABLE_4_COL_3 + " DATETIME UNIQUE, "
+                + TABLE_4_COL_4 + " TEXT NOT NULL, "
                 + TABLE_4_COL_5 + " TEXT NOT NULL)"
         );
 
@@ -110,7 +110,7 @@ public class DBHelper extends SQLiteOpenHelper {
                 + TABLE_5_COL_1 + " INTEGER PRIMARY KEY AUTOINCREMENT NOT NULL UNIQUE, "
                 + TABLE_5_COL_2 + " INTEGER NOT NULL, "
                 + TABLE_5_COL_3 + " INTEGER, "
-                + TABLE_5_COL_4 + " INTEGER UNIQUE, "
+                + TABLE_5_COL_4 + " INTEGER, "
                 // FK 'full_course.courseId' referencing 'courses.courseId'
                 + "FOREIGN KEY (" + TABLE_5_COL_2 + ") REFERENCES " + TABLE_2 + " (" + TABLE_2_COL_1 + "), "
                 // FK 'full_course.instructorId' referencing 'instructors.instructorId'
@@ -121,6 +121,22 @@ public class DBHelper extends SQLiteOpenHelper {
 
         // initial Term 0 insert to allow courses to be listed as Unallocated (not in any specific term)
         db.execSQL("INSERT INTO terms (title) VALUES ('Unallocated')");
+        // initial Instructor table inserts to allow courses to assign instructors
+        db.execSQL("INSERT INTO instructors (name, phone, email) VALUES " +
+                "('Amy Antonucci', '555-7854', 'amy.antonucci@wgu.edu'), " +
+                "('Rob Shah', '679-0981', 'rob.shah@wgu.edu'), " +
+                "('Justin Kendricks', '305-2876', 'justin.kendricks@wgu.edu'), " +
+                "('Bob Boberson', '123-4567', 'bob.boberson@wgu.edu')"
+        );
+        // initial Objective table inserts to manipulate with assigned courses later on
+        db.execSQL("INSERT INTO objectives (title, type, description) VALUES " +
+                "('FQPG', 'Performance', 'Performance assessment. Add and subtract the same 12 numbers over and over again until the exam proctor falls alseep.'), " +
+                "('KGTA', 'Objective', 'Objective assessment. Create the worlds largest sculpture of a buffalo. Add wings for realism.'), " +
+                "('OJTF', 'Objective', 'Objective assessment. Write a ten page essay on the inner workings of quick-dry concrete.'), " +
+                "('WGCK', 'Performance', 'Performance assessment. Solve all of the math problems--all of them. You have a 1 hour time limit.'), " +
+                "('YDCV', 'Performance', 'Performance assessment. Draw a picture of anything you want and call it artistic mastery.'), " +
+                "('HKUI', 'Objective', 'Objective assessment. History exam. Read the questions and then re-evaluate your decision to not study for this assessment.')"
+        );
     }
 
     @Override

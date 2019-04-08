@@ -21,13 +21,24 @@
     <string name="add_course_start_hint">Click button for start date</string>
     <string name="add_course_end">Expected End Date</string>
     <string name="add_course_end_hint">Click button for end date</string>
-    <string name="add_course_instructor">Course Instructor(s)</string>
-    <string name="add_course_objective">Course Objective(s)</string>
     <string name="add_course_button">Confirm Course</string>
     <string name="add_course_cancel_btn">Cancel</string>
     <string name="add_course_date_btn">Select</string>
     <!--ViewCoursesActivity Strings-->
-    <string name="title_activity_view_courses">Course List</string>
     <string name="title_activity_course_detail">Course Details</string>
+    <string name="detail_term_spinner">Select Term</string>
+    <string name="detail_status_spinner">Select Course Status</string>
+    <string name="detail_select_objectives">Select Objective(s)</string>
+    <string name="detail_select_instructors">Select Instructor(s)</string>
+    <string name="course_status_prompt">Choose Status</string>
+    <string name="detail_notes_title">Course Notes (Optional)</string>
+    <string name="detail_course_notes">Enter notes here...</string>
+    <string name="detail_instructor_button"></string>
+    <string-array name="course_status_array">
+        <item>In Progress</item>
+        <item>Completed</item>
+        <item>Dropped</item>
+        <item>Plan To Take</item>
+    </string-array>
 
 </resources>

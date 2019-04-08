@@ -4,12 +4,14 @@ import android.content.Context;
 import android.database.Cursor;
 import android.database.SQLException;
 import android.database.sqlite.SQLiteDatabase;
+import android.os.Parcel;
+import android.os.Parcelable;
 import android.util.Log;
 import java.util.ArrayList;
 import tools.DBHelper;
 import static android.support.constraint.Constraints.TAG;
 
-public class Course {
+public class Course implements Parcelable {
 
     private int courseId;
     private String title;
@@ -40,8 +42,46 @@ public class Course {
         this.expectedEnd = expectedEnd;
     }
 
+    // parcel Course constructor
+    public Course(Parcel parcel) {
+
+        courseId = parcel.readInt();
+        title = parcel.readString();
+        description = parcel.readString();
+        startDate = parcel.readString();
+        expectedEnd = parcel.readString();
+        status = parcel.readString();
+        termId = parcel.readInt();
+        notes = parcel.readString();
+    }
+
     // empty constructor
     public Course() {
+    }
+
+    public static final Parcelable.Creator<Course> CREATOR = new Parcelable.Creator<Course>(){
+
+        @Override
+        public Course createFromParcel(Parcel parcel) {
+            return new Course(parcel);
+        }
+
+        @Override
+        public Course[] newArray(int i) {
+            return new Course[0];
+        }
+    };
+
+    @Override
+    public void writeToParcel(Parcel parcel, int i) {
+        parcel.writeInt(courseId);
+        parcel.writeString(title);
+        parcel.writeString(description);
+        parcel.writeString(startDate);
+        parcel.writeString(expectedEnd);
+        parcel.writeString(status);
+        parcel.writeInt(termId);
+        parcel.writeString(notes);
     }
 
     public static ArrayList<Course> queryAll(Context context) {
@@ -113,6 +153,12 @@ public class Course {
         }
         return 0;
     }
+
+    @Override
+    public int describeContents() {
+        return 0;
+    }
+
 
     // getters & setters
     public int getCourseId() {

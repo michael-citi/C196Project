@@ -179,38 +179,40 @@ public class AddCourseActivity extends AppCompatActivity {
     }
 
     private void showError(String errorMsg) {
-        Snackbar error = Snackbar.make(findViewById(R.id.constraintLayout), errorMsg, Snackbar.LENGTH_LONG);
-        error.show();
+        Snackbar.make(findViewById(R.id.constraintLayout), errorMsg, Snackbar.LENGTH_LONG).show();
     }
 
     private Course buildTransferCourse(String title) {
-        final String COURSE_QUERY = "SELECT courseId, title, description, startDate, expectedEnd " +
+        final String COURSE_QUERY = "SELECT courseId, title, description, startDate, expectedEnd, status, termId, notes " +
                 "FROM courses " +
                 "WHERE title = " + title;
         Course course = new Course();
+        SQLiteDatabase db = DBHelper.getInstance(getApplicationContext()).getReadableDatabase();
+        Cursor cursor = db.rawQuery(COURSE_QUERY, null);
         try {
-            SQLiteDatabase db = DBHelper.getInstance(getApplicationContext()).getReadableDatabase();
-            Cursor cursor = db.rawQuery(COURSE_QUERY, null);
-            do {
+            if (cursor.moveToFirst()) {
                 course.setCourseId(cursor.getInt(cursor.getColumnIndex("courseId")));
                 course.setTitle(cursor.getString(cursor.getColumnIndex("title")));
                 course.setDescription(cursor.getString(cursor.getColumnIndex("description")));
                 course.setStartDate(cursor.getString(cursor.getColumnIndex("startDate")));
                 course.setExpectedEnd(cursor.getString(cursor.getColumnIndex("expectedEnd")));
-            } while (cursor.moveToNext());
+                course.setStatus(cursor.getString(cursor.getColumnIndex("status")));
+                course.setTermId(cursor.getInt(cursor.getColumnIndex("termId")));
+                course.setNotes(cursor.getString(cursor.getColumnIndex("notes")));
+            }
         } catch (SQLException ex) {
             Log.e(TAG, ex.getMessage());
+        } finally {
+            if (cursor != null) {
+                cursor.close();
+            }
         }
         return course;
     }
 
     private void courseDetailAct(Course course) {
         Intent intent = new Intent(this, CourseDetail.class);
-        intent.putExtra("ID", course.getCourseId());
-        intent.putExtra("title", course.getTitle());
-        intent.putExtra("description", course.getDescription());
-        intent.putExtra("start", course.getStartDate());
-        intent.putExtra("end", course.getExpectedEnd());
+        intent.putExtra("Course", course);
         startActivity(intent);
     }
 

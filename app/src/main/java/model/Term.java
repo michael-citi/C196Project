@@ -23,13 +23,6 @@ public class Term {
         this.endDate = endDate;
     }
 
-    // partial constructor
-    public Term(String title, String startDate, String endDate) {
-        this.title = title;
-        this.startDate = startDate;
-        this.endDate = endDate;
-    }
-
     // empty constructor
     public Term() {
     }
@@ -42,12 +35,13 @@ public class Term {
         try {
             if (cursor.moveToFirst()) {
                 while (cursor.moveToNext()) {
-                    //TODO: convert startDate and endDate to String objects
                     int termId = cursor.getInt(cursor.getColumnIndex("termId"));
                     String title = cursor.getString(cursor.getColumnIndex("title"));
-                    // String startDate =
-                    // String endDate =
-                    //TODO: create Term objects and populate ArrayList
+                    String startDate = cursor.getString(cursor.getColumnIndex("startDate"));
+                    String endDate = cursor.getString(cursor.getColumnIndex("expectedEnd"));
+
+                    Term term = new Term (termId, title, startDate, endDate);
+                    termArrayList.add(term);
                 }
             }
         } catch (Exception ex) {

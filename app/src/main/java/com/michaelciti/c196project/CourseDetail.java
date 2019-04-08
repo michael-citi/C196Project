@@ -75,7 +75,7 @@ public class CourseDetail extends AppCompatActivity implements OnItemSelectedLis
         }
     }
 
-    public void insertDetailSQL() {
+    private void insertDetailSQL() {
         // TODO: This is incomplete
         String title = courseTitle.getText().toString();
         String description = courseDescription.getText().toString();

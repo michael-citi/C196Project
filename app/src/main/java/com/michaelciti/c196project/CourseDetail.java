@@ -4,6 +4,7 @@ import android.app.AlertDialog;
 import android.app.DatePickerDialog;
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.database.Cursor;
 import android.database.SQLException;
 import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteStatement;
@@ -82,7 +83,7 @@ public class CourseDetail extends AppCompatActivity implements OnItemSelectedLis
         String start = startDateText.getText().toString();
         String end = endDateText.getText().toString();
         String status = statusSpinner.getSelectedItem().toString();
-        int termID = tempCourse.getTermId();
+        int termID = getTermSpinnerID();
         String notes = courseNotes.getText().toString();
 
         final String INSERT_DETAILS = "INSERT OR REPLACE INTO courses (title, description, startDate, expectedEnd, status, termId, notes) " +
@@ -101,7 +102,7 @@ public class CourseDetail extends AppCompatActivity implements OnItemSelectedLis
         } catch (SQLException ex) {
             Log.e(TAG, ex.getMessage());
         }
-        updateFullCourseTable();
+        updateJoinTables(title);
     }
 
     public void detailDatePicker(View v) {
@@ -167,10 +168,6 @@ public class CourseDetail extends AppCompatActivity implements OnItemSelectedLis
         termSpinner.setSelection(getTermIndex(tempCourse));
     }
 
-    private void updateFullCourseTable() {
-        // TODO: Find way to update full_course table, or find a way to remove it for a more efficient use of data.
-    }
-
     private void setTermAdapter() {
         ArrayAdapter<String> termAdapter = new ArrayAdapter<>(this, android.R.layout.simple_spinner_item, termArrayList);
         termAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
@@ -223,6 +220,31 @@ public class CourseDetail extends AppCompatActivity implements OnItemSelectedLis
         return error;
     }
 
+
+    private void updateJoinTables(String title) {
+        int courseId = -1;
+        final String QUERY_COURSE_ID = "SELECT courseId FROM courses WHERE title = " + title;
+        final String INSERT_COURSE_INSTRUCTOR = "INSERT OR REPLACE INTO course_instructor (courseId, instructorId) " +
+                "VALUES (?, ?)";
+        final String INSERT_COURSE_OBJECTIVE = "INSERT OR REPLACE INTO course_objective (courseId, objectiveId) " +
+                "VALUES (?, ?)";
+
+        SQLiteDatabase db = DBHelper.getInstance(getApplicationContext()).getWritableDatabase();
+        Cursor cursor = db.rawQuery(QUERY_COURSE_ID, null);
+        try {
+            if (cursor.moveToFirst()) {
+                courseId = cursor.getInt(cursor.getColumnIndex("courseId"));
+            }
+        } catch (SQLException ex) {
+            Log.e(TAG, ex.getMessage());
+        } finally {
+            if (cursor != null) {
+                cursor.close();
+            }
+        }
+        // TODO: Not complete
+    }
+
     private int getStatusIndex(Spinner spinner, String name) {
         for (int i = 0; i < spinner.getCount(); ++i) {
             if (spinner.getItemAtPosition(i).toString().equalsIgnoreCase(name)) {
@@ -236,6 +258,19 @@ public class CourseDetail extends AppCompatActivity implements OnItemSelectedLis
         for (Term term : termList) {
             if (course.getTermId() == term.getTermId()) {
                 return course.getTermId();
+            }
+        }
+        return 0;
+    }
+
+    private int getTermSpinnerID() {
+        int termID;
+        String termName = termSpinner.getSelectedItem().toString();
+
+        for (Term term : termList) {
+            if (termName.equalsIgnoreCase(term.getTitle())) {
+                termID = term.getTermId();
+                return termID;
             }
         }
         return 0;

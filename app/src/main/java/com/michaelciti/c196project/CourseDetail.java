@@ -31,12 +31,14 @@ import static android.support.constraint.Constraints.TAG;
 
 public class CourseDetail extends AppCompatActivity implements OnItemSelectedListener {
 
+    // CourseDetail variables
     ArrayList<String> termArrayList = new ArrayList<>();
     ArrayList<Term> termList = new ArrayList<>();
     Course tempCourse;
     int startYear, startMonth, startDay;
     int endYear, endMonth, endDay;
 
+    // View ID's
     Spinner termSpinner, statusSpinner;
     EditText courseTitle, courseDescription, courseNotes;
     TextView startDateText, endDateText;
@@ -77,7 +79,6 @@ public class CourseDetail extends AppCompatActivity implements OnItemSelectedLis
     }
 
     private void insertDetailSQL() {
-        // TODO: This is incomplete
         String title = courseTitle.getText().toString();
         String description = courseDescription.getText().toString();
         String start = startDateText.getText().toString();
@@ -222,27 +223,18 @@ public class CourseDetail extends AppCompatActivity implements OnItemSelectedLis
 
 
     private void updateJoinTables(String title) {
-        int courseId = -1;
-        final String QUERY_COURSE_ID = "SELECT courseId FROM courses WHERE title = " + title;
-        final String INSERT_COURSE_INSTRUCTOR = "INSERT OR REPLACE INTO course_instructor (courseId, instructorId) " +
-                "VALUES (?, ?)";
-        final String INSERT_COURSE_OBJECTIVE = "INSERT OR REPLACE INTO course_objective (courseId, objectiveId) " +
-                "VALUES (?, ?)";
-
-        SQLiteDatabase db = DBHelper.getInstance(getApplicationContext()).getWritableDatabase();
-        Cursor cursor = db.rawQuery(QUERY_COURSE_ID, null);
-        try {
-            if (cursor.moveToFirst()) {
-                courseId = cursor.getInt(cursor.getColumnIndex("courseId"));
-            }
-        } catch (SQLException ex) {
-            Log.e(TAG, ex.getMessage());
-        } finally {
-            if (cursor != null) {
-                cursor.close();
-            }
+        // populate courseId
+        int courseId = findCourseId(title);
+        // error catch if courseId is -1
+        if (courseId == -1) {
+            showError("Error occurred while resolving courseId value.");
+            Log.e(TAG, "Error occurred while resolving courseId value.");
+            return;
         }
-        // TODO: Not complete
+        // populate course_instructor join table
+        instructorJoin(courseId);
+        // populate course_objective join table
+        objectiveJoin(courseId);
     }
 
     private int getStatusIndex(Spinner spinner, String name) {
@@ -274,6 +266,44 @@ public class CourseDetail extends AppCompatActivity implements OnItemSelectedLis
             }
         }
         return 0;
+    }
+
+    private int findCourseId(String title) {
+        int courseId = -1;
+        final String QUERY_COURSE_ID = "SELECT courseId FROM courses WHERE title = " + title;
+
+        SQLiteDatabase db = DBHelper.getInstance(getApplicationContext()).getWritableDatabase();
+        Cursor cursor = db.rawQuery(QUERY_COURSE_ID, null);
+        try {
+            if (cursor.moveToFirst()) {
+                courseId = cursor.getInt(cursor.getColumnIndex("courseId"));
+            }
+        } catch (SQLException ex) {
+            Log.e(TAG, ex.getMessage());
+        } finally {
+            if (cursor != null) {
+                cursor.close();
+            }
+        }
+        return courseId;
+    }
+
+    private void objectiveJoin(int courseId) {
+        final String INSERT_COURSE_OBJECTIVE = "INSERT OR REPLACE INTO course_objective (courseObjectiveId, courseId, objectiveId) " +
+                "VALUES ((SELECT courseObjectiveId WHERE courseId = ?), ?, ?)";
+        SQLiteDatabase db = DBHelper.getInstance(getApplicationContext()).getWritableDatabase();
+        SQLiteStatement oStm = db.compileStatement(INSERT_COURSE_OBJECTIVE);
+
+
+    }
+
+    private void instructorJoin(int courseId) {
+        final String INSERT_COURSE_INSTRUCTOR = "INSERT OR REPLACE INTO course_instructor (courseInstructorId, courseId, instructorId) " +
+                "VALUES ((SELECT courseInstructorId WHERE courseId = ?), ?, ?)";
+        SQLiteDatabase db = DBHelper.getInstance(getApplicationContext()).getWritableDatabase();
+        SQLiteStatement iStm = db.compileStatement(INSERT_COURSE_INSTRUCTOR);
+
+
     }
 
     private void showError(String errorMsg) {

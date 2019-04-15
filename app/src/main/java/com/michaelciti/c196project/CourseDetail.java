@@ -2,7 +2,6 @@ package com.michaelciti.c196project;
 
 import android.app.AlertDialog;
 import android.app.DatePickerDialog;
-import android.content.DialogInterface;
 import android.content.Intent;
 import android.database.Cursor;
 import android.database.SQLException;
@@ -18,7 +17,6 @@ import android.widget.AdapterView;
 import android.widget.AdapterView.OnItemSelectedListener;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
-import android.widget.DatePicker;
 import android.widget.EditText;
 import android.widget.Spinner;
 import android.widget.TextView;
@@ -113,27 +111,21 @@ public class CourseDetail extends AppCompatActivity implements OnItemSelectedLis
         int sDay = calendar.get(Calendar.DAY_OF_MONTH);
 
         if (v == startDateBtn) {
-            DatePickerDialog datePickerDialog = new DatePickerDialog(this, new DatePickerDialog.OnDateSetListener() {
-                @Override
-                public void onDateSet(DatePicker datePicker, int year, int month, int day) {
-                    startDateText.setText(year + "-" + month + "-" + day);
-                    startYear = year;
-                    startMonth = month;
-                    startDay = day;
-                }
+            DatePickerDialog datePickerDialog = new DatePickerDialog(this, (datePicker, year, month, day) -> {
+                startDateText.setText(year + "-" + month + "-" + day);
+                startYear = year;
+                startMonth = month;
+                startDay = day;
             }, sYear, sMonth, sDay);
             datePickerDialog.show();
         }
 
         if (v == endDateBtn) {
-            DatePickerDialog datePickerDialog = new DatePickerDialog(this, new DatePickerDialog.OnDateSetListener() {
-                @Override
-                public void onDateSet(DatePicker datePicker, int year, int month, int day) {
-                    endDateText.setText(year + "-" + month + "-" + day);
-                    endYear = year;
-                    endMonth = month;
-                    endDay = day;
-                }
+            DatePickerDialog datePickerDialog = new DatePickerDialog(this, (datePicker, year, month, day) -> {
+                endDateText.setText(year + "-" + month + "-" + day);
+                endYear = year;
+                endMonth = month;
+                endDay = day;
             }, sYear, sMonth, sDay);
             datePickerDialog.show();
         }
@@ -178,18 +170,8 @@ public class CourseDetail extends AppCompatActivity implements OnItemSelectedLis
     public void cancelDetails(View v) {
         AlertDialog.Builder alertBuilder = new AlertDialog.Builder(this);
         alertBuilder.setMessage("Cancel changes? No changes will be saved and you will return to the main screen.");
-        alertBuilder.setPositiveButton("Yes", new DialogInterface.OnClickListener() {
-            @Override
-            public void onClick(DialogInterface dialogInterface, int i) {
-                mainAct();
-            }
-        });
-        alertBuilder.setNegativeButton("No", new DialogInterface.OnClickListener() {
-            @Override
-            public void onClick(DialogInterface dialogInterface, int i) {
-                finish();
-            }
-        });
+        alertBuilder.setPositiveButton("Yes", (dialogInterface, i) -> mainAct());
+        alertBuilder.setNegativeButton("No", (dialogInterface, i) -> finish());
         AlertDialog alert = alertBuilder.create();
         alert.show();
     }

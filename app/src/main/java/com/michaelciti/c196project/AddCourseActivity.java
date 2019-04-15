@@ -2,7 +2,6 @@ package com.michaelciti.c196project;
 
 import android.app.AlertDialog;
 import android.app.DatePickerDialog;
-import android.content.DialogInterface;
 import android.content.Intent;
 import android.database.Cursor;
 import android.database.SQLException;
@@ -15,7 +14,6 @@ import android.support.v7.widget.Toolbar;
 import android.util.Log;
 import android.view.View;
 import android.widget.Button;
-import android.widget.DatePicker;
 import android.widget.EditText;
 import android.widget.TextView;
 import java.util.Calendar;
@@ -54,27 +52,21 @@ public class AddCourseActivity extends AppCompatActivity {
         int sDay = calendar.get(Calendar.DAY_OF_MONTH);
 
         if (v == pickStartDateBtn) {
-            DatePickerDialog datePickerDialog = new DatePickerDialog(this, new DatePickerDialog.OnDateSetListener() {
-                @Override
-                public void onDateSet(DatePicker datePicker, int year, int month, int day) {
-                    startDateShow.setText(year + "-" + month + "-" + day);
-                    startYear = year;
-                    startMonth = month;
-                    startDay = day;
-                }
+            DatePickerDialog datePickerDialog = new DatePickerDialog(this, (datePicker, year, month, day) -> {
+                startDateShow.setText(year + "-" + month + "-" + day);
+                startYear = year;
+                startMonth = month;
+                startDay = day;
             }, sYear, sMonth, sDay);
             datePickerDialog.show();
         }
 
         if (v == pickEndDateBtn) {
-            DatePickerDialog datePickerDialog = new DatePickerDialog(this, new DatePickerDialog.OnDateSetListener() {
-                @Override
-                public void onDateSet(DatePicker datePicker, int year, int month, int day) {
-                    endDateShow.setText(year + "-" + month + "-" + day);
-                    endYear = year;
-                    endMonth = month;
-                    endDay = day;
-                }
+            DatePickerDialog datePickerDialog = new DatePickerDialog(this, (datePicker, year, month, day) -> {
+                endDateShow.setText(year + "-" + month + "-" + day);
+                endYear = year;
+                endMonth = month;
+                endDay = day;
             }, sYear, sMonth, sDay);
             datePickerDialog.show();
         }
@@ -93,18 +85,8 @@ public class AddCourseActivity extends AppCompatActivity {
     public void cancelCourse(View v) {
         AlertDialog.Builder alertBuilder = new AlertDialog.Builder(this);
         alertBuilder.setMessage("Cancel New Course? All course info will be removed and you will return to the main screen.");
-        alertBuilder.setPositiveButton("Yes", new DialogInterface.OnClickListener() {
-            @Override
-            public void onClick(DialogInterface dialogInterface, int i) {
-                mainAct();
-            }
-        });
-        alertBuilder.setNegativeButton("No", new DialogInterface.OnClickListener() {
-            @Override
-            public void onClick(DialogInterface dialogInterface, int i) {
-                finish();
-            }
-        });
+        alertBuilder.setPositiveButton("Yes", (dialogInterface, i) -> mainAct());
+        alertBuilder.setNegativeButton("No", (dialogInterface, i) -> finish());
         AlertDialog alert = alertBuilder.create();
         alert.show();
     }
@@ -135,20 +117,11 @@ public class AddCourseActivity extends AppCompatActivity {
         AlertDialog.Builder alertBuilder = new AlertDialog.Builder(this);
         alertBuilder.setMessage("Course created successfully! You may now view and modify the course details " +
                 "on the next screen or you can return to the main welcome screen.");
-        alertBuilder.setPositiveButton("Continue", new DialogInterface.OnClickListener() {
-            @Override
-            public void onClick(DialogInterface dialog, int which) {
-                String title = courseTitle.getText().toString();
-                Course course = buildTransferCourse(title);
-                courseDetailAct(course);
-            }
+        alertBuilder.setPositiveButton("Continue", (dialogInterface, i) -> {
+            Course course = buildTransferCourse(courseTitle.getText().toString());
+            courseDetailAct(course);
         });
-        alertBuilder.setNegativeButton("Return", new DialogInterface.OnClickListener() {
-            @Override
-            public void onClick(DialogInterface dialog, int which) {
-                mainAct();
-            }
-        });
+        alertBuilder.setNegativeButton("Return", (dialogInterface, i) -> mainAct());
     }
 
     private String validateData() {

@@ -101,7 +101,6 @@ public class CourseDetail extends AppCompatActivity implements OnItemSelectedLis
         } catch (SQLException ex) {
             Log.e(TAG, ex.getMessage());
         }
-        updateJoinTables(title);
     }
 
     public void detailDatePicker(View v) {
@@ -203,22 +202,6 @@ public class CourseDetail extends AppCompatActivity implements OnItemSelectedLis
         return error;
     }
 
-
-    private void updateJoinTables(String title) {
-        // populate courseId
-        int courseId = findCourseId(title);
-        // error catch if courseId is -1
-        if (courseId == -1) {
-            showError("Error occurred while resolving courseId value.");
-            Log.e(TAG, "Error occurred while resolving courseId value.");
-            return;
-        }
-        // populate course_instructor join table
-        instructorJoin(courseId);
-        // populate course_objective join table
-        objectiveJoin(courseId);
-    }
-
     private int getStatusIndex(Spinner spinner, String name) {
         for (int i = 0; i < spinner.getCount(); ++i) {
             if (spinner.getItemAtPosition(i).toString().equalsIgnoreCase(name)) {
@@ -268,24 +251,6 @@ public class CourseDetail extends AppCompatActivity implements OnItemSelectedLis
             }
         }
         return courseId;
-    }
-
-    private void objectiveJoin(int courseId) {
-        final String INSERT_COURSE_OBJECTIVE = "INSERT OR REPLACE INTO course_objective (courseObjectiveId, courseId, objectiveId) " +
-                "VALUES ((SELECT courseObjectiveId WHERE courseId = ?), ?, ?)";
-        SQLiteDatabase db = DBHelper.getInstance(getApplicationContext()).getWritableDatabase();
-        SQLiteStatement oStm = db.compileStatement(INSERT_COURSE_OBJECTIVE);
-
-
-    }
-
-    private void instructorJoin(int courseId) {
-        final String INSERT_COURSE_INSTRUCTOR = "INSERT OR REPLACE INTO course_instructor (courseInstructorId, courseId, instructorId) " +
-                "VALUES ((SELECT courseInstructorId WHERE courseId = ?), ?, ?)";
-        SQLiteDatabase db = DBHelper.getInstance(getApplicationContext()).getWritableDatabase();
-        SQLiteStatement iStm = db.compileStatement(INSERT_COURSE_INSTRUCTOR);
-
-
     }
 
     private void showError(String errorMsg) {

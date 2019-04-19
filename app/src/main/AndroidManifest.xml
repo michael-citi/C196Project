@@ -10,6 +10,15 @@
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
         <activity
+            android:name=".CourseListActivity"
+            android:label="@string/title_activity_course_list"
+            android:parentActivityName=".MainActivity"
+            android:theme="@style/AppTheme.NoActionBar">
+            <meta-data
+                android:name="android.support.PARENT_ACTIVITY"
+                android:value="com.michaelciti.c196project.MainActivity" />
+        </activity>
+        <activity
             android:name=".CourseDetail"
             android:label="@string/title_activity_course_detail"
             android:parentActivityName=".MainActivity"

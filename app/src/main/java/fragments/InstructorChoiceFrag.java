@@ -9,7 +9,6 @@ import android.view.View;
 import android.view.ViewGroup;
 import com.michaelciti.c196project.R;
 
-
 /**
  * A simple {@link Fragment} subclass.
  * Activities that contain this fragment must implement the

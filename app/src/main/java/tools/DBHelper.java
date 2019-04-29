@@ -28,24 +28,17 @@ public class DBHelper extends SQLiteOpenHelper {
         private static final String TABLE_2_COL_8 = "notes";
     private static final String TABLE_3 = "instructors";
         private static final String TABLE_3_COL_1 = "instructorId";
-        private static final String TABLE_3_COL_2 = "name";
-        private static final String TABLE_3_COL_3 = "phone";
-        private static final String TABLE_3_COL_4 = "email";
+        private static final String TABLE_3_COL_2 = "courseId";
+        private static final String TABLE_3_COL_3 = "name";
+        private static final String TABLE_3_COL_4 = "phone";
+        private static final String TABLE_3_COL_5 = "email";
     private static final String TABLE_4 = "objectives";
         private static final String TABLE_4_COL_1 = "objectiveId";
-        private static final String TABLE_4_COL_2 = "title";
-        private static final String TABLE_4_COL_3 = "time";
-        private static final String TABLE_4_COL_4 = "type";
-        private static final String TABLE_4_COL_5 = "description";
-    private static final String TABLE_5 = "course_instructor";
-        private static final String TABLE_5_COL_1 = "courseInstructorId";
-        private static final String TABLE_5_COL_2 = "courseId";
-        private static final String TABLE_5_COL_3 = "instructorId";
-    private static final String TABLE_6 = "course_objective";
-        private static final String TABLE_6_COL_1 = "courseObjectiveId";
-        private static final String TABLE_6_COL_2 = "courseId";
-        private static final String TABLE_6_COL_3 = "objectiveId";
-
+        private static final String TABLE_4_COL_2 = "courseId";
+        private static final String TABLE_4_COL_3 = "title";
+        private static final String TABLE_4_COL_4 = "time";
+        private static final String TABLE_4_COL_5 = "type";
+        private static final String TABLE_4_COL_6 = "description";
 
     // private constructor to prevent direct instantiation of database
     // call getInstance() instead
@@ -95,40 +88,24 @@ public class DBHelper extends SQLiteOpenHelper {
         // create table 3 "INSTRUCTORS"
         db.execSQL("CREATE TABLE IF NOT EXISTS " + TABLE_3 + " ("
                 + TABLE_3_COL_1 + " INTEGER PRIMARY KEY AUTOINCREMENT NOT NULL UNIQUE, "
-                + TABLE_3_COL_2 + " TEXT NOT NULL, "
+                + TABLE_3_COL_2 + " INTEGER UNIQUE, "
                 + TABLE_3_COL_3 + " TEXT NOT NULL, "
-                + TABLE_3_COL_4 + " TEXT NOT NULL)"
+                + TABLE_3_COL_4 + " TEXT NOT NULL UNIQUE, "
+                + TABLE_3_COL_5 + " TEXT NOT NULL UNIQUE, "
+                // FK 'instructors.courseId' referencing 'courses.courseId'
+                + "FOREIGN KEY (" + TABLE_3_COL_2 + ") REFERENCES " + TABLE_2 + " (" + TABLE_2_COL_1 + "))"
         );
 
         // create table 4 "OBJECTIVES"
         db.execSQL("CREATE TABLE IF NOT EXISTS " + TABLE_4 + " ("
                 + TABLE_4_COL_1 + " INTEGER PRIMARY KEY AUTOINCREMENT NOT NULL UNIQUE, "
-                + TABLE_4_COL_2 + " TEXT NOT NULL, "
-                + TABLE_4_COL_3 + " DATETIME UNIQUE, "
-                + TABLE_4_COL_4 + " TEXT NOT NULL, "
-                + TABLE_4_COL_5 + " TEXT NOT NULL)"
-        );
-
-        // create join table 5 "COURSE_INSTRUCTOR"
-        db.execSQL("CREATE TABLE IF NOT EXISTS " + TABLE_5 + " ("
-                + TABLE_5_COL_1 + " INTEGER PRIMARY KEY AUTOINCREMENT NOT NULL UNIQUE, "
-                + TABLE_5_COL_2 + " INTEGER NOT NULL, "
-                + TABLE_5_COL_3 + " INTEGER NOT NULL, "
-                // FK 'course_instructor.courseId' referencing 'courses.courseId'
-                + "FOREIGN KEY (" + TABLE_5_COL_2 + ") REFERENCES " + TABLE_2 + " (" + TABLE_2_COL_1 + "), "
-                // FK 'course_instructor.instructorId' referencing 'instructors.instructorId'
-                + "FOREIGN KEY (" + TABLE_5_COL_3 + ") REFERENCES " + TABLE_3 + " (" + TABLE_3_COL_1 + "))"
-        );
-
-        // create join table 6 "COURSE_OBJECTIVE"
-        db.execSQL("CREATE TABLE IF NOT EXISTS " + TABLE_6 + " ("
-                + TABLE_6_COL_1 + " INTEGER PRIMARY KEY AUTOINCREMENT NOT NULL UNIQUE, "
-                + TABLE_6_COL_2 + " INTEGER NOT NULL, "
-                + TABLE_6_COL_3 + " INTEGER NOT NULL, "
-                // FK 'course_objective.courseId' referencing 'courses.courseId'
-                + "FOREIGN KEY (" + TABLE_6_COL_2 + ") REFERENCES " + TABLE_2 + " (" + TABLE_2_COL_1 + "), "
-                // FK 'course_objective.objectiveId' referencing 'objectives.objectiveId'
-                + "FOREIGN KEY (" + TABLE_6_COL_3 + ") REFERENCES " + TABLE_4 + " (" + TABLE_4_COL_1 + "))"
+                + TABLE_4_COL_2 + " INTEGER UNIQUE, "
+                + TABLE_4_COL_3 + " TEXT NOT NULL, "
+                + TABLE_4_COL_4 + " DATETIME UNIQUE, "
+                + TABLE_4_COL_5 + " TEXT NOT NULL, "
+                + TABLE_4_COL_6 + " TEXT NOT NULL, "
+                // FK 'objectives.courseId' referencing 'courses.courseId'
+                + "FOREIGN KEY (" + TABLE_4_COL_2 + ") REFERENCES " + TABLE_2 + " (" + TABLE_2_COL_1 + "))"
         );
 
         // initial Term 0 insert to allow courses to be listed as Unallocated (not in any specific term)
@@ -157,7 +134,6 @@ public class DBHelper extends SQLiteOpenHelper {
         db.execSQL("DROP TABLE IF EXISTS " + TABLE_2);
         db.execSQL("DROP TABLE IF EXISTS " + TABLE_3);
         db.execSQL("DROP TABLE IF EXISTS " + TABLE_4);
-        db.execSQL("DROP TABLE IF EXISTS " + TABLE_5);
         onCreate(db);
     }
 }

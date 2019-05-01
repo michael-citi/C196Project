@@ -122,6 +122,8 @@ public class AddCourseActivity extends AppCompatActivity {
             courseDetailAct(course);
         });
         alertBuilder.setNegativeButton("Return", (dialogInterface, i) -> mainAct());
+        AlertDialog alert = alertBuilder.create();
+        alert.show();
     }
 
     private String validateData() {

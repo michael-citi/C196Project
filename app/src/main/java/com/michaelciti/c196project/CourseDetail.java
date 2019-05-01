@@ -71,6 +71,7 @@ public class CourseDetail extends AppCompatActivity implements OnItemSelectedLis
         String errorMsg = validateDetails();
         if (errorMsg.equals("None")) {
             insertDetailSQL();
+            confirmDetails();
         } else {
             showError(errorMsg);
         }
@@ -85,18 +86,19 @@ public class CourseDetail extends AppCompatActivity implements OnItemSelectedLis
         int termID = getTermSpinnerID();
         String notes = courseNotes.getText().toString();
 
-        final String INSERT_DETAILS = "INSERT OR REPLACE INTO courses (title, description, startDate, expectedEnd, status, termId, notes) " +
-                "VALUES (?, ?, ?, ?, ?, ?, ?)";
+        final String INSERT_DETAILS = "INSERT OR REPLACE INTO courses (courseId, title, description, startDate, expectedEnd, status, termId, notes) " +
+                "VALUES ((SELECT courseId FROM courses WHERE title = ?), ?, ?, ?, ?, ?, ?, ?)";
         try {
             SQLiteDatabase db = DBHelper.getInstance(getApplicationContext()).getWritableDatabase();
             SQLiteStatement statement = db.compileStatement(INSERT_DETAILS);
             statement.bindString(1, title);
-            statement.bindString(2, description);
-            statement.bindString(3, start);
-            statement.bindString(4, end);
-            statement.bindString(5, status);
-            statement.bindLong(6, termID);
-            statement.bindString(7, notes);
+            statement.bindString(2, title);
+            statement.bindString(3, description);
+            statement.bindString(4, start);
+            statement.bindString(5, end);
+            statement.bindString(6, status);
+            statement.bindLong(7, termID);
+            statement.bindString(8, notes);
             statement.execute();
         } catch (SQLException ex) {
             Log.e(TAG, ex.getMessage());
@@ -136,7 +138,7 @@ public class CourseDetail extends AppCompatActivity implements OnItemSelectedLis
             Snackbar.make(findViewById(R.id.detailConstraintLayout), "You have selected Term: " + termArrayList.get(i), Snackbar.LENGTH_SHORT).show();
         }
         if (view == statusSpinner) {
-            Snackbar.make(findViewById(R.id.detailConstraintLayout), "You have selected Course Status: " + String.valueOf(statusSpinner.getSelectedItem()), Snackbar.LENGTH_SHORT).show();
+            Snackbar.make(findViewById(R.id.detailConstraintLayout), "You have selected Course Status: " + statusSpinner.getSelectedItem(), Snackbar.LENGTH_SHORT).show();
         }
     }
 
@@ -164,6 +166,15 @@ public class CourseDetail extends AppCompatActivity implements OnItemSelectedLis
         ArrayAdapter<String> termAdapter = new ArrayAdapter<>(this, android.R.layout.simple_spinner_item, termArrayList);
         termAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
         termSpinner.setAdapter(termAdapter);
+    }
+
+    private void confirmDetails() {
+        AlertDialog.Builder alertBuilder = new AlertDialog.Builder(this);
+        alertBuilder.setMessage("Confirm changes and Return to the main menu? Choosing to stay will still save your changes.");
+        alertBuilder.setPositiveButton("Return", (dialogInterface, i) -> mainAct());
+        alertBuilder.setNegativeButton("Stay", (dialogInterface, i) -> finish());
+        AlertDialog alert = alertBuilder.create();
+        alert.show();
     }
 
     public void cancelDetails(View v) {
@@ -231,26 +242,6 @@ public class CourseDetail extends AppCompatActivity implements OnItemSelectedLis
             }
         }
         return 0;
-    }
-
-    private int findCourseId(String title) {
-        int courseId = -1;
-        final String QUERY_COURSE_ID = "SELECT courseId FROM courses WHERE title = " + title;
-
-        SQLiteDatabase db = DBHelper.getInstance(getApplicationContext()).getWritableDatabase();
-        Cursor cursor = db.rawQuery(QUERY_COURSE_ID, null);
-        try {
-            if (cursor.moveToFirst()) {
-                courseId = cursor.getInt(cursor.getColumnIndex("courseId"));
-            }
-        } catch (SQLException ex) {
-            Log.e(TAG, ex.getMessage());
-        } finally {
-            if (cursor != null) {
-                cursor.close();
-            }
-        }
-        return courseId;
     }
 
     private void showError(String errorMsg) {

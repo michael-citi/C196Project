@@ -115,7 +115,8 @@ public class DBHelper extends SQLiteOpenHelper {
                 "('Amy Antonucci', '555-7854', 'amy.antonucci@wgu.edu'), " +
                 "('Rob Shah', '679-0981', 'rob.shah@wgu.edu'), " +
                 "('Justin Kendricks', '305-2876', 'justin.kendricks@wgu.edu'), " +
-                "('Bob Boberson', '123-4567', 'bob.boberson@wgu.edu')"
+                "('Bob Boberson', '123-4567', 'bob.boberson@wgu.edu'), " +
+                "('Course Instructor', '444-9001', 'course.instructor@wgu.edu')"
         );
         // initial Objective table inserts to manipulate with assigned courses later on
         db.execSQL("INSERT INTO objectives (title, type, description) VALUES " +

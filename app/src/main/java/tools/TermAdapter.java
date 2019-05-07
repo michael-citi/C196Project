@@ -30,8 +30,26 @@ public class TermAdapter extends RecyclerView.Adapter<TermAdapter.ViewHolder> {
         }
     }
 
+    @NonNull
+    @Override
+    public TermAdapter.ViewHolder onCreateViewHolder(@NonNull ViewGroup viewGroup, int i) {
+        Context context = viewGroup.getContext();
+        LayoutInflater inflater = LayoutInflater.from(context);
 
+        View coursesView = inflater.inflate(R.layout.term_content, viewGroup, false);
 
+        ViewHolder holder = new ViewHolder(coursesView);
+        return holder;
+    }
 
+    @Override
+    public void onBindViewHolder(@NonNull TermAdapter.ViewHolder viewHolder, int i) {
+        Term term = termList.get(i);
 
+    }
+
+    @Override
+    public int getItemCount() {
+        return termList.size();
+    }
 }

@@ -1,11 +1,11 @@
 package tools;
 
-import android.content.Context;
 import android.support.annotation.NonNull;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Button;
 import android.widget.TextView;
 import com.michaelciti.c196project.R;
 import java.util.List;
@@ -23,29 +23,31 @@ public class TermAdapter extends RecyclerView.Adapter<TermAdapter.ViewHolder> {
         public TextView title;
         public TextView startDate;
         public TextView endDate;
+        public Button delTermBtn;
 
         public ViewHolder(View view) {
             super(view);
-
+            title = view.findViewById(R.id.termTitle);
+            startDate = view.findViewById(R.id.termStart);
+            endDate = view.findViewById(R.id.termEnd);
+            delTermBtn = view.findViewById(R.id.delTermBtn);
         }
     }
 
     @NonNull
     @Override
     public TermAdapter.ViewHolder onCreateViewHolder(@NonNull ViewGroup viewGroup, int i) {
-        Context context = viewGroup.getContext();
-        LayoutInflater inflater = LayoutInflater.from(context);
-
-        View coursesView = inflater.inflate(R.layout.term_content, viewGroup, false);
-
-        ViewHolder holder = new ViewHolder(coursesView);
-        return holder;
+        View itemView = LayoutInflater.from(viewGroup.getContext())
+                .inflate(R.layout.term_content, viewGroup, false);
+        return new ViewHolder(itemView);
     }
 
     @Override
     public void onBindViewHolder(@NonNull TermAdapter.ViewHolder viewHolder, int i) {
         Term term = termList.get(i);
-
+        viewHolder.title.setText(term.getTitle());
+        viewHolder.startDate.setText(term.getStartDate());
+        viewHolder.endDate.setText(term.getEndDate());
     }
 
     @Override

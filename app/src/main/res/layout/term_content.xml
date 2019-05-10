@@ -8,30 +8,32 @@
     android:orientation="horizontal">
 
     <TextView
-        android:id="@+id/textView"
+        android:id="@+id/termTitle"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_weight="1"
-        android:text="TextView" />
+        android:text="@string/none"
+        android:textAppearance="@style/TextAppearance.AppCompat.Large" />
 
     <TextView
-        android:id="@+id/textView3"
+        android:id="@+id/termStart"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_weight="1"
-        android:text="TextView" />
+        android:text="@string/none" />
 
     <TextView
-        android:id="@+id/textView4"
+        android:id="@+id/termEnd"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_weight="1"
-        android:text="TextView" />
+        android:text="@string/none" />
 
     <Button
-        android:id="@+id/button3"
+        android:id="@+id/delTermBtn"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_weight="1"
-        android:text="Button" />
+        android:text="@string/del_button"
+        android:textAppearance="@style/TextAppearance.AppCompat.Body1" />
 </LinearLayout>

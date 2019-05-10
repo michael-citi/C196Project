@@ -1,6 +1,5 @@
 package tools;
 
-import android.content.Context;
 import android.support.annotation.NonNull;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
@@ -37,13 +36,9 @@ public class CoursesAdapter extends RecyclerView.Adapter<CoursesAdapter.ViewHold
     @NonNull
     @Override
     public CoursesAdapter.ViewHolder onCreateViewHolder(@NonNull ViewGroup viewGroup, int i) {
-        Context context = viewGroup.getContext();
-        LayoutInflater inflater = LayoutInflater.from(context);
-
-        View coursesView = inflater.inflate(R.layout.course_content, viewGroup, false);
-
-        ViewHolder holder = new ViewHolder(coursesView);
-        return holder;
+        View itemView = LayoutInflater.from(viewGroup.getContext())
+                .inflate(R.layout.course_content, viewGroup, false);
+        return new ViewHolder(itemView);
     }
 
     @Override

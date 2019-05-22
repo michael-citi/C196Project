@@ -37,17 +37,17 @@ public class TermAdapter extends RecyclerView.Adapter<TermAdapter.ViewHolder> {
     @NonNull
     @Override
     public TermAdapter.ViewHolder onCreateViewHolder(@NonNull ViewGroup viewGroup, int i) {
-        View itemView = LayoutInflater.from(viewGroup.getContext())
+        View view = LayoutInflater.from(viewGroup.getContext())
                 .inflate(R.layout.term_content, viewGroup, false);
-        return new ViewHolder(itemView);
+        return new ViewHolder(view);
     }
 
     @Override
     public void onBindViewHolder(@NonNull TermAdapter.ViewHolder viewHolder, int i) {
         Term term = termList.get(i);
         viewHolder.title.setText(term.getTitle());
-        viewHolder.startDate.setText(term.getStartDate());
-        viewHolder.endDate.setText(term.getEndDate());
+        viewHolder.startDate.setText("Start Date: " + term.getStartDate());
+        viewHolder.endDate.setText("End Date: " + term.getEndDate());
     }
 
     @Override

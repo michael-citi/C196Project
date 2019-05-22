@@ -5,7 +5,7 @@
     <string name="welcome_message">Welcome to the WGU personal degree program management application!\n\nPlease select from the choices below to get started.</string>
     <string name="term_name">Terms</string>
     <string name="term_add">Add Term</string>
-    <string name="term_view">View Degree Plan</string>
+    <string name="term_view">View Terms</string>
     <string name="course_name">Courses</string>
     <string name="course_add">Add Course</string>
     <string name="course_view">View Courses</string>

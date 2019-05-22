@@ -71,7 +71,7 @@ public class CourseDetail extends AppCompatActivity implements OnItemSelectedLis
         String errorMsg = validateDetails();
         if (errorMsg.equals("None")) {
             insertDetailSQL();
-            confirmDetails();
+            confirmDialog();
         } else {
             showError(errorMsg);
         }
@@ -150,8 +150,8 @@ public class CourseDetail extends AppCompatActivity implements OnItemSelectedLis
     }
 
     private void populateFields() {
-        Intent intent = getIntent();
-        tempCourse = intent.getParcelableExtra("Course");
+        Bundle intent = getIntent().getExtras();
+        tempCourse = intent.getParcelable("Course");
 
         courseTitle.setText(tempCourse.getTitle());
         courseDescription.setText(tempCourse.getDescription());
@@ -168,7 +168,7 @@ public class CourseDetail extends AppCompatActivity implements OnItemSelectedLis
         termSpinner.setAdapter(termAdapter);
     }
 
-    private void confirmDetails() {
+    private void confirmDialog() {
         AlertDialog.Builder alertBuilder = new AlertDialog.Builder(this);
         alertBuilder.setMessage("Confirm changes and Return to the main menu? Choosing to stay will still save your changes.");
         alertBuilder.setPositiveButton("Return", (dialogInterface, i) -> mainAct());

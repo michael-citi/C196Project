@@ -43,7 +43,7 @@ public class Course implements Parcelable {
     }
 
     // parcel Course constructor
-    public Course(Parcel parcel) {
+    private Course(Parcel parcel) {
 
         courseId = parcel.readInt();
         title = parcel.readString();

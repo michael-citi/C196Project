@@ -28,6 +28,7 @@ public class AddCourseActivity extends AppCompatActivity {
     Button pickStartDateBtn, pickEndDateBtn;
     int startYear, startMonth, startDay;
     int endYear, endMonth, endDay;
+    Course transferCourse;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -97,16 +98,16 @@ public class AddCourseActivity extends AppCompatActivity {
         String startDate = startDateShow.getText().toString();
         String endDate = endDateShow.getText().toString();
 
-        Course course = new Course(title, description, startDate, endDate);
+        transferCourse = new Course(title, description, startDate, endDate);
         try {
             SQLiteDatabase db = DBHelper.getInstance(getApplicationContext()).getWritableDatabase();
             final String INSERT_SQL = "INSERT INTO courses (title, description, startDate, expectedEnd) " +
                     "VALUES (?, ?, ?, ?)";
             SQLiteStatement statement = db.compileStatement(INSERT_SQL);
-            statement.bindString(1, course.getTitle());
-            statement.bindString(2, course.getDescription());
-            statement.bindString(3, course.getStartDate());
-            statement.bindString(4, course.getExpectedEnd());
+            statement.bindString(1, transferCourse.getTitle());
+            statement.bindString(2, transferCourse.getDescription());
+            statement.bindString(3, transferCourse.getStartDate());
+            statement.bindString(4, transferCourse.getExpectedEnd());
             statement.executeInsert();
         } catch (SQLException ex) {
             Log.e(TAG, ex.getMessage());
@@ -118,8 +119,7 @@ public class AddCourseActivity extends AppCompatActivity {
         alertBuilder.setMessage("Course created successfully! You may now view and modify the course details " +
                 "on the next screen or you can return to the main welcome screen.");
         alertBuilder.setPositiveButton("Continue", (dialogInterface, i) -> {
-            Course course = buildTransferCourse(courseTitle.getText().toString());
-            courseDetailAct(course);
+            courseDetailAct(transferCourse);
         });
         alertBuilder.setNegativeButton("Return", (dialogInterface, i) -> mainAct());
         AlertDialog alert = alertBuilder.create();
@@ -155,34 +155,6 @@ public class AddCourseActivity extends AppCompatActivity {
 
     private void showError(String errorMsg) {
         Snackbar.make(findViewById(R.id.constraintLayout), errorMsg, Snackbar.LENGTH_LONG).show();
-    }
-
-    private Course buildTransferCourse(String title) {
-        final String COURSE_QUERY = "SELECT courseId, title, description, startDate, expectedEnd, status, termId, notes " +
-                "FROM courses " +
-                "WHERE title = " + title;
-        Course course = new Course();
-        SQLiteDatabase db = DBHelper.getInstance(getApplicationContext()).getReadableDatabase();
-        Cursor cursor = db.rawQuery(COURSE_QUERY, null);
-        try {
-            if (cursor.moveToFirst()) {
-                course.setCourseId(cursor.getInt(cursor.getColumnIndex("courseId")));
-                course.setTitle(cursor.getString(cursor.getColumnIndex("title")));
-                course.setDescription(cursor.getString(cursor.getColumnIndex("description")));
-                course.setStartDate(cursor.getString(cursor.getColumnIndex("startDate")));
-                course.setExpectedEnd(cursor.getString(cursor.getColumnIndex("expectedEnd")));
-                course.setStatus(cursor.getString(cursor.getColumnIndex("status")));
-                course.setTermId(cursor.getInt(cursor.getColumnIndex("termId")));
-                course.setNotes(cursor.getString(cursor.getColumnIndex("notes")));
-            }
-        } catch (SQLException ex) {
-            Log.e(TAG, ex.getMessage());
-        } finally {
-            if (cursor != null) {
-                cursor.close();
-            }
-        }
-        return course;
     }
 
     private void courseDetailAct(Course course) {

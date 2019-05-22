@@ -54,12 +54,13 @@
                 android:text="@string/term_add" />
 
             <Button
-                android:id="@+id/degreePlanBtn"
+                android:id="@+id/termListBtn"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_gravity="center"
                 android:layout_marginTop="8dp"
                 android:layout_marginBottom="8dp"
+                android:onClick="viewTermsAct"
                 android:text="@string/term_view" />
 
             <TextView
@@ -90,7 +91,7 @@
                 android:layout_gravity="center"
                 android:layout_marginTop="8dp"
                 android:layout_marginBottom="8dp"
-                android:onClick="viewCourseAct"
+                android:onClick="viewCourseList"
                 android:text="@string/course_view" />
 
             <TextView

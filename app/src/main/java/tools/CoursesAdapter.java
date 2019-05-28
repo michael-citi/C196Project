@@ -56,6 +56,8 @@ public class CoursesAdapter extends RecyclerView.Adapter<CoursesAdapter.ViewHold
 
         TextView courseEndDate = viewHolder.courseEndDate;
         courseEndDate.setText("Expected End Date: " + course.getExpectedEnd());
+
+
     }
 
     @Override

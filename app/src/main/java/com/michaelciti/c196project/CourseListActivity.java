@@ -1,7 +1,6 @@
 package com.michaelciti.c196project;
 
 import android.os.Bundle;
-import android.support.design.widget.FloatingActionButton;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.DefaultItemAnimator;
 import android.support.v7.widget.LinearLayoutManager;
@@ -15,6 +14,7 @@ import tools.CoursesAdapter;
 public class CourseListActivity extends AppCompatActivity {
 
     private CoursesAdapter adapter;
+    ArrayList<Course> courseArrayList;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -26,7 +26,7 @@ public class CourseListActivity extends AppCompatActivity {
 
         RecyclerView recyclerView = findViewById(R.id.courseRecyclerView);
 
-        ArrayList<Course> courseArrayList = Course.queryAll(getApplicationContext());
+        courseArrayList = Course.queryAll(getApplicationContext());
         setCourseAdapter(courseArrayList, recyclerView);
     }
 
@@ -38,13 +38,8 @@ public class CourseListActivity extends AppCompatActivity {
         recyclerView.setAdapter(adapter);
     }
 
-    public void addCourse(View v) {
-
-        adapter.notifyDataSetChanged();
-    }
-
     public void remCourse(View v) {
-
+        
         adapter.notifyDataSetChanged();
     }
 

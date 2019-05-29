@@ -33,7 +33,7 @@
     <string name="course_status_prompt">Choose Status</string>
     <string name="detail_notes_title">Course Notes (Optional)</string>
     <string name="detail_course_notes">Enter notes here...</string>
-    <string name="del_button">Delete Term</string>
+    <string name="del_button">Delete</string>
     <string name="detail_instructor_button"></string>
     <string-array name="course_status_array">
         <item>In Progress</item>

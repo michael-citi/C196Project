@@ -6,7 +6,6 @@ import android.support.v7.widget.DefaultItemAnimator;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
-import android.view.View;
 import java.util.ArrayList;
 import model.Course;
 import tools.CoursesAdapter;
@@ -36,11 +35,6 @@ public class CourseListActivity extends AppCompatActivity {
         recyclerView.setLayoutManager(manager);
         recyclerView.setItemAnimator(new DefaultItemAnimator());
         recyclerView.setAdapter(adapter);
-    }
-
-    public void remCourse(View v) {
-        
-        adapter.notifyDataSetChanged();
     }
 
 }

@@ -11,7 +11,7 @@ import com.michaelciti.c196project.R;
 import java.util.List;
 import model.Term;
 
-public class TermAdapter extends RecyclerView.Adapter<TermAdapter.ViewHolder> {
+public class TermAdapter extends RecyclerView.Adapter<TermAdapter.TermViewHolder> {
 
     private List<Term> termList;
 
@@ -19,13 +19,13 @@ public class TermAdapter extends RecyclerView.Adapter<TermAdapter.ViewHolder> {
         termList = terms;
     }
 
-    public class ViewHolder extends RecyclerView.ViewHolder {
+    public class TermViewHolder extends RecyclerView.ViewHolder {
         public TextView title;
         public TextView startDate;
         public TextView endDate;
         public Button delTermBtn;
 
-        public ViewHolder(View view) {
+        public TermViewHolder(View view) {
             super(view);
             title = view.findViewById(R.id.termTitle);
             startDate = view.findViewById(R.id.termStart);
@@ -36,18 +36,24 @@ public class TermAdapter extends RecyclerView.Adapter<TermAdapter.ViewHolder> {
 
     @NonNull
     @Override
-    public TermAdapter.ViewHolder onCreateViewHolder(@NonNull ViewGroup viewGroup, int i) {
+    public TermViewHolder onCreateViewHolder(@NonNull ViewGroup viewGroup, int i) {
         View view = LayoutInflater.from(viewGroup.getContext())
                 .inflate(R.layout.term_content, viewGroup, false);
-        return new ViewHolder(view);
+        return new TermViewHolder(view);
     }
 
     @Override
-    public void onBindViewHolder(@NonNull TermAdapter.ViewHolder viewHolder, int i) {
+    public void onBindViewHolder(@NonNull TermViewHolder termViewHolder, int i) {
         Term term = termList.get(i);
-        viewHolder.title.setText(term.getTitle());
-        viewHolder.startDate.setText("Start Date: " + term.getStartDate());
-        viewHolder.endDate.setText("End Date: " + term.getEndDate());
+        termViewHolder.title.setText(term.getTitle());
+        termViewHolder.startDate.setText("Start Date: " + term.getStartDate());
+        termViewHolder.endDate.setText("End Date: " + term.getEndDate());
+
+        termViewHolder.delTermBtn.setOnClickListener(view -> {
+            Term.deleteTerm(i, termViewHolder.delTermBtn.getContext());
+            termList.remove(i);
+            notifyItemRemoved(i);
+        });
     }
 
     @Override

@@ -46,10 +46,4 @@ public class TermListActivity extends AppCompatActivity {
         adapter.notifyDataSetChanged();
     }
 
-    public void remTerm(View v, int termId) {
-
-
-        adapter.notifyDataSetChanged();
-    }
-
 }

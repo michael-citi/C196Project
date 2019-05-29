@@ -115,6 +115,12 @@ public class Course implements Parcelable {
         return courseArrayList;
     }
 
+    public static void deleteCourse(int courseId, Context context) {
+        final String REMOVE_COURSE ="DELETE FROM courses WHERE courseId = " + courseId;
+        SQLiteDatabase db = DBHelper.getInstance(context).getWritableDatabase();
+        db.execSQL(REMOVE_COURSE);
+    }
+
     public static int courseComparator(int year, int month, int day, Context context) {
         int startYear, startMonth, startDay;
         int endYear, endMonth, endDay;

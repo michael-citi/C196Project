@@ -54,6 +54,12 @@ public class Term {
         return termArrayList;
     }
 
+    public static void deleteTerm(int termId, Context context) {
+        final String REMOVE_TERM ="DELETE FROM terms WHERE termId = " + termId;
+        SQLiteDatabase db = DBHelper.getInstance(context).getWritableDatabase();
+        db.execSQL(REMOVE_TERM);
+    }
+
     // getters & setters
     public int getTermId() {
         return termId;

@@ -20,6 +20,20 @@
 
     </android.support.design.widget.AppBarLayout>
 
-    <include layout="@layout/content_course_list" />
+    <include
+        android:id="@+id/include2"
+        layout="@layout/content_course_list" />
+
+    <android.support.design.widget.FloatingActionButton
+        android:id="@+id/addCourseFab"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_margin="@dimen/fab_margin"
+        android:backgroundTint="#013EB8"
+        android:clickable="true"
+        app:backgroundTint="#113CBD"
+        app:layout_anchor="@+id/include2"
+        app:layout_anchorGravity="end|bottom"
+        app:srcCompat="@android:drawable/ic_input_add" />
 
 </android.support.design.widget.CoordinatorLayout>

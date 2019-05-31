@@ -43,14 +43,14 @@ public class TermAdapter extends RecyclerView.Adapter<TermAdapter.TermViewHolder
     }
 
     @Override
-    public void onBindViewHolder(@NonNull TermViewHolder termViewHolder, int i) {
+    public void onBindViewHolder(@NonNull TermViewHolder viewHolder, int i) {
         Term term = termList.get(i);
-        termViewHolder.title.setText(term.getTitle());
-        termViewHolder.startDate.setText("Start Date: " + term.getStartDate());
-        termViewHolder.endDate.setText("End Date: " + term.getEndDate());
+        viewHolder.title.setText(term.getTitle());
+        viewHolder.startDate.setText("Start Date: " + term.getStartDate());
+        viewHolder.endDate.setText("End Date: " + term.getEndDate());
 
-        termViewHolder.delTermBtn.setOnClickListener(view -> {
-            Term.deleteTerm(i, termViewHolder.delTermBtn.getContext());
+        viewHolder.delTermBtn.setOnClickListener(view -> {
+            Term.deleteTerm(i, viewHolder.delTermBtn.getContext());
             termList.remove(i);
             notifyItemRemoved(i);
         });

@@ -47,5 +47,6 @@ public class CourseListActivity extends AppCompatActivity {
         Intent intent = new Intent(this, AddCourseActivity.class);
         startActivity(intent);
     }
+    // course removal is handled in the CoursesAdapter class
 
 }

@@ -3,7 +3,6 @@ package com.michaelciti.c196project;
 import android.app.AlertDialog;
 import android.app.DatePickerDialog;
 import android.content.Intent;
-import android.database.Cursor;
 import android.database.SQLException;
 import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteStatement;
@@ -158,7 +157,7 @@ public class AddCourseActivity extends AppCompatActivity {
     }
 
     private void courseDetailAct(Course course) {
-        Intent intent = new Intent(this, CourseDetail.class);
+        Intent intent = new Intent(this, CourseDetailActivity.class);
         intent.putExtra("Course", course);
         startActivity(intent);
     }

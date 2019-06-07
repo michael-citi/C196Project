@@ -6,10 +6,11 @@
     android:layout_height="match_parent"
     app:layout_behavior="@string/appbar_scrolling_view_behavior"
     tools:context=".TermListActivity"
-    tools:showIn="@layout/activity_term_list">
+    tools:showIn="@layout/activity_term_list"
+    android:id="@+id/termConstraintLayout">
 
     <android.support.v7.widget.RecyclerView
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:id="@+id/recyclerView"/>
+        android:id="@+id/termRecyclerView"/>
 </android.support.constraint.ConstraintLayout>

@@ -1,5 +1,8 @@
 package tools;
 
+import android.app.Activity;
+import android.app.AlertDialog;
+import android.content.Context;
 import android.support.annotation.NonNull;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
@@ -50,9 +53,18 @@ public class TermAdapter extends RecyclerView.Adapter<TermAdapter.TermViewHolder
         viewHolder.endDate.setText("End Date: " + term.getEndDate());
 
         viewHolder.delTermBtn.setOnClickListener(view -> {
-            Term.deleteTerm(i, viewHolder.delTermBtn.getContext());
-            termList.remove(i);
-            notifyItemRemoved(i);
+            AlertDialog.Builder alertBuilder = new AlertDialog.Builder(viewHolder.delTermBtn.getContext());
+            alertBuilder.setMessage("Are you sure you want to delete this Term?");
+            alertBuilder.setPositiveButton("Yes", (dialogInterface, j) -> {
+                Term.deleteTerm(i, viewHolder.delTermBtn.getContext());
+                termList.remove(i);
+                notifyItemRemoved(i);
+            });
+            alertBuilder.setNegativeButton("No", (dialogInterface, j) -> {
+                ((Activity)viewHolder.delTermBtn.getContext()).finish();
+            });
+            AlertDialog alert = alertBuilder.create();
+            alert.show();
         });
     }
 

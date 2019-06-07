@@ -2,6 +2,7 @@ package model;
 
 import android.content.Context;
 import android.database.Cursor;
+import android.database.SQLException;
 import android.database.sqlite.SQLiteDatabase;
 import android.util.Log;
 import java.util.ArrayList;
@@ -54,10 +55,54 @@ public class Term {
         return termArrayList;
     }
 
+    public static int termComparator(int year, int month, int day, Context context) {
+        int startYear, startMonth, startDay;
+        int endYear, endMonth, endDay;
+        final String TERM_QUERY = "SELECT startDate, endDate, " +
+                "strftime('%Y', startDate) as sYEAR, " +
+                "strftime('%m', startDate) as sMONTH, " +
+                "strftime('%d', startDate) as sDAY, " +
+                "strftime('%Y', endDate) as eYEAR, " +
+                "strftime('%m', endDate) as eMONTH, " +
+                "strftime('%d', endDate) as eDAY " +
+                "FROM terms";
+        SQLiteDatabase db = DBHelper.getInstance(context).getReadableDatabase();
+        Cursor cursor = db.rawQuery(TERM_QUERY, null);
+        try {
+            if (cursor.moveToFirst()) {
+                while (cursor.moveToNext()) {
+                    startYear = cursor.getInt(cursor.getColumnIndex("sYEAR"));
+                    startMonth = cursor.getInt(cursor.getColumnIndex("sMONTH"));
+                    startDay = cursor.getInt(cursor.getColumnIndex("sDAY"));
+                    endYear = cursor.getInt(cursor.getColumnIndex("eYEAR"));
+                    endMonth = cursor.getInt(cursor.getColumnIndex("eMONTH"));
+                    endDay = cursor.getInt(cursor.getColumnIndex("eDAY"));
+
+                    if ((year >= startYear) && (year <= endYear) && (month >= startMonth) && (month <= endMonth) && (day >= startDay) && (day <= endDay)) {
+                        Log.i(TAG, "Course date range set within another active course date range.");
+                        return 1;
+                    }
+                }
+            }
+        } catch (SQLException ex) {
+            Log.d(TAG, ex.getMessage());
+        } finally {
+            if (cursor != null) {
+                cursor.close();
+            }
+        }
+        return 0;
+    }
+
     public static void deleteTerm(int termId, Context context) {
-        final String REMOVE_TERM ="DELETE FROM terms WHERE termId = " + termId;
-        SQLiteDatabase db = DBHelper.getInstance(context).getWritableDatabase();
-        db.execSQL(REMOVE_TERM);
+        if (termId > 1) {
+            final String UPDATE_TERM_ID = "UPDATE courses SET termId = 1" +
+                    " WHERE termId = " + termId;
+            final String REMOVE_TERM ="DELETE FROM terms WHERE termId = " + termId;
+            SQLiteDatabase db = DBHelper.getInstance(context).getWritableDatabase();
+            db.execSQL(UPDATE_TERM_ID);
+            db.execSQL(REMOVE_TERM);
+        }
     }
 
     // getters & setters

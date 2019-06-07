@@ -11,6 +11,8 @@
     <string name="course_view">View Courses</string>
     <string name="manage_notifications">Manage Your Notifications</string>
     <string name="notification_button">Notifications</string>
+    <string name="add_term_end_date_button">End Date</string>
+    <string name="add_term_title_text">Term Title</string>
     <!--AddCourseActivity Strings-->
     <string name="title_activity_add_course">Add New Course</string>
     <string name="add_course_title">Course Title</string>
@@ -47,5 +49,6 @@
     <string name="hello_blank_fragment">Hello blank fragment</string>
     <string name="title_activity_course_list">CourseListActivity</string>
     <string name="title_activity_term_list">TermList</string>
+    <string name="title_activity_add_term">Add Term</string>
 
 </resources>

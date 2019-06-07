@@ -27,9 +27,9 @@ import model.Term;
 import tools.DBHelper;
 import static android.support.constraint.Constraints.TAG;
 
-public class CourseDetail extends AppCompatActivity implements OnItemSelectedListener {
+public class CourseDetailActivity extends AppCompatActivity implements OnItemSelectedListener {
 
-    // CourseDetail variables
+    // CourseDetailActivity variables
     ArrayList<String> termArrayList = new ArrayList<>();
     ArrayList<Term> termList = new ArrayList<>();
     Course tempCourse;

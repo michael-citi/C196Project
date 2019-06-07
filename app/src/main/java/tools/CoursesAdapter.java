@@ -1,5 +1,7 @@
 package tools;
 
+import android.app.Activity;
+import android.app.AlertDialog;
 import android.support.annotation.NonNull;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
@@ -10,6 +12,7 @@ import android.widget.TextView;
 import com.michaelciti.c196project.R;
 import java.util.List;
 import model.Course;
+import model.Term;
 
 public class CoursesAdapter extends RecyclerView.Adapter<CoursesAdapter.CourseViewHolder> {
 
@@ -54,9 +57,18 @@ public class CoursesAdapter extends RecyclerView.Adapter<CoursesAdapter.CourseVi
         viewHolder.courseEndDate.setText("Expected End Date: " + course.getExpectedEnd());
 
         viewHolder.delCourseBtn.setOnClickListener(view -> {
-            Course.deleteCourse(i, viewHolder.delCourseBtn.getContext());
-            courseList.remove(i);
-            notifyItemRemoved(i);
+            AlertDialog.Builder alertBuilder = new AlertDialog.Builder(viewHolder.delCourseBtn.getContext());
+            alertBuilder.setMessage("Are you sure you want to delete this Course?");
+            alertBuilder.setPositiveButton("Yes", (dialogInterface, j) -> {
+                Course.deleteCourse(i, viewHolder.delCourseBtn.getContext());
+                courseList.remove(i);
+                notifyItemRemoved(i);
+            });
+            alertBuilder.setNegativeButton("No", (dialogInterface, j) -> {
+                ((Activity)viewHolder.delCourseBtn.getContext()).finish();
+            });
+            AlertDialog alert = alertBuilder.create();
+            alert.show();
         });
     }
 

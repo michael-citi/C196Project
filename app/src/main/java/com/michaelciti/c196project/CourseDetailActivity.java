@@ -3,7 +3,6 @@ package com.michaelciti.c196project;
 import android.app.AlertDialog;
 import android.app.DatePickerDialog;
 import android.content.Intent;
-import android.database.Cursor;
 import android.database.SQLException;
 import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteStatement;
@@ -23,6 +22,8 @@ import android.widget.TextView;
 import java.util.ArrayList;
 import java.util.Calendar;
 import model.Course;
+import model.Instructor;
+import model.Objective;
 import model.Term;
 import tools.DBHelper;
 import static android.support.constraint.Constraints.TAG;
@@ -32,14 +33,18 @@ public class CourseDetailActivity extends AppCompatActivity implements OnItemSel
     // CourseDetailActivity variables
     ArrayList<String> termArrayList = new ArrayList<>();
     ArrayList<Term> termList = new ArrayList<>();
+    ArrayList<Instructor> instructorArrayList = new ArrayList<>();
+    ArrayList<String> instructorNames = new ArrayList<>();
+    ArrayList<Objective> objectiveArrayList = new ArrayList<>();
+    ArrayList<String> objectiveNames = new ArrayList<>();
     Course tempCourse;
     int startYear, startMonth, startDay;
     int endYear, endMonth, endDay;
 
     // View ID's
-    Spinner termSpinner, statusSpinner;
+    Spinner termSpinner, statusSpinner, instructSpinner, objSpinner;
     EditText courseTitle, courseDescription, courseNotes;
-    TextView startDateText, endDateText;
+    TextView startDateText, endDateText, instructDescText, objDescText;
     Button startDateBtn, endDateBtn;
 
     @Override
@@ -51,19 +56,25 @@ public class CourseDetailActivity extends AppCompatActivity implements OnItemSel
 
         termSpinner = findViewById(R.id.termSpinner);
         statusSpinner = findViewById(R.id.statusSpinner);
+        instructSpinner = findViewById(R.id.instructSpinner);
+        objSpinner = findViewById(R.id.objSpinner);
         courseTitle = findViewById(R.id.courseTitleInput);
         courseDescription = findViewById(R.id.courseDescriptionInput);
         courseNotes = findViewById(R.id.noteTextInput);
         startDateText = findViewById(R.id.startDateText);
         endDateText = findViewById(R.id.endDateText);
+        instructDescText = findViewById(R.id.instructDescTextView);
+        objDescText = findViewById(R.id.objDescTextView);
         startDateBtn = findViewById(R.id.startDateButton);
         endDateBtn = findViewById(R.id.endDateButton);
 
         termSpinner.setOnItemSelectedListener(this);
         statusSpinner.setOnItemSelectedListener(this);
+        instructSpinner.setOnItemSelectedListener(this);
+        objSpinner.setOnItemSelectedListener(this);
 
-        populateTermList();
-        setTermAdapter();
+        populateArrayLists();
+        setSpinnerAdapters();
         populateFields();
     }
 
@@ -140,32 +151,60 @@ public class CourseDetailActivity extends AppCompatActivity implements OnItemSel
         if (view == statusSpinner) {
             Snackbar.make(findViewById(R.id.detailConstraintLayout), "You have selected Course Status: " + statusSpinner.getSelectedItem(), Snackbar.LENGTH_SHORT).show();
         }
+        if (view == instructSpinner) {
+            Snackbar.make(findViewById(R.id.detailConstraintLayout), "You have selected Instructor: " + instructorArrayList.get(i).getName(), Snackbar.LENGTH_SHORT).show();
+            String instructorText = instructorArrayList.get(i).getEmail() + ", " + instructorArrayList.get(i).getPhone();
+            instructDescText.setText(instructorText);
+        }
+        if (view == objSpinner) {
+            Snackbar.make(findViewById(R.id.detailConstraintLayout), "You have selected Assessment: " + objectiveArrayList.get(i).getTitle(), Snackbar.LENGTH_SHORT).show();
+            String objText = objectiveArrayList.get(i).getType() + ", " + objectiveArrayList.get(i).getDescription();
+            objDescText.setText(objText);
+        }
     }
 
-    private void populateTermList() {
+    private void populateArrayLists() {
         termList = Term.queryAll(getApplicationContext());
         for (Term term : termList) {
             termArrayList.add(term.getTitle());
+        }
+        instructorArrayList = Instructor.queryAll(getApplicationContext());
+        for (Instructor instructor : instructorArrayList) {
+            instructorNames.add(instructor.getName());
+        }
+        objectiveArrayList = Objective.queryAll(getApplicationContext());
+        for (Objective objective : objectiveArrayList) {
+            objectiveNames.add(objective.getTitle());
         }
     }
 
     private void populateFields() {
         Bundle intent = getIntent().getExtras();
-        tempCourse = intent.getParcelable("Course");
-
-        courseTitle.setText(tempCourse.getTitle());
-        courseDescription.setText(tempCourse.getDescription());
-        startDateText.setText(tempCourse.getStartDate());
-        endDateText.setText(tempCourse.getExpectedEnd());
-        courseNotes.setText(tempCourse.getNotes());
-        statusSpinner.setSelection(getStatusIndex(statusSpinner, tempCourse.getStatus()));
-        termSpinner.setSelection(getTermIndex(tempCourse));
+        if (intent != null) {
+            tempCourse = intent.getParcelable("Course");
+            courseTitle.setText(tempCourse.getTitle());
+            courseDescription.setText(tempCourse.getDescription());
+            startDateText.setText(tempCourse.getStartDate());
+            endDateText.setText(tempCourse.getExpectedEnd());
+            courseNotes.setText(tempCourse.getNotes());
+            statusSpinner.setSelection(getStatusIndex(statusSpinner, tempCourse.getStatus()));
+            termSpinner.setSelection(getTermIndex(tempCourse));
+        }
     }
 
-    private void setTermAdapter() {
+    private void setSpinnerAdapters() {
+        // Set adapter for Term Spinner
         ArrayAdapter<String> termAdapter = new ArrayAdapter<>(this, android.R.layout.simple_spinner_item, termArrayList);
         termAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
         termSpinner.setAdapter(termAdapter);
+        // Set adapter for Instructor Spinner
+        ArrayAdapter<String> instructAdapter = new ArrayAdapter<>(this, android.R.layout.simple_spinner_item, instructorNames);
+        instructAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+        instructSpinner.setAdapter(instructAdapter);
+        // Set adapter for Objective Spinner
+        ArrayAdapter<String> objAdapter = new ArrayAdapter<>(this, android.R.layout.simple_spinner_item, objectiveNames);
+        objAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+        objSpinner.setAdapter(objAdapter);
     }
 
     private void confirmDialog() {
@@ -198,10 +237,10 @@ public class CourseDetailActivity extends AppCompatActivity implements OnItemSel
             error = "Course description cannot be empty. Please correct this error and try again.";
             courseDescription.requestFocus();
         } else if (startDateText.getText().equals("")) {
-            error = "Start Date is required. Please enter a start date.";
+            error = "Start Date is required. Please select a start date.";
             startDateBtn.requestFocus();
         } else if (endDateText.getText().equals("")) {
-            error = "Expected End Date is required. Please enter an end date.";
+            error = "Expected End Date is required. Please select an end date.";
             endDateBtn.requestFocus();
         } else if (Course.courseComparator(startYear, startMonth, startDay, getApplicationContext()) == 1) {
             error = "Start Date has scheduling conflict with another course. Please view or modify course list.";

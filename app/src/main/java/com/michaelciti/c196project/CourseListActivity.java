@@ -16,7 +16,6 @@ import tools.CoursesAdapter;
 
 public class CourseListActivity extends AppCompatActivity {
 
-    private CoursesAdapter adapter;
     ArrayList<Course> courseArrayList;
 
     @Override
@@ -36,7 +35,7 @@ public class CourseListActivity extends AppCompatActivity {
     }
 
     private void setCourseAdapter(ArrayList<Course> list, RecyclerView recyclerView) {
-        adapter = new CoursesAdapter(list);
+        CoursesAdapter adapter = new CoursesAdapter(list);
         RecyclerView.LayoutManager manager = new LinearLayoutManager(getApplicationContext());
         recyclerView.setLayoutManager(manager);
         recyclerView.setItemAnimator(new DefaultItemAnimator());

@@ -120,12 +120,12 @@ public class DBHelper extends SQLiteOpenHelper {
         );
         // initial Objective table inserts to manipulate with assigned courses later on
         db.execSQL("INSERT INTO objectives (title, type, description) VALUES " +
-                "('FQPG', 'Performance', 'Performance assessment. Add and subtract the same 12 numbers over and over again until the exam proctor falls alseep.'), " +
-                "('KGTA', 'Objective', 'Objective assessment. Create the worlds largest sculpture of a buffalo. Add wings for realism.'), " +
-                "('OJTF', 'Objective', 'Objective assessment. Write a ten page essay on the inner workings of quick-dry concrete.'), " +
-                "('WGCK', 'Performance', 'Performance assessment. Solve all of the math problems--all of them. You have a 1 hour time limit.'), " +
-                "('YDCV', 'Performance', 'Performance assessment. Draw a picture of anything you want and call it artistic mastery.'), " +
-                "('HKUI', 'Objective', 'Objective assessment. History exam. Read the questions and then re-evaluate your decision to not study for this assessment.')"
+                "('PA1', 'Performance', 'Performance assessment. Add and subtract the same 12 numbers over and over again until the exam proctor falls alseep.'), " +
+                "('OA1', 'Objective', 'Objective assessment. Create the worlds largest sculpture of a buffalo. Add wings for realism.'), " +
+                "('OA2', 'Objective', 'Objective assessment. Write a ten page essay on the inner workings of quick-dry concrete.'), " +
+                "('PA2', 'Performance', 'Performance assessment. Solve all of the math problems--all of them. You have a 1 hour time limit.'), " +
+                "('PA3', 'Performance', 'Performance assessment. Draw a picture of anything you want and call it artistic mastery.'), " +
+                "('OA3', 'Objective', 'Objective assessment. History exam. Read the questions and then re-evaluate your decision to not study for this assessment.')"
         );
     }
 

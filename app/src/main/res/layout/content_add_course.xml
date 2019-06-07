@@ -49,7 +49,7 @@
                 android:layout_marginEnd="8dp"
                 android:layout_marginBottom="8dp"
                 android:focusable="true"
-                android:text="@string/add_course_title_hint" />
+                android:hint="@string/add_course_title_hint" />
 
             <TextView
                 android:id="@+id/courseDescription"
@@ -74,7 +74,7 @@
                 android:layout_marginBottom="8dp"
                 android:inputType="textMultiLine"
                 android:focusable="true"
-                android:text="@string/add_course_description_hint"/>
+                android:hint="@string/add_course_description_hint"/>
 
             <TextView
                 android:id="@+id/startDateTextView"
@@ -103,7 +103,7 @@
                     android:layout_marginEnd="8dp"
                     android:layout_marginBottom="8dp"
                     android:focusable="true"
-                    android:text="@string/add_course_start_hint" />
+                    android:hint="@string/add_course_start_hint" />
 
                 <Button
                     android:id="@+id/startDateButton"
@@ -146,7 +146,7 @@
                     android:layout_marginEnd="8dp"
                     android:layout_marginBottom="8dp"
                     android:focusable="true"
-                    android:text="@string/add_course_end_hint" />
+                    android:hint="@string/add_course_end_hint" />
 
                 <Button
                     android:id="@+id/endDateButton"

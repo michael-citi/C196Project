@@ -11,18 +11,20 @@ import static android.support.constraint.Constraints.TAG;
 public class Objective {
 
     private int objectiveId;
-    private String title;
     private int courseId;
+    private String title;
     private String time;
     private String type;
+    private String description;
 
     // main constructor
-    public Objective(int objectiveId, String title, int courseId, String time, String type) {
+    public Objective(int objectiveId, int courseId, String title, String time, String type, String description) {
         this.objectiveId = objectiveId;
-        this.title = title;
         this.courseId = courseId;
+        this.title = title;
         this.time = time;
         this.type = type;
+        this.description = description;
     }
 
     // partial constructor
@@ -44,18 +46,19 @@ public class Objective {
         try {
             if (cursor.moveToFirst()) {
                 while (cursor.moveToNext()) {
-                    //TODO: convert timestamp to String object
                     int objectiveId = cursor.getInt(cursor.getColumnIndex("objectiveId"));
                     int courseId = cursor.getInt(cursor.getColumnIndex("courseId"));
                     String title = cursor.getString(cursor.getColumnIndex("title"));
-                    // String time =
+                    String time = cursor.getString(cursor.getColumnIndex("time"));
                     String type = cursor.getString(cursor.getColumnIndex("type"));
+                    String description = cursor.getString(cursor.getColumnIndex("description"));
 
-                    //TODO: create Objective objects and add to ArrayList
+                    Objective objective = new Objective(objectiveId, courseId, title, time, type, description);
+                    objectiveArrayList.add(objective);
                 }
             }
         } catch (Exception ex) {
-            Log.d(TAG, "Error while querying terms from database.");
+            Log.d(TAG, "Error while querying objectives from database.");
         } finally {
             if (cursor != null) {
                 cursor.close();
@@ -102,5 +105,13 @@ public class Objective {
 
     public void setType(String type) {
         this.type = type;
+    }
+
+    public String getDescription() {
+        return description;
+    }
+
+    public void setDescription(String description) {
+        this.description = description;
     }
 }

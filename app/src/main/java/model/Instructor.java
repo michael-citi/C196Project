@@ -11,13 +11,15 @@ import static android.support.constraint.Constraints.TAG;
 public class Instructor {
 
     private int instructorId;
+    private int courseId;
     private String name;
     private String phone;
     private String email;
 
     // main constructor
-    public Instructor(int instructorId, String name, String phone, String email) {
+    public Instructor(int instructorId, int courseId, String name, String phone, String email) {
         this.instructorId = instructorId;
+        this.courseId = courseId;
         this.name = name;
         this.phone = phone;
         this.email = email;
@@ -43,11 +45,12 @@ public class Instructor {
             if (cursor.moveToFirst()) {
                 while (cursor.moveToNext()) {
                     int instId = cursor.getInt(cursor.getColumnIndex("instructorId"));
+                    int courseId = cursor.getInt(cursor.getColumnIndex("courseId"));
                     String instName = cursor.getString(cursor.getColumnIndex("name"));
                     String instPhone = cursor.getString(cursor.getColumnIndex("phone"));
                     String instEmail = cursor.getString(cursor.getColumnIndex("email"));
 
-                    Instructor instructor = new Instructor(instId, instName, instPhone, instEmail);
+                    Instructor instructor = new Instructor(instId, courseId, instName, instPhone, instEmail);
                     instructorArrayList.add(instructor);
                 }
             }
@@ -68,6 +71,14 @@ public class Instructor {
 
     public void setInstructorId(int instructorId) {
         this.instructorId = instructorId;
+    }
+
+    public int getCourseId() {
+        return courseId;
+    }
+
+    public void setCourseId(int courseId) {
+        this.courseId = courseId;
     }
 
     public String getName() {

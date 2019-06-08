@@ -108,8 +108,11 @@ public class DBHelper extends SQLiteOpenHelper {
                 + "FOREIGN KEY (" + TABLE_4_COL_2 + ") REFERENCES " + TABLE_2 + " (" + TABLE_2_COL_1 + "))"
         );
 
-        // initial Term 0 insert to allow courses to be listed as Unallocated (not in any specific term)
+        // initial Term 1 insert to allow courses to be listed as Unallocated (not in any specific term)
         db.execSQL("INSERT INTO terms (title) VALUES ('Unallocated')");
+        // initial C196 course insert to test functionality
+        db.execSQL("INSERT INTO courses (title, description, startDate, expectedEnd, status, termId, notes) " +
+                "VALUES ('C196', 'Test description', '2019-06-01', '2019-06-02', 'completed', 1, 'test notes')");
         // initial Instructor table inserts to allow courses to assign instructors
         db.execSQL("INSERT INTO instructors (name, phone, email) VALUES " +
                 "('Amy Antonucci', '555-7854', 'amy.antonucci@wgu.edu'), " +

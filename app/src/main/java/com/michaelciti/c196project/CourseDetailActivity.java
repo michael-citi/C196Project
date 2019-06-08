@@ -89,6 +89,7 @@ public class CourseDetailActivity extends AppCompatActivity implements OnItemSel
     }
 
     private void insertDetailSQL() {
+        // build sql variables to insert
         String title = courseTitle.getText().toString();
         int courseId = getNewCourseId(title);
         String description = courseDescription.getText().toString();
@@ -100,10 +101,11 @@ public class CourseDetailActivity extends AppCompatActivity implements OnItemSel
         int instID = getInstructorSpinnerID();
         int objID = getObjectiveSpinnerID();
 
+        // Course insert or update
         final String INSERT_DETAILS = "INSERT OR REPLACE INTO courses (courseId, title, description, startDate, expectedEnd, status, termId, notes) " +
                 "VALUES ((SELECT courseId FROM courses WHERE title = ?), ?, ?, ?, ?, ?, ?, ?)";
+        SQLiteDatabase db = DBHelper.getInstance(getApplicationContext()).getWritableDatabase();
         try {
-            SQLiteDatabase db = DBHelper.getInstance(getApplicationContext()).getWritableDatabase();
             SQLiteStatement statement = db.compileStatement(INSERT_DETAILS);
             statement.bindString(1, title);
             statement.bindString(2, title);
@@ -118,19 +120,19 @@ public class CourseDetailActivity extends AppCompatActivity implements OnItemSel
             Log.e(TAG, ex.getMessage());
         }
 
+        // instructor 'courseId' update
         final String UPDATE_RELATED_INSTRUCTOR = "UPDATE instructors SET courseId = " + courseId +
                 " WHERE instructorId = " + instID;
         try {
-            SQLiteDatabase db = DBHelper.getInstance(getApplicationContext()).getWritableDatabase();
             db.execSQL(UPDATE_RELATED_INSTRUCTOR);
         } catch (SQLException ex) {
             Log.e(TAG, ex.getMessage());
         }
 
+        // objective 'courseId' update
         final String UPDATE_RELATED_OBJECTIVE = "UPDATE objectives SET courseId = " + courseId +
                 " WHERE objectiveId = " + objID;
         try {
-            SQLiteDatabase db = DBHelper.getInstance(getApplicationContext()).getWritableDatabase();
             db.execSQL(UPDATE_RELATED_OBJECTIVE);
         } catch (SQLException ex) {
             Log.e(TAG, ex.getMessage());

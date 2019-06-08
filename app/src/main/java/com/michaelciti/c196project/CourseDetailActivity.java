@@ -3,6 +3,7 @@ package com.michaelciti.c196project;
 import android.app.AlertDialog;
 import android.app.DatePickerDialog;
 import android.content.Intent;
+import android.database.Cursor;
 import android.database.SQLException;
 import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteStatement;
@@ -81,7 +82,6 @@ public class CourseDetailActivity extends AppCompatActivity implements OnItemSel
     public void confirmDetails(View v) {
         String errorMsg = validateDetails();
         if (errorMsg.equals("None")) {
-            insertDetailSQL();
             confirmDialog();
         } else {
             showError(errorMsg);
@@ -90,12 +90,15 @@ public class CourseDetailActivity extends AppCompatActivity implements OnItemSel
 
     private void insertDetailSQL() {
         String title = courseTitle.getText().toString();
+        int courseId = getNewCourseId(title);
         String description = courseDescription.getText().toString();
         String start = startDateText.getText().toString();
         String end = endDateText.getText().toString();
         String status = statusSpinner.getSelectedItem().toString();
         int termID = getTermSpinnerID();
         String notes = courseNotes.getText().toString();
+        int instID = getInstructorSpinnerID();
+        int objID = getObjectiveSpinnerID();
 
         final String INSERT_DETAILS = "INSERT OR REPLACE INTO courses (courseId, title, description, startDate, expectedEnd, status, termId, notes) " +
                 "VALUES ((SELECT courseId FROM courses WHERE title = ?), ?, ?, ?, ?, ?, ?, ?)";
@@ -111,6 +114,24 @@ public class CourseDetailActivity extends AppCompatActivity implements OnItemSel
             statement.bindLong(7, termID);
             statement.bindString(8, notes);
             statement.execute();
+        } catch (SQLException ex) {
+            Log.e(TAG, ex.getMessage());
+        }
+
+        final String UPDATE_RELATED_INSTRUCTOR = "UPDATE instructors SET courseId = " + courseId +
+                " WHERE instructorId = " + instID;
+        try {
+            SQLiteDatabase db = DBHelper.getInstance(getApplicationContext()).getWritableDatabase();
+            db.execSQL(UPDATE_RELATED_INSTRUCTOR);
+        } catch (SQLException ex) {
+            Log.e(TAG, ex.getMessage());
+        }
+
+        final String UPDATE_RELATED_OBJECTIVE = "UPDATE objectives SET courseId = " + courseId +
+                " WHERE objectiveId = " + objID;
+        try {
+            SQLiteDatabase db = DBHelper.getInstance(getApplicationContext()).getWritableDatabase();
+            db.execSQL(UPDATE_RELATED_OBJECTIVE);
         } catch (SQLException ex) {
             Log.e(TAG, ex.getMessage());
         }
@@ -189,19 +210,21 @@ public class CourseDetailActivity extends AppCompatActivity implements OnItemSel
             courseNotes.setText(tempCourse.getNotes());
             statusSpinner.setSelection(getStatusIndex(statusSpinner, tempCourse.getStatus()));
             termSpinner.setSelection(getTermIndex(tempCourse));
+            instructSpinner.setSelection(getAssociatedInstructorID(tempCourse));
+            objSpinner.setSelection(getAssociatedObjID(tempCourse));
         }
     }
 
     private void setSpinnerAdapters() {
-        // Set adapter for Term Spinner
+        // Set termAdapter for Term Spinner
         ArrayAdapter<String> termAdapter = new ArrayAdapter<>(this, android.R.layout.simple_spinner_item, termArrayList);
         termAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
         termSpinner.setAdapter(termAdapter);
-        // Set adapter for Instructor Spinner
+        // Set termAdapter for Instructor Spinner
         ArrayAdapter<String> instructAdapter = new ArrayAdapter<>(this, android.R.layout.simple_spinner_item, instructorNames);
         instructAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
         instructSpinner.setAdapter(instructAdapter);
-        // Set adapter for Objective Spinner
+        // Set termAdapter for Objective Spinner
         ArrayAdapter<String> objAdapter = new ArrayAdapter<>(this, android.R.layout.simple_spinner_item, objectiveNames);
         objAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
         objSpinner.setAdapter(objAdapter);
@@ -209,9 +232,12 @@ public class CourseDetailActivity extends AppCompatActivity implements OnItemSel
 
     private void confirmDialog() {
         AlertDialog.Builder alertBuilder = new AlertDialog.Builder(this);
-        alertBuilder.setMessage("Confirm changes and Return to the main menu? Choosing to stay will still save your changes.");
-        alertBuilder.setPositiveButton("Return", (dialogInterface, i) -> mainAct());
-        alertBuilder.setNegativeButton("Stay", (dialogInterface, i) -> finish());
+        alertBuilder.setMessage("Confirm changes? You will return to the main menu if confirmed.");
+        alertBuilder.setPositiveButton("Confirm", (dialogInterface, i) -> {
+            insertDetailSQL();
+            mainAct();
+        });
+        alertBuilder.setNegativeButton("Cancel", (dialogInterface, i) -> finish());
         AlertDialog alert = alertBuilder.create();
         alert.show();
     }
@@ -281,6 +307,69 @@ public class CourseDetailActivity extends AppCompatActivity implements OnItemSel
             }
         }
         return 0;
+    }
+
+    private int getInstructorSpinnerID() {
+        int instId;
+        String instName = instructSpinner.getSelectedItem().toString();
+
+        for (Instructor instructor : instructorArrayList) {
+            if (instName.equalsIgnoreCase(instructor.getName())) {
+                instId = instructor.getInstructorId();
+                return instId;
+            }
+        }
+        return 0;
+    }
+
+    private int getObjectiveSpinnerID() {
+        int objId;
+        String objName = objSpinner.getSelectedItem().toString();
+
+        for (Objective objective : objectiveArrayList) {
+            if (objName.equalsIgnoreCase(objective.getTitle())) {
+                objId = objective.getObjectiveId();
+                return objId;
+            }
+        }
+        return 0;
+    }
+
+    private int getAssociatedInstructorID(Course course) {
+        for (Instructor instructor : instructorArrayList) {
+            if (course.getCourseId() == instructor.getCourseId()) {
+                return course.getCourseId();
+            }
+        }
+        return 0;
+    }
+
+    private int getAssociatedObjID(Course course) {
+        for (Objective objective : objectiveArrayList) {
+            if (course.getCourseId() == objective.getCourseId()) {
+                return course.getCourseId();
+            }
+        }
+        return 0;
+    }
+
+    private int getNewCourseId(String title) {
+        int courseId = 0;
+        final String COURSE_QUERY = "SELECT courseId FROM courses " +
+                "WHERE title = " + title;
+        try {
+            SQLiteDatabase db = DBHelper.getInstance(getApplicationContext()).getReadableDatabase();
+            Cursor cursor = db.rawQuery(COURSE_QUERY, null);
+
+            if (cursor.moveToFirst()) {
+                while (cursor.moveToNext()) {
+                    courseId = cursor.getInt(cursor.getColumnIndex("courseId"));
+                }
+            }
+        } catch (SQLException ex){
+            Log.e(TAG, ex.getMessage());
+        }
+        return courseId;
     }
 
     private void showError(String errorMsg) {

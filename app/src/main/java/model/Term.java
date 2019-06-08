@@ -34,17 +34,16 @@ public class Term {
         SQLiteDatabase db = DBHelper.getInstance(context).getReadableDatabase();
         Cursor cursor = db.rawQuery(TERM_QUERY, null);
         try {
-            if (cursor.moveToFirst()) {
-                while (cursor.moveToNext()) {
-                    int termId = cursor.getInt(cursor.getColumnIndex("termId"));
-                    String title = cursor.getString(cursor.getColumnIndex("title"));
-                    String startDate = cursor.getString(cursor.getColumnIndex("startDate"));
-                    String endDate = cursor.getString(cursor.getColumnIndex("expectedEnd"));
+            while (cursor.moveToNext()) {
+                int termId = cursor.getInt(cursor.getColumnIndex("termId"));
+                String title = cursor.getString(cursor.getColumnIndex("title"));
+                String startDate = cursor.getString(cursor.getColumnIndex("startDate"));
+                String endDate = cursor.getString(cursor.getColumnIndex("endDate"));
 
-                    Term term = new Term (termId, title, startDate, endDate);
-                    termArrayList.add(term);
-                }
+                Term term = new Term (termId, title, startDate, endDate);
+                termArrayList.add(term);
             }
+
         } catch (Exception ex) {
             Log.d(TAG, "Error while querying terms from database.");
         } finally {

@@ -51,7 +51,8 @@
                 android:layout_gravity="center"
                 android:layout_marginTop="8dp"
                 android:layout_marginBottom="8dp"
-                android:text="@string/term_add" />
+                android:text="@string/term_add"
+                android:onClick="addTermAct"/>
 
             <Button
                 android:id="@+id/termListBtn"

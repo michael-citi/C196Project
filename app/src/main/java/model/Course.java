@@ -96,7 +96,7 @@ public class Course implements Parcelable {
                     String title = cursor.getString(cursor.getColumnIndex("title"));
                     String description = cursor.getString(cursor.getColumnIndex("description"));
                     String startDate = cursor.getString(cursor.getColumnIndex("startDate"));
-                    String endDate = cursor.getString(cursor.getColumnIndex("endDate"));
+                    String endDate = cursor.getString(cursor.getColumnIndex("expectedEnd"));
                     String status = cursor.getString(cursor.getColumnIndex("status"));
                     int termId = cursor.getInt(cursor.getColumnIndex("termId"));
                     String notes = cursor.getString(cursor.getColumnIndex("notes"));

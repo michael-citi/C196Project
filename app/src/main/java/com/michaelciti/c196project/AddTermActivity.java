@@ -55,7 +55,6 @@ public class AddTermActivity extends AppCompatActivity {
     public void confirmSave(View v) {
         String errorMsg = validateData();
         if (errorMsg.equals("None")) {
-            insertSQL();
             confirmTerm();
         } else {
             showError(errorMsg);
@@ -67,7 +66,7 @@ public class AddTermActivity extends AppCompatActivity {
         String start = startDateText.getText().toString();
         String end = endDateText.getText().toString();
 
-        final String INSERT_TERM = "INSERT INTO terms (title, startDate, endDate) " +
+        final String INSERT_TERM = "INSERT INTO terms(title, startDate, endDate) " +
                 "VALUES(?, ?, ?)";
         try {
             SQLiteDatabase db = DBHelper.getInstance(getApplicationContext()).getWritableDatabase();
@@ -110,9 +109,15 @@ public class AddTermActivity extends AppCompatActivity {
 
     private void confirmTerm() {
         AlertDialog.Builder alertBuilder = new AlertDialog.Builder(this);
-        alertBuilder.setMessage("Confirm changes and Return to the main menu? Choosing to stay will still save your changes.");
-        alertBuilder.setPositiveButton("Return", (dialogInterface, i) -> mainAct());
-        alertBuilder.setNegativeButton("Stay", (dialogInterface, i) -> finish());
+        alertBuilder.setMessage("Confirm changes and return to the main menu? Choosing to stay will still save your changes.");
+        alertBuilder.setPositiveButton("Return", (dialogInterface, i) -> {
+            insertSQL();
+            mainAct();
+        });
+        alertBuilder.setNegativeButton("Stay", (dialogInterface, i) -> {
+            insertSQL();
+            finish();
+        });
         AlertDialog alert = alertBuilder.create();
         alert.show();
     }

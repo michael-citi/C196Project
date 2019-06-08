@@ -17,6 +17,8 @@ import tools.CoursesAdapter;
 public class CourseListActivity extends AppCompatActivity {
 
     ArrayList<Course> courseArrayList;
+    RecyclerView recyclerView;
+    CoursesAdapter adapter;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -29,13 +31,14 @@ public class CourseListActivity extends AppCompatActivity {
         FloatingActionButton addCourseFab = findViewById(R.id.addCourseFab);
         addCourseFab.setOnClickListener(view -> addCourse(view));
 
-        RecyclerView recyclerView = findViewById(R.id.courseRecyclerView);
+        recyclerView = findViewById(R.id.courseRecyclerView);
         courseArrayList = Course.queryAll(getApplicationContext());
         setCourseAdapter(courseArrayList, recyclerView);
+        adapter.notifyDataSetChanged();
     }
 
     private void setCourseAdapter(ArrayList<Course> list, RecyclerView recyclerView) {
-        CoursesAdapter adapter = new CoursesAdapter(list);
+        adapter = new CoursesAdapter(list);
         RecyclerView.LayoutManager manager = new LinearLayoutManager(getApplicationContext());
         recyclerView.setLayoutManager(manager);
         recyclerView.setItemAnimator(new DefaultItemAnimator());

@@ -10,15 +10,14 @@ import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.TextView;
 import com.michaelciti.c196project.R;
-import java.util.List;
+import java.util.ArrayList;
 import model.Course;
-import model.Term;
 
 public class CoursesAdapter extends RecyclerView.Adapter<CoursesAdapter.CourseViewHolder> {
 
-    private List<Course> courseList;
+    private ArrayList<Course> courseList;
 
-    public CoursesAdapter(List<Course> courses) {
+    public CoursesAdapter(ArrayList<Course> courses) {
         courseList = courses;
     }
 
@@ -50,11 +49,15 @@ public class CoursesAdapter extends RecyclerView.Adapter<CoursesAdapter.CourseVi
     @Override
     public void onBindViewHolder(@NonNull CourseViewHolder viewHolder, int i) {
         Course course = courseList.get(i);
+        final String name = "Course Name: " + course.getTitle();
+        final String desc = "Description: " + course.getDescription();
+        final String start = "Begin: " + course.getStartDate();
+        final String expectEnd = "Expected End: " + course.getExpectedEnd();
 
-        viewHolder.courseName.setText("Course Name: " + course.getTitle());
-        viewHolder.courseDescription.setText("Course Description: " + course.getDescription());
-        viewHolder.courseStartDate.setText("Start Date: " + course.getStartDate());
-        viewHolder.courseEndDate.setText("Expected End Date: " + course.getExpectedEnd());
+        viewHolder.courseName.setText(name);
+        viewHolder.courseDescription.setText(desc);
+        viewHolder.courseStartDate.setText(start);
+        viewHolder.courseEndDate.setText(expectEnd);
 
         viewHolder.delCourseBtn.setOnClickListener(view -> {
             AlertDialog.Builder alertBuilder = new AlertDialog.Builder(viewHolder.delCourseBtn.getContext());

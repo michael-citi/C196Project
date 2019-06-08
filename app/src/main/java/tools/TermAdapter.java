@@ -2,24 +2,31 @@ package tools;
 
 import android.app.Activity;
 import android.app.AlertDialog;
-import android.content.Context;
 import android.support.annotation.NonNull;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
+import android.widget.LinearLayout;
 import android.widget.TextView;
 import com.michaelciti.c196project.R;
+
+import java.util.ArrayList;
 import java.util.List;
+
+import model.Course;
 import model.Term;
 
 public class TermAdapter extends RecyclerView.Adapter<TermAdapter.TermViewHolder> {
 
-    private List<Term> termList;
+    private ArrayList<Term> termList;
+    private ArrayList<Course> courseList;
 
-    public TermAdapter(List<Term> terms) {
+    public TermAdapter(ArrayList<Term> terms, ArrayList<Course> courses) {
         termList = terms;
+        courseList = courses;
+        notifyDataSetChanged();
     }
 
     public class TermViewHolder extends RecyclerView.ViewHolder {
@@ -27,6 +34,7 @@ public class TermAdapter extends RecyclerView.Adapter<TermAdapter.TermViewHolder
         public TextView startDate;
         public TextView endDate;
         public Button delTermBtn;
+        public LinearLayout layout;
 
         public TermViewHolder(View view) {
             super(view);
@@ -34,6 +42,7 @@ public class TermAdapter extends RecyclerView.Adapter<TermAdapter.TermViewHolder
             startDate = view.findViewById(R.id.termStart);
             endDate = view.findViewById(R.id.termEnd);
             delTermBtn = view.findViewById(R.id.delTermBtn);
+            layout = view.findViewById(R.id.nestedCourseLayout);
         }
     }
 
@@ -49,8 +58,15 @@ public class TermAdapter extends RecyclerView.Adapter<TermAdapter.TermViewHolder
     public void onBindViewHolder(@NonNull TermViewHolder viewHolder, int i) {
         Term term = termList.get(i);
         viewHolder.title.setText(term.getTitle());
-        viewHolder.startDate.setText("Start Date: " + term.getStartDate());
-        viewHolder.endDate.setText("End Date: " + term.getEndDate());
+
+        if (term.getTermId() == 1) {
+            viewHolder.delTermBtn.setEnabled(false);
+            viewHolder.startDate.setText("Start Date: None");
+            viewHolder.endDate.setText("End Date: None");
+        } else {
+            viewHolder.startDate.setText("Start Date: " + term.getStartDate());
+            viewHolder.endDate.setText("End Date: " + term.getEndDate());
+        }
 
         viewHolder.delTermBtn.setOnClickListener(view -> {
             AlertDialog.Builder alertBuilder = new AlertDialog.Builder(viewHolder.delTermBtn.getContext());
@@ -66,6 +82,16 @@ public class TermAdapter extends RecyclerView.Adapter<TermAdapter.TermViewHolder
             AlertDialog alert = alertBuilder.create();
             alert.show();
         });
+
+        for (Course course : courseList) {
+            if (course.getTermId() == term.getTermId()) {
+                TextView textView = new TextView(viewHolder.layout.getContext());
+                textView.setText(course.getTitle());
+                textView.setId(course.getCourseId());
+                viewHolder.layout.addView(textView);
+            }
+        }
+
     }
 
     @Override

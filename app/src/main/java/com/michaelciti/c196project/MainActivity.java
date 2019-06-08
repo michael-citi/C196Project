@@ -18,6 +18,11 @@ public class MainActivity extends AppCompatActivity {
         setSupportActionBar(toolbar);
     }
 
+    public void addTermAct(View view) {
+        Intent intent = new Intent(this, AddTermActivity.class);
+        startActivity(intent);
+    }
+
     public void addCourseAct(View view) {
         Intent intent = new Intent(this, AddCourseActivity.class);
         startActivity(intent);

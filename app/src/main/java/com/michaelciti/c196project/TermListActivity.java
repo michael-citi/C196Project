@@ -10,10 +10,17 @@ import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
 import android.view.View;
 import java.util.ArrayList;
+
+import model.Course;
 import model.Term;
 import tools.TermAdapter;
 
 public class TermListActivity extends AppCompatActivity {
+
+    ArrayList<Term> termArrayList = new ArrayList<>();
+    ArrayList<Course> courseArrayList = new ArrayList<>();
+    RecyclerView termRecyclerView;
+    TermAdapter termAdapter;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -21,23 +28,25 @@ public class TermListActivity extends AppCompatActivity {
         setContentView(R.layout.activity_term_list);
         Toolbar toolbar = findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
-        RecyclerView recyclerView = findViewById(R.id.termRecyclerView);
+        termRecyclerView = findViewById(R.id.termRecyclerView);
 
         FloatingActionButton addTermBtn = findViewById(R.id.addTermBtn);
         addTermBtn.setOnClickListener(view -> addTerm(view));
 
-        ArrayList<Term> termArrayList = Term.queryAll(getApplicationContext());
-        setTermAdapter(termArrayList, recyclerView);
+        termArrayList = Term.queryAll(getApplicationContext());
+        courseArrayList = Course.queryAll(getApplicationContext());
+        setTermAdapter(termArrayList, courseArrayList, termRecyclerView);
+        termAdapter.notifyDataSetChanged();
 
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
     }
 
-    private void setTermAdapter(ArrayList<Term> terms, RecyclerView recyclerView) {
-        TermAdapter adapter = new TermAdapter(terms);
+    private void setTermAdapter(ArrayList<Term> terms, ArrayList<Course> courses, RecyclerView recyclerView) {
+        termAdapter = new TermAdapter(terms, courses);
         RecyclerView.LayoutManager manager = new LinearLayoutManager(getApplicationContext());
         recyclerView.setLayoutManager(manager);
         recyclerView.setItemAnimator(new DefaultItemAnimator());
-        recyclerView.setAdapter(adapter);
+        recyclerView.setAdapter(termAdapter);
     }
 
     public void addTerm(View v) {

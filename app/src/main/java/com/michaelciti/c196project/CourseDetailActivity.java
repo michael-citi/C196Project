@@ -387,5 +387,4 @@ public class CourseDetailActivity extends AppCompatActivity implements OnItemSel
     public void onNothingSelected(AdapterView<?> adapterView) {
         // Do Nothing
     }
-
 }

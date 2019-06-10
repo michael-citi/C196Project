@@ -27,35 +27,22 @@ public class Objective {
         this.description = description;
     }
 
-    // partial constructor
-    public Objective(String title, String time, String type) {
-        this.title = title;
-        this.time = time;
-        this.type = type;
-    }
-
-    // empty constructor
-    public Objective() {
-    }
-
     public static ArrayList<Objective> queryAll(Context context) {
         ArrayList<Objective> objectiveArrayList = new ArrayList<>();
         final String OBJECTIVE_QUERY = "SELECT * FROM objectives";
         SQLiteDatabase db = DBHelper.getInstance(context).getReadableDatabase();
         Cursor cursor = db.rawQuery(OBJECTIVE_QUERY, null);
         try {
-            if (cursor.moveToFirst()) {
-                while (cursor.moveToNext()) {
-                    int objectiveId = cursor.getInt(cursor.getColumnIndex("objectiveId"));
-                    int courseId = cursor.getInt(cursor.getColumnIndex("courseId"));
-                    String title = cursor.getString(cursor.getColumnIndex("title"));
-                    String time = cursor.getString(cursor.getColumnIndex("time"));
-                    String type = cursor.getString(cursor.getColumnIndex("type"));
-                    String description = cursor.getString(cursor.getColumnIndex("description"));
+            while (cursor.moveToNext()) {
+                int objectiveId = cursor.getInt(cursor.getColumnIndex("objectiveId"));
+                int courseId = cursor.getInt(cursor.getColumnIndex("courseId"));
+                String title = cursor.getString(cursor.getColumnIndex("title"));
+                String time = cursor.getString(cursor.getColumnIndex("time"));
+                String type = cursor.getString(cursor.getColumnIndex("type"));
+                String description = cursor.getString(cursor.getColumnIndex("description"));
 
-                    Objective objective = new Objective(objectiveId, courseId, title, time, type, description);
-                    objectiveArrayList.add(objective);
-                }
+                Objective objective = new Objective(objectiveId, courseId, title, time, type, description);
+                objectiveArrayList.add(objective);
             }
         } catch (Exception ex) {
             Log.d(TAG, "Error while querying objectives from database.");

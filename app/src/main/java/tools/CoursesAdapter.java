@@ -60,15 +60,15 @@ public class CoursesAdapter extends RecyclerView.Adapter<CoursesAdapter.CourseVi
         viewHolder.courseEndDate.setText(expectEnd);
 
         viewHolder.delCourseBtn.setOnClickListener(view -> {
-            AlertDialog.Builder alertBuilder = new AlertDialog.Builder(viewHolder.delCourseBtn.getContext());
+            AlertDialog.Builder alertBuilder = new AlertDialog.Builder(view.getContext());
             alertBuilder.setMessage("Are you sure you want to delete this Course?");
             alertBuilder.setPositiveButton("Yes", (dialogInterface, j) -> {
-                Course.deleteCourse(i, viewHolder.delCourseBtn.getContext());
+                Course.deleteCourse(i, view.getContext());
                 courseList.remove(i);
                 notifyItemRemoved(i);
             });
             alertBuilder.setNegativeButton("No", (dialogInterface, j) -> {
-                ((Activity)viewHolder.delCourseBtn.getContext()).finish();
+                ((Activity)view.getContext()).finish();
             });
             AlertDialog alert = alertBuilder.create();
             alert.show();

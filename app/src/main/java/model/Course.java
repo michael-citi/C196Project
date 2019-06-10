@@ -55,10 +55,6 @@ public class Course implements Parcelable {
         notes = parcel.readString();
     }
 
-    // empty constructor
-    public Course() {
-    }
-
     public static final Parcelable.Creator<Course> CREATOR = new Parcelable.Creator<Course>(){
 
         @Override
@@ -90,20 +86,18 @@ public class Course implements Parcelable {
         SQLiteDatabase db = DBHelper.getInstance(context).getReadableDatabase();
         Cursor cursor = db.rawQuery(COURSE_QUERY, null);
         try {
-            if (cursor.moveToFirst()) {
-                while (cursor.moveToNext()) {
-                    int courseId = cursor.getInt(cursor.getColumnIndex("courseId"));
-                    String title = cursor.getString(cursor.getColumnIndex("title"));
-                    String description = cursor.getString(cursor.getColumnIndex("description"));
-                    String startDate = cursor.getString(cursor.getColumnIndex("startDate"));
-                    String endDate = cursor.getString(cursor.getColumnIndex("expectedEnd"));
-                    String status = cursor.getString(cursor.getColumnIndex("status"));
-                    int termId = cursor.getInt(cursor.getColumnIndex("termId"));
-                    String notes = cursor.getString(cursor.getColumnIndex("notes"));
+            while (cursor.moveToNext()) {
+                int courseId = cursor.getInt(cursor.getColumnIndex("courseId"));
+                String title = cursor.getString(cursor.getColumnIndex("title"));
+                String description = cursor.getString(cursor.getColumnIndex("description"));
+                String startDate = cursor.getString(cursor.getColumnIndex("startDate"));
+                String endDate = cursor.getString(cursor.getColumnIndex("expectedEnd"));
+                String status = cursor.getString(cursor.getColumnIndex("status"));
+                int termId = cursor.getInt(cursor.getColumnIndex("termId"));
+                String notes = cursor.getString(cursor.getColumnIndex("notes"));
 
-                    Course tempCourse = new Course(courseId, title, description, startDate, endDate, status, termId, notes);
-                    courseArrayList.add(tempCourse);
-                }
+                Course tempCourse = new Course(courseId, title, description, startDate, endDate, status, termId, notes);
+                courseArrayList.add(tempCourse);
             }
         } catch (Exception ex) {
             Log.d(TAG, ex.getMessage());

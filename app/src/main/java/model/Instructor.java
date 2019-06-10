@@ -25,34 +25,20 @@ public class Instructor {
         this.email = email;
     }
 
-    // partial constructor
-    public Instructor(String name, String phone, String email) {
-        this.name = name;
-        this.phone = phone;
-        this.email = email;
-    }
-
-    // empty constructor
-    public Instructor() {
-    }
-
     public static ArrayList<Instructor> queryAll(Context context) {
         ArrayList<Instructor> instructorArrayList = new ArrayList<>();
         final String INSTRUCT_QUERY = "SELECT * FROM instructors";
         SQLiteDatabase db = DBHelper.getInstance(context).getReadableDatabase();
         Cursor cursor = db.rawQuery(INSTRUCT_QUERY, null);
         try {
-            if (cursor.moveToFirst()) {
-                while (cursor.moveToNext()) {
-                    int instId = cursor.getInt(cursor.getColumnIndex("instructorId"));
-                    int courseId = cursor.getInt(cursor.getColumnIndex("courseId"));
-                    String instName = cursor.getString(cursor.getColumnIndex("name"));
-                    String instPhone = cursor.getString(cursor.getColumnIndex("phone"));
-                    String instEmail = cursor.getString(cursor.getColumnIndex("email"));
-
-                    Instructor instructor = new Instructor(instId, courseId, instName, instPhone, instEmail);
-                    instructorArrayList.add(instructor);
-                }
+            while (cursor.moveToNext()) {
+                int instId = cursor.getInt(cursor.getColumnIndex("instructorId"));
+                int courseId = cursor.getInt(cursor.getColumnIndex("courseId"));
+                String instName = cursor.getString(cursor.getColumnIndex("name"));
+                String instPhone = cursor.getString(cursor.getColumnIndex("phone"));
+                String instEmail = cursor.getString(cursor.getColumnIndex("email"));
+                Instructor instructor = new Instructor(instId, courseId, instName, instPhone, instEmail);
+                instructorArrayList.add(instructor);
             }
         } catch (Exception ex) {
             Log.d(TAG, "Error while running query for instructors from database.");

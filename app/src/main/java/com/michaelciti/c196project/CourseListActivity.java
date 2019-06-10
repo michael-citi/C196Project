@@ -9,7 +9,7 @@ import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
 import android.view.View;
-
+import org.jetbrains.annotations.NotNull;
 import java.util.ArrayList;
 import model.Course;
 import tools.CoursesAdapter;
@@ -34,21 +34,30 @@ public class CourseListActivity extends AppCompatActivity {
         recyclerView = findViewById(R.id.courseRecyclerView);
         courseArrayList = Course.queryAll(getApplicationContext());
         setCourseAdapter(courseArrayList, recyclerView);
-        adapter.notifyDataSetChanged();
     }
 
-    private void setCourseAdapter(ArrayList<Course> list, RecyclerView recyclerView) {
+    private void setCourseAdapter(ArrayList<Course> list, @NotNull RecyclerView recyclerView) {
         adapter = new CoursesAdapter(list);
         RecyclerView.LayoutManager manager = new LinearLayoutManager(getApplicationContext());
         recyclerView.setLayoutManager(manager);
         recyclerView.setItemAnimator(new DefaultItemAnimator());
         recyclerView.setAdapter(adapter);
+        adapter.notifyDataSetChanged();
     }
 
     public void addCourse(View v) {
         Intent intent = new Intent(this, AddCourseActivity.class);
         startActivity(intent);
     }
+
+    @Override
+    protected void onResume() {
+        super.onResume();
+        if (adapter != null) {
+            adapter.notifyDataSetChanged();
+        }
+    }
+
     // course removal is handled in the CoursesAdapter class
 
 }

@@ -24,10 +24,6 @@ public class Term {
         this.endDate = endDate;
     }
 
-    // empty constructor
-    public Term() {
-    }
-
     public static ArrayList<Term> queryAll(Context context) {
         ArrayList<Term> termArrayList = new ArrayList<>();
         final String TERM_QUERY = "SELECT * FROM terms";
@@ -94,14 +90,12 @@ public class Term {
     }
 
     public static void deleteTerm(int termId, Context context) {
-        if (termId > 1) {
-            final String UPDATE_TERM_ID = "UPDATE courses SET termId = 1" +
-                    " WHERE termId = " + termId;
-            final String REMOVE_TERM ="DELETE FROM terms WHERE termId = " + termId;
-            SQLiteDatabase db = DBHelper.getInstance(context).getWritableDatabase();
-            db.execSQL(UPDATE_TERM_ID);
-            db.execSQL(REMOVE_TERM);
-        }
+        final String UPDATE_TERM_ID = "UPDATE courses SET termId = 1" +
+                " WHERE termId = " + termId;
+        final String REMOVE_TERM ="DELETE FROM terms WHERE termId = " + termId;
+        SQLiteDatabase db = DBHelper.getInstance(context).getWritableDatabase();
+        db.execSQL(UPDATE_TERM_ID);
+        db.execSQL(REMOVE_TERM);
     }
 
     // getters & setters

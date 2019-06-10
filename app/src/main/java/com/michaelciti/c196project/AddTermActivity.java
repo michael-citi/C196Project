@@ -61,11 +61,7 @@ public class AddTermActivity extends AppCompatActivity {
         }
     }
 
-    private void insertSQL() {
-        String title = termTitle.getText().toString();
-        String start = startDateText.getText().toString();
-        String end = endDateText.getText().toString();
-
+    private void insertSQL(String title, String start, String end) {
         final String INSERT_TERM = "INSERT INTO terms(title, startDate, endDate) " +
                 "VALUES(?, ?, ?)";
         try {
@@ -109,15 +105,15 @@ public class AddTermActivity extends AppCompatActivity {
 
     private void confirmTerm() {
         AlertDialog.Builder alertBuilder = new AlertDialog.Builder(this);
-        alertBuilder.setMessage("Confirm changes and return to the main menu? Choosing to stay will still save your changes.");
-        alertBuilder.setPositiveButton("Return", (dialogInterface, i) -> {
-            insertSQL();
+        alertBuilder.setMessage("Save changes and return to the main menu?");
+        alertBuilder.setPositiveButton("Save", (dialogInterface, i) -> {
+            String title = termTitle.getText().toString();
+            String start = startDateText.getText().toString();
+            String end = endDateText.getText().toString();
+            insertSQL(title, start, end);
             mainAct();
         });
-        alertBuilder.setNegativeButton("Stay", (dialogInterface, i) -> {
-            insertSQL();
-            finish();
-        });
+        alertBuilder.setNegativeButton("Cancel", (dialogInterface, i) -> finish());
         AlertDialog alert = alertBuilder.create();
         alert.show();
     }

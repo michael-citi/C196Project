@@ -10,7 +10,6 @@ import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
 import android.view.View;
 import java.util.ArrayList;
-
 import model.Course;
 import model.Term;
 import tools.TermAdapter;
@@ -36,7 +35,6 @@ public class TermListActivity extends AppCompatActivity {
         termArrayList = Term.queryAll(getApplicationContext());
         courseArrayList = Course.queryAll(getApplicationContext());
         setTermAdapter(termArrayList, courseArrayList, termRecyclerView);
-        termAdapter.notifyDataSetChanged();
 
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
     }
@@ -47,6 +45,7 @@ public class TermListActivity extends AppCompatActivity {
         recyclerView.setLayoutManager(manager);
         recyclerView.setItemAnimator(new DefaultItemAnimator());
         recyclerView.setAdapter(termAdapter);
+        termAdapter.notifyDataSetChanged();
     }
 
     public void addTerm(View v) {
@@ -54,4 +53,12 @@ public class TermListActivity extends AppCompatActivity {
         startActivity(intent);
     }
     // term removal is handled in the TermAdapter class
+
+    @Override
+    protected void onResume() {
+        super.onResume();
+        if (termAdapter != null) {
+            termAdapter.notifyDataSetChanged();
+        }
+    }
 }

@@ -11,10 +11,7 @@ import android.widget.Button;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 import com.michaelciti.c196project.R;
-
 import java.util.ArrayList;
-import java.util.List;
-
 import model.Course;
 import model.Term;
 
@@ -30,6 +27,7 @@ public class TermAdapter extends RecyclerView.Adapter<TermAdapter.TermViewHolder
     }
 
     public class TermViewHolder extends RecyclerView.ViewHolder {
+        public TextView termIdText;
         public TextView title;
         public TextView startDate;
         public TextView endDate;
@@ -38,6 +36,7 @@ public class TermAdapter extends RecyclerView.Adapter<TermAdapter.TermViewHolder
 
         public TermViewHolder(View view) {
             super(view);
+            termIdText = view.findViewById(R.id.termIdTextView);
             title = view.findViewById(R.id.termTitle);
             startDate = view.findViewById(R.id.termStart);
             endDate = view.findViewById(R.id.termEnd);
@@ -57,6 +56,7 @@ public class TermAdapter extends RecyclerView.Adapter<TermAdapter.TermViewHolder
     @Override
     public void onBindViewHolder(@NonNull TermViewHolder viewHolder, int i) {
         Term term = termList.get(i);
+        viewHolder.termIdText.setText(term.getTermId());
         viewHolder.title.setText(term.getTitle());
 
         if (term.getTermId() == 1) {
@@ -69,15 +69,15 @@ public class TermAdapter extends RecyclerView.Adapter<TermAdapter.TermViewHolder
         }
 
         viewHolder.delTermBtn.setOnClickListener(view -> {
-            AlertDialog.Builder alertBuilder = new AlertDialog.Builder(viewHolder.delTermBtn.getContext());
+            AlertDialog.Builder alertBuilder = new AlertDialog.Builder(view.getContext());
             alertBuilder.setMessage("Are you sure you want to delete this Term?");
             alertBuilder.setPositiveButton("Yes", (dialogInterface, j) -> {
-                Term.deleteTerm(i, viewHolder.delTermBtn.getContext());
+                Term.deleteTerm(i, view.getContext());
                 termList.remove(i);
                 notifyItemRemoved(i);
             });
             alertBuilder.setNegativeButton("No", (dialogInterface, j) -> {
-                ((Activity)viewHolder.delTermBtn.getContext()).finish();
+                ((Activity)view.getContext()).finish();
             });
             AlertDialog alert = alertBuilder.create();
             alert.show();
@@ -91,7 +91,6 @@ public class TermAdapter extends RecyclerView.Adapter<TermAdapter.TermViewHolder
                 viewHolder.layout.addView(textView);
             }
         }
-
     }
 
     @Override

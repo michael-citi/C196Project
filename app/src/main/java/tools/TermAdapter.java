@@ -56,7 +56,8 @@ public class TermAdapter extends RecyclerView.Adapter<TermAdapter.TermViewHolder
     @Override
     public void onBindViewHolder(@NonNull TermViewHolder viewHolder, int i) {
         Term term = termList.get(i);
-        viewHolder.termIdText.setText(term.getTermId());
+        String termId = Integer.toString(term.getTermId());
+        viewHolder.termIdText.setText(termId);
         viewHolder.title.setText(term.getTitle());
 
         if (term.getTermId() == 1) {
@@ -72,7 +73,7 @@ public class TermAdapter extends RecyclerView.Adapter<TermAdapter.TermViewHolder
             AlertDialog.Builder alertBuilder = new AlertDialog.Builder(view.getContext());
             alertBuilder.setMessage("Are you sure you want to delete this Term?");
             alertBuilder.setPositiveButton("Yes", (dialogInterface, j) -> {
-                Term.deleteTerm(i, view.getContext());
+                Term.deleteTerm(i + 1, view.getContext());
                 termList.remove(i);
                 notifyItemRemoved(i);
             });

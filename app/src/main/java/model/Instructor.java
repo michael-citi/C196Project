@@ -31,14 +31,16 @@ public class Instructor {
         SQLiteDatabase db = DBHelper.getInstance(context).getReadableDatabase();
         Cursor cursor = db.rawQuery(INSTRUCT_QUERY, null);
         try {
-            while (cursor.moveToNext()) {
-                int instId = cursor.getInt(cursor.getColumnIndex("instructorId"));
-                int courseId = cursor.getInt(cursor.getColumnIndex("courseId"));
-                String instName = cursor.getString(cursor.getColumnIndex("name"));
-                String instPhone = cursor.getString(cursor.getColumnIndex("phone"));
-                String instEmail = cursor.getString(cursor.getColumnIndex("email"));
-                Instructor instructor = new Instructor(instId, courseId, instName, instPhone, instEmail);
-                instructorArrayList.add(instructor);
+            if (cursor.moveToFirst()) {
+                do {
+                    int instId = cursor.getInt(cursor.getColumnIndex("instructorId"));
+                    int courseId = cursor.getInt(cursor.getColumnIndex("courseId"));
+                    String instName = cursor.getString(cursor.getColumnIndex("name"));
+                    String instPhone = cursor.getString(cursor.getColumnIndex("phone"));
+                    String instEmail = cursor.getString(cursor.getColumnIndex("email"));
+                    Instructor instructor = new Instructor(instId, courseId, instName, instPhone, instEmail);
+                    instructorArrayList.add(instructor);
+                } while (cursor.moveToNext());
             }
         } catch (Exception ex) {
             Log.d(TAG, "Error while running query for instructors from database.");

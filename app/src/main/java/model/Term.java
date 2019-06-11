@@ -30,16 +30,17 @@ public class Term {
         SQLiteDatabase db = DBHelper.getInstance(context).getReadableDatabase();
         Cursor cursor = db.rawQuery(TERM_QUERY, null);
         try {
-            while (cursor.moveToNext()) {
-                int termId = cursor.getInt(cursor.getColumnIndex("termId"));
-                String title = cursor.getString(cursor.getColumnIndex("title"));
-                String startDate = cursor.getString(cursor.getColumnIndex("startDate"));
-                String endDate = cursor.getString(cursor.getColumnIndex("endDate"));
+            if (cursor.moveToFirst()) {
+                do {
+                    int termId = cursor.getInt(cursor.getColumnIndex("termId"));
+                    String title = cursor.getString(cursor.getColumnIndex("title"));
+                    String startDate = cursor.getString(cursor.getColumnIndex("startDate"));
+                    String endDate = cursor.getString(cursor.getColumnIndex("endDate"));
 
-                Term term = new Term (termId, title, startDate, endDate);
-                termArrayList.add(term);
+                    Term term = new Term (termId, title, startDate, endDate);
+                    termArrayList.add(term);
+                } while (cursor.moveToNext());
             }
-
         } catch (Exception ex) {
             Log.d(TAG, "Error while querying terms from database.");
         } finally {
@@ -65,7 +66,7 @@ public class Term {
         Cursor cursor = db.rawQuery(TERM_QUERY, null);
         try {
             if (cursor.moveToFirst()) {
-                while (cursor.moveToNext()) {
+                do {
                     startYear = cursor.getInt(cursor.getColumnIndex("sYEAR"));
                     startMonth = cursor.getInt(cursor.getColumnIndex("sMONTH"));
                     startDay = cursor.getInt(cursor.getColumnIndex("sDAY"));
@@ -77,7 +78,7 @@ public class Term {
                         Log.i(TAG, "Course date range set within another active course date range.");
                         return 1;
                     }
-                }
+                } while (cursor.moveToNext());
             }
         } catch (SQLException ex) {
             Log.d(TAG, ex.getMessage());

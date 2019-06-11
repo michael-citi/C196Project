@@ -2,6 +2,7 @@ package model;
 
 import android.content.Context;
 import android.database.Cursor;
+import android.database.SQLException;
 import android.database.sqlite.SQLiteDatabase;
 import android.util.Log;
 import java.util.ArrayList;
@@ -33,16 +34,19 @@ public class Objective {
         SQLiteDatabase db = DBHelper.getInstance(context).getReadableDatabase();
         Cursor cursor = db.rawQuery(OBJECTIVE_QUERY, null);
         try {
-            while (cursor.moveToNext()) {
-                int objectiveId = cursor.getInt(cursor.getColumnIndex("objectiveId"));
-                int courseId = cursor.getInt(cursor.getColumnIndex("courseId"));
-                String title = cursor.getString(cursor.getColumnIndex("title"));
-                String time = cursor.getString(cursor.getColumnIndex("time"));
-                String type = cursor.getString(cursor.getColumnIndex("type"));
-                String description = cursor.getString(cursor.getColumnIndex("description"));
+            if (cursor.moveToFirst()) {
+                do {
+                    int objectiveId = cursor.getInt(cursor.getColumnIndex("objectiveId"));
+                    int courseId = cursor.getInt(cursor.getColumnIndex("courseId"));
+                    String title = cursor.getString(cursor.getColumnIndex("title"));
+                    String time = cursor.getString(cursor.getColumnIndex("time"));
+                    String type = cursor.getString(cursor.getColumnIndex("type"));
+                    String description = cursor.getString(cursor.getColumnIndex("description"));
 
-                Objective objective = new Objective(objectiveId, courseId, title, time, type, description);
-                objectiveArrayList.add(objective);
+                    Objective objective = new Objective(objectiveId, courseId, title, time, type, description);
+                    objectiveArrayList.add(objective);
+
+                } while (cursor.moveToNext());
             }
         } catch (Exception ex) {
             Log.d(TAG, "Error while querying objectives from database.");
@@ -52,6 +56,27 @@ public class Objective {
             }
         }
         return objectiveArrayList;
+    }
+
+    public static boolean compareTimes(String time1, Context context) {
+        boolean conflictResult = false;
+        final String QUERY_TIMES = "SELECT time FROM objectives WHERE time = " + time1;
+        SQLiteDatabase db = DBHelper.getInstance(context).getReadableDatabase();
+        Cursor cursor = db.rawQuery(QUERY_TIMES, null);
+        try {
+            if (cursor.moveToFirst()) {
+                do {
+                    conflictResult = true;
+                } while (cursor.moveToNext());
+            }
+        } catch (SQLException ex) {
+            Log.d(TAG, ex.getMessage());
+        } finally {
+            if (cursor != null) {
+                cursor.close();
+            }
+        }
+        return  conflictResult;
     }
 
     public int getObjectiveId() {

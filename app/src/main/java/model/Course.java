@@ -55,6 +55,9 @@ public class Course implements Parcelable {
         notes = parcel.readString();
     }
 
+    private Course() {
+    }
+
     public static final Parcelable.Creator<Course> CREATOR = new Parcelable.Creator<Course>(){
 
         @Override
@@ -86,18 +89,20 @@ public class Course implements Parcelable {
         SQLiteDatabase db = DBHelper.getInstance(context).getReadableDatabase();
         Cursor cursor = db.rawQuery(COURSE_QUERY, null);
         try {
-            while (cursor.moveToNext()) {
-                int courseId = cursor.getInt(cursor.getColumnIndex("courseId"));
-                String title = cursor.getString(cursor.getColumnIndex("title"));
-                String description = cursor.getString(cursor.getColumnIndex("description"));
-                String startDate = cursor.getString(cursor.getColumnIndex("startDate"));
-                String endDate = cursor.getString(cursor.getColumnIndex("expectedEnd"));
-                String status = cursor.getString(cursor.getColumnIndex("status"));
-                int termId = cursor.getInt(cursor.getColumnIndex("termId"));
-                String notes = cursor.getString(cursor.getColumnIndex("notes"));
+            if (cursor.moveToFirst()) {
+                do {
+                    int courseId = cursor.getInt(cursor.getColumnIndex("courseId"));
+                    String title = cursor.getString(cursor.getColumnIndex("title"));
+                    String description = cursor.getString(cursor.getColumnIndex("description"));
+                    String startDate = cursor.getString(cursor.getColumnIndex("startDate"));
+                    String endDate = cursor.getString(cursor.getColumnIndex("expectedEnd"));
+                    String status = cursor.getString(cursor.getColumnIndex("status"));
+                    int termId = cursor.getInt(cursor.getColumnIndex("termId"));
+                    String notes = cursor.getString(cursor.getColumnIndex("notes"));
 
-                Course tempCourse = new Course(courseId, title, description, startDate, endDate, status, termId, notes);
-                courseArrayList.add(tempCourse);
+                    Course tempCourse = new Course(courseId, title, description, startDate, endDate, status, termId, notes);
+                    courseArrayList.add(tempCourse);
+                } while (cursor.moveToNext());
             }
         } catch (Exception ex) {
             Log.d(TAG, ex.getMessage());
@@ -115,7 +120,7 @@ public class Course implements Parcelable {
         db.execSQL(REMOVE_COURSE);
     }
 
-    public static int courseComparator(int year, int month, int day, Context context) {
+    public static int courseComparator(int id, int year, int month, int day, Context context) {
         int startYear, startMonth, startDay;
         int endYear, endMonth, endDay;
         final String COURSE_QUERY = "SELECT startDate, expectedEnd, " +
@@ -125,12 +130,13 @@ public class Course implements Parcelable {
                 "strftime('%Y', expectedEnd) as eYEAR, " +
                 "strftime('%m', expectedEnd) as eMONTH, " +
                 "strftime('%d', expectedEnd) as eDAY " +
-                "FROM courses";
+                "FROM courses " +
+                "WHERE courseId NOT IN (" + id + ")";
         SQLiteDatabase db = DBHelper.getInstance(context).getReadableDatabase();
         Cursor cursor = db.rawQuery(COURSE_QUERY, null);
         try {
             if (cursor.moveToFirst()) {
-                while (cursor.moveToNext()) {
+                do {
                     startYear = cursor.getInt(cursor.getColumnIndex("sYEAR"));
                     startMonth = cursor.getInt(cursor.getColumnIndex("sMONTH"));
                     startDay = cursor.getInt(cursor.getColumnIndex("sDAY"));
@@ -142,7 +148,7 @@ public class Course implements Parcelable {
                         Log.i(TAG, "Course date range set within another active course date range.");
                         return 1;
                     }
-                }
+                } while (cursor.moveToNext());
             }
         } catch (SQLException ex) {
             Log.d(TAG, ex.getMessage());
@@ -158,7 +164,6 @@ public class Course implements Parcelable {
     public int describeContents() {
         return 0;
     }
-
 
     // getters & setters
     public int getCourseId() {

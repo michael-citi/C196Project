@@ -222,10 +222,12 @@ public class CourseDetailActivity extends AppCompatActivity implements OnItemSel
         ArrayAdapter<String> termAdapter = new ArrayAdapter<>(this, android.R.layout.simple_spinner_item, termArrayList);
         termAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
         termSpinner.setAdapter(termAdapter);
+
         // Set termAdapter for Instructor Spinner
         ArrayAdapter<String> instructAdapter = new ArrayAdapter<>(this, android.R.layout.simple_spinner_item, instructorNames);
         instructAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
         instructSpinner.setAdapter(instructAdapter);
+
         // Set termAdapter for Objective Spinner
         ArrayAdapter<String> objAdapter = new ArrayAdapter<>(this, android.R.layout.simple_spinner_item, objectiveNames);
         objAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
@@ -270,9 +272,9 @@ public class CourseDetailActivity extends AppCompatActivity implements OnItemSel
         } else if (endDateText.getText().equals("")) {
             error = "Expected End Date is required. Please select an end date.";
             endDateBtn.requestFocus();
-        } else if (Course.courseComparator(startYear, startMonth, startDay, getApplicationContext()) == 1) {
+        } else if (Course.courseComparator(tempCourse.getCourseId(), startYear, startMonth, startDay, getApplicationContext()) == 1) {
             error = "Start Date has scheduling conflict with another course. Please view or modify course list.";
-        } else if (Course.courseComparator(endYear, endMonth, endDay, getApplicationContext()) == 1) {
+        } else if (Course.courseComparator(tempCourse.getCourseId(), endYear, endMonth, endDay, getApplicationContext()) == 1) {
             error = "End Date has scheduling conflict with another course. Please view or modify course list.";
         } else {
             error = "None";
@@ -359,17 +361,18 @@ public class CourseDetailActivity extends AppCompatActivity implements OnItemSel
         int courseId = 0;
         final String COURSE_QUERY = "SELECT courseId FROM courses " +
                 "WHERE title = " + title;
+        SQLiteDatabase db = DBHelper.getInstance(getApplicationContext()).getReadableDatabase();
+        Cursor cursor = db.rawQuery(COURSE_QUERY, null);
         try {
-            SQLiteDatabase db = DBHelper.getInstance(getApplicationContext()).getReadableDatabase();
-            Cursor cursor = db.rawQuery(COURSE_QUERY, null);
-
-            if (cursor.moveToFirst()) {
-                while (cursor.moveToNext()) {
-                    courseId = cursor.getInt(cursor.getColumnIndex("courseId"));
-                }
-            }
+            do {
+                courseId = cursor.getInt(cursor.getColumnIndex("courseId"));
+            } while (cursor.moveToNext());
         } catch (SQLException ex){
             Log.e(TAG, ex.getMessage());
+        } finally {
+            if (cursor != null) {
+                cursor.close();
+            }
         }
         return courseId;
     }

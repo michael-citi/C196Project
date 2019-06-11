@@ -142,9 +142,9 @@ public class AddCourseActivity extends AppCompatActivity {
         } else if (endDateShow.getText().equals("")) {
             errorMsg = "Expected End Date is required. Please enter an end date.";
             pickEndDateBtn.requestFocus();
-        } else if (Course.courseComparator(startYear, startMonth, startDay, getApplicationContext()) == 1) {
+        } else if (Course.courseComparator(0, startYear, startMonth, startDay, getApplicationContext()) == 1) {
             errorMsg = "Start Date has scheduling conflict with another course. Please view or modify course list.";
-        } else if (Course.courseComparator(endYear, endMonth, endDay, getApplicationContext()) == 1) {
+        } else if (Course.courseComparator(0, endYear, endMonth, endDay, getApplicationContext()) == 1) {
             errorMsg = "End Date has scheduling conflict with another course. Please view or modify course list.";
         } else {
             errorMsg = "None";

@@ -147,7 +147,7 @@ public class CourseDetailActivity extends AppCompatActivity implements OnItemSel
 
         if (v == startDateBtn) {
             DatePickerDialog datePickerDialog = new DatePickerDialog(this, (datePicker, year, month, day) -> {
-                startDateText.setText(year + "-" + month + "-" + day);
+                startDateText.setText(year + "-" + (month + 1) + "-" + day);
                 startYear = year;
                 startMonth = month;
                 startDay = day;
@@ -157,7 +157,7 @@ public class CourseDetailActivity extends AppCompatActivity implements OnItemSel
 
         if (v == endDateBtn) {
             DatePickerDialog datePickerDialog = new DatePickerDialog(this, (datePicker, year, month, day) -> {
-                endDateText.setText(year + "-" + month + "-" + day);
+                endDateText.setText(year + "-" + (month + 1) + "-" + day);
                 endYear = year;
                 endMonth = month;
                 endDay = day;

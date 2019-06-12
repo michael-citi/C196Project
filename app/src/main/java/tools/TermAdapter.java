@@ -73,7 +73,7 @@ public class TermAdapter extends RecyclerView.Adapter<TermAdapter.TermViewHolder
             AlertDialog.Builder alertBuilder = new AlertDialog.Builder(view.getContext());
             alertBuilder.setMessage("Are you sure you want to delete this Term?");
             alertBuilder.setPositiveButton("Yes", (dialogInterface, j) -> {
-                Term.deleteTerm(term.getTermId(), view.getContext());
+                Term.deleteTerm(view, term.getTermId(), view.getContext());
                 termList.remove(i);
                 notifyItemRemoved(i);
             });

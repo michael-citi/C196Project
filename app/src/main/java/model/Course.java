@@ -34,7 +34,7 @@ public class Course implements Parcelable {
         this.notes = notes;
     }
 
-    // partial constructor for Add Course
+    // partial constructor for AddCourse activity
     public Course(String title, String description, String startDate, String expectedEnd) {
         this.title = title;
         this.description = description;
@@ -53,9 +53,6 @@ public class Course implements Parcelable {
         status = parcel.readString();
         termId = parcel.readInt();
         notes = parcel.readString();
-    }
-
-    private Course() {
     }
 
     public static final Parcelable.Creator<Course> CREATOR = new Parcelable.Creator<Course>(){
@@ -120,35 +117,15 @@ public class Course implements Parcelable {
         db.execSQL(REMOVE_COURSE);
     }
 
-    public static int courseComparator(int id, int year, int month, int day, Context context) {
-        int startYear, startMonth, startDay;
-        int endYear, endMonth, endDay;
-        final String COURSE_QUERY = "SELECT startDate, expectedEnd, " +
-                "strftime('%Y', startDate) as sYEAR, " +
-                "strftime('%m', startDate) as sMONTH, " +
-                "strftime('%d', startDate) as sDAY, " +
-                "strftime('%Y', expectedEnd) as eYEAR, " +
-                "strftime('%m', expectedEnd) as eMONTH, " +
-                "strftime('%d', expectedEnd) as eDAY " +
-                "FROM courses " +
-                "WHERE courseId NOT IN (" + id + ")";
+    public static boolean checkForCourses(Context context, int termId) {
+        boolean isFound = false;
+        final String QUERY_COURSES = "SELECT termId FROM courses " +
+                "WHERE termId = " + termId;
         SQLiteDatabase db = DBHelper.getInstance(context).getReadableDatabase();
-        Cursor cursor = db.rawQuery(COURSE_QUERY, null);
+        Cursor cursor = db.rawQuery(QUERY_COURSES, null);
         try {
             if (cursor.moveToFirst()) {
-                do {
-                    startYear = cursor.getInt(cursor.getColumnIndex("sYEAR"));
-                    startMonth = cursor.getInt(cursor.getColumnIndex("sMONTH"));
-                    startDay = cursor.getInt(cursor.getColumnIndex("sDAY"));
-                    endYear = cursor.getInt(cursor.getColumnIndex("eYEAR"));
-                    endMonth = cursor.getInt(cursor.getColumnIndex("eMONTH"));
-                    endDay = cursor.getInt(cursor.getColumnIndex("eDAY"));
-
-                    if ((year >= startYear) && (year <= endYear) && (month >= startMonth) && (month <= endMonth) && (day >= startDay) && (day <= endDay)) {
-                        Log.i(TAG, "Course date range set within another active course date range.");
-                        return 1;
-                    }
-                } while (cursor.moveToNext());
+                isFound = true;
             }
         } catch (SQLException ex) {
             Log.d(TAG, ex.getMessage());
@@ -157,7 +134,7 @@ public class Course implements Parcelable {
                 cursor.close();
             }
         }
-        return 0;
+        return isFound;
     }
 
     @Override

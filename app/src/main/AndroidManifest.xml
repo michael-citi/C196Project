@@ -10,44 +10,53 @@
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
         <activity
-            android:name=".AddTermActivity"
-            android:label="@string/title_activity_add_term"
-            android:parentActivityName=".MainActivity"
+            android:name=".AddObjective"
+            android:label="@string/title_activity_add_objective"
+            android:parentActivityName=".ViewObjectives"
             android:theme="@style/AppTheme.NoActionBar">
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"
-                android:value="com.michaelciti.c196project.MainActivity" />
+                android:value="com.michaelciti.c196project.ViewObjectives" />
         </activity>
         <activity
-            android:name=".TermListActivity"
-            android:label="@string/title_activity_term_list"
-            android:parentActivityName=".MainActivity"
-            android:theme="@style/AppTheme.NoActionBar">
-            <meta-data
-                android:name="android.support.PARENT_ACTIVITY"
-                android:value="com.michaelciti.c196project.MainActivity" />
-        </activity>
-        <activity
-            android:name=".CourseListActivity"
-            android:label="@string/title_activity_course_list"
-            android:parentActivityName=".MainActivity"
-            android:theme="@style/AppTheme.NoActionBar">
-            <meta-data
-                android:name="android.support.PARENT_ACTIVITY"
-                android:value="com.michaelciti.c196project.MainActivity" />
-        </activity>
-        <activity
-            android:name=".CourseDetailActivity"
-            android:label="@string/title_activity_course_detail"
-            android:parentActivityName=".MainActivity"
-            android:theme="@style/AppTheme.NoActionBar">
-            <meta-data
-                android:name="android.support.PARENT_ACTIVITY"
-                android:value="com.michaelciti.c196project.MainActivity" />
-        </activity>
-        <activity
-            android:name=".AddCourseActivity"
+            android:name=".AddCourse"
             android:label="@string/title_activity_add_course"
+            android:parentActivityName=".ViewCourses"
+            android:theme="@style/AppTheme.NoActionBar">
+            <meta-data
+                android:name="android.support.PARENT_ACTIVITY"
+                android:value="com.michaelciti.c196project.ViewCourses" />
+        </activity>
+        <activity
+            android:name=".AddTerm"
+            android:label="@string/title_activity_add_term"
+            android:parentActivityName=".ViewTerms"
+            android:theme="@style/AppTheme.NoActionBar">
+            <meta-data
+                android:name="android.support.PARENT_ACTIVITY"
+                android:value="com.michaelciti.c196project.ViewTerms" />
+        </activity>
+        <activity
+            android:name=".ViewObjectives"
+            android:label="@string/title_activity_view_objectives"
+            android:parentActivityName=".MainActivity"
+            android:theme="@style/AppTheme.NoActionBar">
+            <meta-data
+                android:name="android.support.PARENT_ACTIVITY"
+                android:value="com.michaelciti.c196project.MainActivity" />
+        </activity>
+        <activity
+            android:name=".ViewCourses"
+            android:label="@string/title_activity_view_courses"
+            android:parentActivityName=".MainActivity"
+            android:theme="@style/AppTheme.NoActionBar">
+            <meta-data
+                android:name="android.support.PARENT_ACTIVITY"
+                android:value="com.michaelciti.c196project.MainActivity" />
+        </activity>
+        <activity
+            android:name=".ViewTerms"
+            android:label="@string/title_activity_view_terms"
             android:parentActivityName=".MainActivity"
             android:theme="@style/AppTheme.NoActionBar">
             <meta-data
@@ -56,7 +65,7 @@
         </activity>
         <activity
             android:name=".MainActivity"
-            android:label="@string/app_name"
+            android:label="@string/title_activity_main"
             android:theme="@style/AppTheme.NoActionBar">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />

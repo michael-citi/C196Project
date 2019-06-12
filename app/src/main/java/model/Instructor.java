@@ -3,12 +3,14 @@ package model;
 import android.content.Context;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
+import android.os.Parcel;
+import android.os.Parcelable;
 import android.util.Log;
 import java.util.ArrayList;
 import tools.DBHelper;
 import static android.support.constraint.Constraints.TAG;
 
-public class Instructor {
+public class Instructor implements Parcelable {
 
     private int instructorId;
     private int courseId;
@@ -23,6 +25,42 @@ public class Instructor {
         this.name = name;
         this.phone = phone;
         this.email = email;
+    }
+
+    // parcel Instructor constructor
+    private Instructor(Parcel parcel) {
+        instructorId = parcel.readInt();
+        courseId = parcel.readInt();
+        name = parcel.readString();
+        phone = parcel.readString();
+        email = parcel.readString();
+    }
+
+    public static final Parcelable.Creator<Instructor> CREATOR = new Parcelable.Creator<Instructor>(){
+
+        @Override
+        public Instructor createFromParcel(Parcel parcel) {
+            return new Instructor(parcel);
+        }
+
+        @Override
+        public Instructor[] newArray(int i) {
+            return new Instructor[0];
+        }
+    };
+
+    @Override
+    public void writeToParcel(Parcel parcel, int i) {
+        parcel.writeInt(instructorId);
+        parcel.writeInt(courseId);
+        parcel.writeString(name);
+        parcel.writeString(phone);
+        parcel.writeString(email);
+    }
+
+    @Override
+    public int describeContents() {
+        return 0;
     }
 
     public static ArrayList<Instructor> queryAll(Context context) {

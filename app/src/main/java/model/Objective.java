@@ -4,12 +4,14 @@ import android.content.Context;
 import android.database.Cursor;
 import android.database.SQLException;
 import android.database.sqlite.SQLiteDatabase;
+import android.os.Parcel;
+import android.os.Parcelable;
 import android.util.Log;
 import java.util.ArrayList;
 import tools.DBHelper;
 import static android.support.constraint.Constraints.TAG;
 
-public class Objective {
+public class Objective implements Parcelable {
 
     private int objectiveId;
     private int courseId;
@@ -17,15 +19,57 @@ public class Objective {
     private String time;
     private String type;
     private String description;
+    private String notes;
 
     // main constructor
-    public Objective(int objectiveId, int courseId, String title, String time, String type, String description) {
+    public Objective(int objectiveId, int courseId, String title, String time, String type, String description, String notes) {
         this.objectiveId = objectiveId;
         this.courseId = courseId;
         this.title = title;
         this.time = time;
         this.type = type;
         this.description = description;
+        this.notes = notes;
+    }
+
+    // parcel Objective constructor
+    private Objective(Parcel parcel) {
+        objectiveId = parcel.readInt();
+        courseId = parcel.readInt();
+        title = parcel.readString();
+        time = parcel.readString();
+        type = parcel.readString();
+        description = parcel.readString();
+        notes = parcel.readString();
+    }
+
+    public static final Parcelable.Creator<Objective> CREATOR = new Parcelable.Creator<Objective>(){
+
+        @Override
+        public Objective createFromParcel(Parcel parcel) {
+            return new Objective(parcel);
+        }
+
+        @Override
+        public Objective[] newArray(int i) {
+            return new Objective[0];
+        }
+    };
+
+    @Override
+    public void writeToParcel(Parcel parcel, int i) {
+        parcel.writeInt(objectiveId);
+        parcel.writeInt(courseId);
+        parcel.writeString(title);
+        parcel.writeString(time);
+        parcel.writeString(type);
+        parcel.writeString(description);
+        parcel.writeString(notes);
+    }
+
+    @Override
+    public int describeContents() {
+        return 0;
     }
 
     public static ArrayList<Objective> queryAll(Context context) {
@@ -42,8 +86,9 @@ public class Objective {
                     String time = cursor.getString(cursor.getColumnIndex("time"));
                     String type = cursor.getString(cursor.getColumnIndex("type"));
                     String description = cursor.getString(cursor.getColumnIndex("description"));
+                    String notes = cursor.getString(cursor.getColumnIndex("notes"));
 
-                    Objective objective = new Objective(objectiveId, courseId, title, time, type, description);
+                    Objective objective = new Objective(objectiveId, courseId, title, time, type, description, notes);
                     objectiveArrayList.add(objective);
 
                 } while (cursor.moveToNext());
@@ -125,5 +170,13 @@ public class Objective {
 
     public void setDescription(String description) {
         this.description = description;
+    }
+
+    public String getNotes() {
+        return notes;
+    }
+
+    public void setNotes(String notes) {
+        this.notes = notes;
     }
 }

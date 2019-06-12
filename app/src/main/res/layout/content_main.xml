@@ -1,121 +1,91 @@
 <?xml version="1.0" encoding="utf-8"?>
-<android.support.constraint.ConstraintLayout
-    xmlns:android="http://schemas.android.com/apk/res/android"
+<android.support.constraint.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
-    android:id="@+id/constraintLayout"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     app:layout_behavior="@string/appbar_scrolling_view_behavior"
     tools:context=".MainActivity"
-    tools:layout_editor_absoluteY="56dp"
     tools:showIn="@layout/activity_main">
 
-    <ScrollView
-        android:layout_width="match_parent"
-        android:layout_height="match_parent">
+    <TextView
+        android:id="@+id/welcomeTextView"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="8dp"
+        android:layout_marginTop="16dp"
+        android:layout_marginEnd="8dp"
+        android:fontFamily="@font/archivo_black"
+        android:text="@string/welcome_message"
+        android:textAlignment="center"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
 
-        <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:orientation="vertical" >
+    <TextView
+        android:id="@+id/viewTermTextView"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="24dp"
+        android:fontFamily="sans-serif-black"
+        android:text="@string/term_view"
+        app:layout_constraintEnd_toEndOf="@+id/welcomeTextView"
+        app:layout_constraintStart_toStartOf="@+id/welcomeTextView"
+        app:layout_constraintTop_toBottomOf="@+id/welcomeTextView" />
 
-            <TextView
-                android:id="@+id/welcomeMsg"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_gravity="center"
-                android:layout_marginStart="8dp"
-                android:layout_marginTop="8dp"
-                android:layout_marginEnd="8dp"
-                android:layout_marginBottom="8dp"
-                android:fontFamily="sans-serif-black"
-                android:gravity="center"
-                android:text="@string/welcome_message" />
+    <Button
+        android:id="@+id/viewTermsBtn"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="16dp"
+        android:text="@string/term_name"
+        android:onClick="viewTerms"
+        app:layout_constraintEnd_toEndOf="@+id/viewTermTextView"
+        app:layout_constraintStart_toStartOf="@+id/viewTermTextView"
+        app:layout_constraintTop_toBottomOf="@+id/viewTermTextView" />
 
-            <TextView
-                android:id="@+id/termTextView"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_gravity="center"
-                android:layout_marginTop="8dp"
-                android:layout_marginBottom="8dp"
-                android:fontFamily="sans-serif-black"
-                android:gravity="center"
-                android:text="@string/term_name" />
+    <TextView
+        android:id="@+id/viewCoursesTextView"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="16dp"
+        android:text="@string/course_view"
+        android:fontFamily="sans-serif-black"
+        app:layout_constraintEnd_toEndOf="@+id/viewTermsBtn"
+        app:layout_constraintStart_toStartOf="@+id/viewTermsBtn"
+        app:layout_constraintTop_toBottomOf="@+id/viewTermsBtn" />
 
-            <Button
-                android:id="@+id/addTermBtn"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_gravity="center"
-                android:layout_marginTop="8dp"
-                android:layout_marginBottom="8dp"
-                android:text="@string/term_add"
-                android:onClick="addTermAct"/>
+    <Button
+        android:id="@+id/viewCoursesBtn"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="16dp"
+        android:text="@string/course_name"
+        android:onClick="viewCourses"
+        app:layout_constraintEnd_toEndOf="@+id/viewCoursesTextView"
+        app:layout_constraintStart_toStartOf="@+id/viewCoursesTextView"
+        app:layout_constraintTop_toBottomOf="@+id/viewCoursesTextView" />
 
-            <Button
-                android:id="@+id/termListBtn"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_gravity="center"
-                android:layout_marginTop="8dp"
-                android:layout_marginBottom="8dp"
-                android:onClick="viewTermsAct"
-                android:text="@string/term_view" />
+    <TextView
+        android:id="@+id/viewOBjsTextView"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="16dp"
+        android:text="@string/obj_view"
+        android:fontFamily="sans-serif-black"
+        app:layout_constraintEnd_toEndOf="@+id/viewCoursesBtn"
+        app:layout_constraintStart_toStartOf="@+id/viewCoursesBtn"
+        app:layout_constraintTop_toBottomOf="@+id/viewCoursesBtn" />
 
-            <TextView
-                android:id="@+id/courseTextView"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_gravity="center"
-                android:layout_marginTop="8dp"
-                android:layout_marginBottom="8dp"
-                android:fontFamily="sans-serif-black"
-                android:gravity="center"
-                android:text="@string/course_name" />
-
-            <Button
-                android:id="@+id/addCourseBtn"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_gravity="center"
-                android:layout_marginTop="8dp"
-                android:layout_marginBottom="8dp"
-                android:onClick="addCourseAct"
-                android:text="@string/course_add" />
-
-            <Button
-                android:id="@+id/viewCoursesBtn"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_gravity="center"
-                android:layout_marginTop="8dp"
-                android:layout_marginBottom="8dp"
-                android:onClick="viewCourseList"
-                android:text="@string/course_view" />
-
-            <TextView
-                android:id="@+id/notificationTextView"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_gravity="center"
-                android:layout_marginTop="8dp"
-                android:layout_marginBottom="8dp"
-                android:fontFamily="sans-serif-black"
-                android:gravity="center"
-                android:text="@string/manage_notifications" />
-
-            <Button
-                android:id="@+id/button5"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_gravity="center"
-                android:layout_marginTop="8dp"
-                android:layout_marginBottom="8dp"
-                android:text="@string/notification_button" />
-
-        </LinearLayout>
-    </ScrollView>
+    <Button
+        android:id="@+id/viewObjsBtn"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="16dp"
+        android:text="@string/obj_name"
+        android:onClick="viewObjectives"
+        app:layout_constraintEnd_toEndOf="@+id/viewOBjsTextView"
+        app:layout_constraintStart_toStartOf="@+id/viewOBjsTextView"
+        app:layout_constraintTop_toBottomOf="@+id/viewOBjsTextView" />
 
 </android.support.constraint.ConstraintLayout>

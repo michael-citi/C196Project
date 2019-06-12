@@ -4,7 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".CourseListActivity">
+    tools:context=".ViewObjectives">
 
     <android.support.design.widget.AppBarLayout
         android:layout_width="match_parent"
@@ -20,20 +20,14 @@
 
     </android.support.design.widget.AppBarLayout>
 
-    <include
-        android:id="@+id/include2"
-        layout="@layout/content_course_list" />
+    <include layout="@layout/content_view_objectives" />
 
     <android.support.design.widget.FloatingActionButton
-        android:id="@+id/addCourseFab"
+        android:id="@+id/fab"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:layout_gravity="bottom|end"
         android:layout_margin="@dimen/fab_margin"
-        android:backgroundTint="#013EB8"
-        android:clickable="true"
-        app:backgroundTint="#113CBD"
-        app:layout_anchor="@+id/include2"
-        app:layout_anchorGravity="end|bottom"
-        app:srcCompat="@android:drawable/ic_input_add" />
+        app:srcCompat="@android:drawable/ic_dialog_email" />
 
 </android.support.design.widget.CoordinatorLayout>

@@ -1,12 +1,11 @@
 package com.michaelciti.c196project;
 
+import android.content.Intent;
 import android.os.Bundle;
+import android.support.design.widget.Snackbar;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
-import android.view.Menu;
-import android.view.MenuItem;
 import android.view.View;
-import android.content.Intent;
 
 public class MainActivity extends AppCompatActivity {
 
@@ -16,45 +15,24 @@ public class MainActivity extends AppCompatActivity {
         setContentView(R.layout.activity_main);
         Toolbar toolbar = findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
-
     }
 
-    public void addTermAct(View view) {
-        Intent intent = new Intent(this, AddTermActivity.class);
+    public void viewCourses(View view) {
+        Intent intent = new Intent(this, ViewCourses.class);
         startActivity(intent);
     }
 
-    public void addCourseAct(View view) {
-        Intent intent = new Intent(this, AddCourseActivity.class);
+    public void viewTerms(View view) {
+        Intent intent = new Intent(this, ViewTerms.class);
         startActivity(intent);
     }
 
-    public void viewTermsAct(View view) {
-        Intent intent = new Intent(this, TermListActivity.class);
+    public void viewObjectives(View view) {
+        Intent intent = new Intent(this, ViewObjectives.class);
         startActivity(intent);
     }
 
-    public void viewCourseList(View view) {
-        Intent intent = new Intent(this, CourseListActivity.class);
-        startActivity(intent);
-    }
-
-    @Override
-    public boolean onCreateOptionsMenu(Menu menu) {
-        // Inflate the menu; this adds items to the action bar if it is present.
-        getMenuInflater().inflate(R.menu.menu_main, menu);
-        return true;
-    }
-
-    @Override
-    public boolean onOptionsItemSelected(MenuItem item) {
-        int id = item.getItemId();
-
-        //noinspection SimplifiableIfStatement
-        if (id == R.id.action_settings) {
-            return true;
-        }
-
-        return super.onOptionsItemSelected(item);
+    public static void showError(View view, String errorMessage) {
+        Snackbar.make(view, errorMessage, Snackbar.LENGTH_LONG).show();
     }
 }

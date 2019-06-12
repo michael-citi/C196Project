@@ -14,7 +14,7 @@ import com.michaelciti.c196project.R;
 
 public abstract class NotifyMe extends AppCompatActivity {
 
-    private final String CHANNEL_ID = "c196_User";
+    private final String CHANNEL_ID = "C196_User";
 
     public void createNotificationChannel() {
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {

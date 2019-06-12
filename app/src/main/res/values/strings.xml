@@ -1,58 +1,68 @@
 <resources>
-    <!--MainActivity Strings-->
+    <!--Menu Strings-->
     <string name="app_name">C196 Project</string>
     <string name="action_settings">Settings</string>
+
+    <!--MainActivity Strings-->
+    <string name="title_activity_main">Home Page</string>
     <string name="welcome_message">Welcome to the WGU personal degree program management application!\n\nPlease select from the choices below to get started.</string>
     <string name="term_name">Terms</string>
-    <string name="term_add">Add Term</string>
     <string name="term_view">View Terms</string>
     <string name="course_name">Courses</string>
-    <string name="course_add">Add Course</string>
     <string name="course_view">View Courses</string>
-    <string name="manage_notifications">Manage Your Notifications</string>
-    <string name="notification_button">Notifications</string>
-    <string name="add_term_end_date_button">End Date</string>
-    <string name="add_term_title_text">Term Title</string>
-    <!--AddCourseActivity Strings-->
-    <string name="title_activity_add_course">Add New Course</string>
-    <string name="add_course_title">Course Title</string>
-    <string name="add_course_title_hint">Enter course title here</string>
-    <string name="add_course_description">Course Description</string>
-    <string name="add_course_description_hint">Enter course description here</string>
-    <string name="add_course_start">Start Date</string>
-    <string name="add_course_start_hint">Click button for start date</string>
-    <string name="add_course_end">Expected End Date</string>
-    <string name="add_course_end_hint">Click button for end date</string>
-    <string name="add_course_button">Confirm Course</string>
-    <string name="add_course_cancel_btn">Cancel</string>
-    <string name="add_course_date_btn">Select</string>
-    <string name="detail_instructor_text">Choose Instructor</string>
-    <string name="detail_instructor_hint">Instructor info will show here once selected.</string>
-    <string name="detail_objective_text">Choose Assessment</string>
-    <string name="detail_objective_hint">Assessment info will show here once selected.</string>
-    <!--ViewCoursesActivity Strings-->
-    <string name="title_activity_course_detail">Course Details</string>
-    <string name="detail_term_spinner">Select Term</string>
-    <string name="detail_status_spinner">Select Course Status</string>
-    <string name="detail_select_objectives">Select Objective(s)</string>
-    <string name="detail_select_instructors">Select Instructor(s)</string>
-    <string name="course_status_prompt">Choose Status</string>
-    <string name="detail_notes_title">Course Notes (Optional)</string>
-    <string name="detail_course_notes">Enter notes here...</string>
-    <string name="del_button">Delete</string>
-    <string name="details_button">Details</string>
+    <string name="obj_name">Objectives</string>
+    <string name="obj_view">View Assessments</string>
+
+    <!--ViewCourses Strings-->
+    <string name="title_activity_view_courses">View Your Courses</string>
+
+    <!--ViewTerms Strings-->
+    <string name="title_activity_view_terms">View Your Terms</string>
+
+    <!--ViewObjectives Strings-->
+    <string name="title_activity_view_objectives">View Your Assessments</string>
+
+    <!--AddTerm Strings-->
+    <string name="title_activity_add_term">Add A Term</string>
+    <string name="AT_term_title">Term Title</string>
+    <string name="AT_term_title_hint">Enter title here</string>
+    <string name="AT_term_start_hint">Select a start date</string>
+    <string name="AT_term_end_hint">Select an end date</string>
+    <string name="AT_button_start">Start Date</string>
+    <string name="AT_button_end">End Date</string>
+    <string name="AT_button_save">Save</string>
+    <string name="AT_button_cancel">Cancel</string>
+
+    <!--AddCourse Strings-->
+    <string name="title_activity_add_course">Add A Course</string>
+    <string name="AC_course_title">Course Title</string>
+    <string name="AC_course_title_hint">Enter course title here</string>
+    <string name="AC_start_date_hint">Select a start date</string>
+    <string name="AC_end_date_hint">Select an end date</string>
+    <string name="AC_desc_title">Course Description</string>
+    <string name="AC_desc_hint">Enter description here</string>
+    <string name="AC_button_start">Start Date</string>
+    <string name="AC_button_end">End Date</string>
+    <string name="AC_button_save">Save</string>
+    <string name="AC_button_cancel">Cancel</string>
+
+    <!--AddObjective Strings-->
+    <string name="title_activity_add_objective">Add An Assessment</string>
+
+
+    <!--DetailCourseFrag Strings-->
+
     <string-array name="course_status_array">
         <item>In Progress</item>
         <item>Completed</item>
         <item>Dropped</item>
-        <item>Plan To Take</item>
+        <item>Plan to Take</item>
     </string-array>
-    <string name="none">None</string>
-    <string name="channel_name">C196 App</string>
-    <string name="channel_desc">Your notification is ready.</string>
-    <string name="hello_blank_fragment">Hello blank fragment</string>
-    <string name="title_activity_course_list">CourseListActivity</string>
-    <string name="title_activity_term_list">TermList</string>
-    <string name="title_activity_add_term">Add Term</string>
+
+    <!--DetailInstructFrag Strings-->
+
+
+    <!--DetailObjFrag Strings-->
+
 
 </resources>

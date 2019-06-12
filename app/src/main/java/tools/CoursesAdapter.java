@@ -10,7 +10,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.TextView;
-import com.michaelciti.c196project.CourseDetailActivity;
+
 import com.michaelciti.c196project.R;
 import java.util.ArrayList;
 import model.Course;

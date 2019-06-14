@@ -5,7 +5,6 @@ import android.content.Intent;
 import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteStatement;
 import android.os.Bundle;
-import android.support.v4.app.Fragment;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
@@ -18,12 +17,13 @@ import static android.support.constraint.Constraints.TAG;
 import android.database.SQLException;
 import java.util.ArrayList;
 import java.util.Calendar;
-import fragments.DetailCourseFrag;
 import model.Course;
 import tools.DBHelper;
 
 public class AddCourse extends AppCompatActivity {
 
+    private static final String KEY = "Course";
+    Course pkgCourse;
     ArrayList<Course> courseArrayList = new ArrayList<>();
     EditText title, description;
     TextView startDate, endDate;
@@ -44,28 +44,22 @@ public class AddCourse extends AppCompatActivity {
         startDateBtn = findViewById(R.id.acStartDateBtn);
         endDateBtn = findViewById(R.id.acEndDateBtn);
 
+        pkgCourse = null;
         courseArrayList = Course.queryAll(getApplicationContext());
     }
 
     public void saveCourse(View view) {
         String test = title.getText().toString();
         if (!(compareCourseNames(test))) {
-            confirmCourse();
+            pkgCourse = insertSQL();
+            if (pkgCourse != null) {
+                courseBuilder(pkgCourse);
+            } else {
+                throw new NullPointerException("pkgCourse object was null.");
+            }
         } else {
             MainActivity.showError(view, "Another Course already exists with that name.");
         }
-    }
-
-    private void confirmCourse() {
-        AlertDialog.Builder builder = new AlertDialog.Builder(this);
-        builder.setMessage("Confirm changes and save your new course?");
-        builder.setPositiveButton("Confirm", (dialogInterface, i) -> {
-            Course pkgCourse = insertSQL();
-            finish();
-            courseBuilder(pkgCourse);
-        });
-        builder.setNegativeButton("Cancel", (dialogInterface, i) -> finish());
-        builder.create().show();
     }
 
     private void courseBuilder(Course course) {
@@ -73,11 +67,11 @@ public class AddCourse extends AppCompatActivity {
         builder.setMessage("You will now be able to complete the course creation process " +
                 "on the next screen.");
         builder.setNeutralButton("OK", (dialogInterface, i) -> {
-            Fragment detailCourseFrag = new DetailCourseFrag();
-            Bundle bundle = new Bundle();
-            bundle.putParcelable("Course", course);
-            detailCourseFrag.setArguments(bundle);
+                Intent intent = new Intent(this, CourseDetailActivity.class);
+                intent.putExtra(KEY, course);
+                startActivity(intent);
         });
+        builder.create().show();
     }
 
     private Course insertSQL() {
@@ -86,7 +80,7 @@ public class AddCourse extends AppCompatActivity {
         String start = startDate.getText().toString();
         String end = endDate.getText().toString();
         Course tempCourse = new Course(courseTitle, courseDesc, start, end);
-        final String INSERT_COURSE = "INSERT INTO courses(title, description, startDate, exectedEnd) " +
+        final String INSERT_COURSE = "INSERT INTO courses(title, description, startDate, expectedEnd) " +
                 "VALUES(?, ?, ?, ?)";
         try {
             SQLiteDatabase db = DBHelper.getInstance(getApplicationContext()).getReadableDatabase();
@@ -116,15 +110,15 @@ public class AddCourse extends AppCompatActivity {
         int month = calendar.get(Calendar.MONTH);
         int day = calendar.get(Calendar.DAY_OF_MONTH);
         if (view == startDateBtn) {
-            DatePickerDialog dialog = new DatePickerDialog(this, (datePicker, i, i1, i2) -> {
-                String date = year + "-" + (month + 1) + "-" + day;
+            DatePickerDialog dialog = new DatePickerDialog(this, (datePicker, sYear, sMonth, sDay) -> {
+                String date = sYear + "-" + (sMonth + 1) + "-" + sDay;
                 startDate.setText(date);
             }, year, month, day);
             dialog.show();
         }
         if (view == endDateBtn) {
-            DatePickerDialog dialog = new DatePickerDialog(this, (datePicker, i, i1, i2) -> {
-                String date = year + "-" + (month + 1) + "-" + day;
+            DatePickerDialog dialog = new DatePickerDialog(this, (datePicker, sYear, sMonth, sDay) -> {
+                String date = sYear + "-" + (sMonth + 1) + "-" + sDay;
                 endDate.setText(date);
             }, year, month, day);
             dialog.show();

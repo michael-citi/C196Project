@@ -42,6 +42,8 @@ public class Course implements Parcelable {
         this.expectedEnd = expectedEnd;
     }
 
+    public Course() {}
+
     // parcel Course constructor
     private Course(Parcel parcel) {
 
@@ -117,10 +119,32 @@ public class Course implements Parcelable {
         db.execSQL(REMOVE_COURSE);
     }
 
+    // Lookup for any courses with a specific termId
     public static boolean checkForCourses(Context context, int termId) {
         boolean isFound = false;
         final String QUERY_COURSES = "SELECT termId FROM courses " +
                 "WHERE termId = " + termId;
+        SQLiteDatabase db = DBHelper.getInstance(context).getReadableDatabase();
+        Cursor cursor = db.rawQuery(QUERY_COURSES, null);
+        try {
+            if (cursor.moveToFirst()) {
+                isFound = true;
+            }
+        } catch (SQLException ex) {
+            Log.d(TAG, ex.getMessage());
+        } finally {
+            if (cursor != null) {
+                cursor.close();
+            }
+        }
+        return isFound;
+    }
+
+    // Comparison needed to detect whether a course already exists with the same courseId
+    public static boolean courseCompare(Context context, int courseId) {
+        boolean isFound = false;
+        final String QUERY_COURSES = "SELECT courseId FROM courses " +
+                "WHERE courseId = " + courseId;
         SQLiteDatabase db = DBHelper.getInstance(context).getReadableDatabase();
         Cursor cursor = db.rawQuery(QUERY_COURSES, null);
         try {

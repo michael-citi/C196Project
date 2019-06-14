@@ -105,7 +105,7 @@ public class DBHelper extends SQLiteOpenHelper {
                 + TABLE_4_COL_4 + " DATETIME UNIQUE, "
                 + TABLE_4_COL_5 + " TEXT NOT NULL, "
                 + TABLE_4_COL_6 + " TEXT NOT NULL, "
-                + TABLE_4_COL_7 + " TEXT, "
+                + TABLE_4_COL_7 + " TEXT DEFAULT '', "
                 // FK 'objectives.courseId' referencing 'courses.courseId'
                 + "FOREIGN KEY (" + TABLE_4_COL_2 + ") REFERENCES " + TABLE_2 + " (" + TABLE_2_COL_1 + "))"
         );
@@ -122,7 +122,7 @@ public class DBHelper extends SQLiteOpenHelper {
                 "('Justin Kendricks', '305-2876', 'justin.kendricks@wgu.edu'), " +
                 "('Bob Boberson', '123-4567', 'bob.boberson@wgu.edu'), " +
                 "('Course Instructor', '444-9001', 'course.instructor@wgu.edu'), " +
-                "('That Oneguy', '123-4567', 'that.oneguy@wgu.edu')"
+                "('That Oneguy', '123-1234', 'that.oneguy@wgu.edu')"
         );
         // initial Objective table inserts to manipulate with assigned courses later on
         db.execSQL("INSERT INTO objectives (title, type, description) VALUES " +

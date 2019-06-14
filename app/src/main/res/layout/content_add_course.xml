@@ -46,7 +46,6 @@
         android:ems="10"
         android:gravity="start|top"
         android:inputType="textMultiLine"
-        android:textAlignment="center"
         android:layout_marginTop="8dp"
         android:layout_marginBottom="8dp"
         android:hint="@string/AC_desc_hint"/>
@@ -75,7 +74,8 @@
             android:layout_weight="1"
             android:layout_marginStart="8dp"
             android:layout_marginEnd="8dp"
-            android:text="@string/AC_button_start" />
+            android:text="@string/AC_button_start"
+            android:onClick="courseDatePicker"/>
     </LinearLayout>
 
     <LinearLayout

@@ -2,6 +2,11 @@
     <!--Menu Strings-->
     <string name="app_name">C196 Project</string>
     <string name="action_settings">Settings</string>
+    <string name="none">None</string>
+    <string name="del_button">Delete</string>
+    <string name="details_button">Details</string>
+    <string name="channel_name">Notification</string>
+    <string name="channel_desc">Notifications for C196 App</string>
 
     <!--MainActivity Strings-->
     <string name="title_activity_main">Home Page</string>
@@ -50,16 +55,46 @@
     <string name="title_activity_add_objective">Add An Assessment</string>
 
 
-    <!--DetailCourseFrag Strings-->
-
+    <!--CourseDetail Strings-->
+    <string name="CD_title_tv">Course Title</string>
+    <string name="CD_title_hint">Enter course title here</string>
+    <string name="CD_desc_tv">Course Description</string>
+    <string name="CD_desc_hint">Enter course description here</string>
+    <string name="CD_switch_btn">Notify Me!\t\t</string>
+    <string name="CD_start_hint">Select a start date</string>
+    <string name="CD_end_hint">Select an end date</string>
+    <string name="CD_notes_title">Course Notes (Optional)</string>
+    <string name="CD_notes_hint">Enter course notes here</string>
+    <string name="CD_status_title">Course Status</string>
+    <string name="CD_term_title">Select Term</string>
+    <string name="CD_notify_text">Not Active</string>
+    <string name="CD_instructor_title">Choose Instructor(s)</string>
+    <string name="CD_objective_title">Choose Objective(s)</string>
+    <string name="CD_button_start">Start Date</string>
+    <string name="CD_button_end">End Date</string>
+    <string name="CD_button_save">Save</string>
+    <string name="CD_button_cancel">Cancel</string>
+    <string name="CD_button_add">Add</string>
+    <string name="CD_button_detail">Details</string>
+    <string name="CD_button_view">Selected</string>
     <string-array name="course_status_array">
         <item>In Progress</item>
         <item>Completed</item>
         <item>Dropped</item>
         <item>Plan to Take</item>
     </string-array>
+    <string name="title_activity_course_detail">Course Detail</string>
+
+    <!--DetailTermFrag Strings-->
+
 
     <!--DetailInstructFrag Strings-->
+    <string name="DI_name">Instructor Name</string>
+    <string name="DI_email">Email</string>
+    <string name="DI_phone">Phone Number</string>
+    <string name="DI_button_done">Done</string>
+    <string name="DI_check_box">Assigned to Course</string>
+    <string name="DI_button_save">Save Changes</string>
 
 
     <!--DetailObjFrag Strings-->

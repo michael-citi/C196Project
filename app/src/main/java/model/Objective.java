@@ -93,8 +93,8 @@ public class Objective implements Parcelable {
 
                 } while (cursor.moveToNext());
             }
-        } catch (Exception ex) {
-            Log.d(TAG, "Error while querying objectives from database.");
+        } catch (SQLException ex) {
+            Log.d(TAG, ex.getMessage());
         } finally {
             if (cursor != null) {
                 cursor.close();

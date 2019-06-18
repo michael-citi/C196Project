@@ -110,9 +110,7 @@ public class Objective implements Parcelable {
         Cursor cursor = db.rawQuery(QUERY_TIMES, null);
         try {
             if (cursor.moveToFirst()) {
-                do {
-                    conflictResult = true;
-                } while (cursor.moveToNext());
+                conflictResult = true;
             }
         } catch (SQLException ex) {
             Log.d(TAG, ex.getMessage());

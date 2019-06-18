@@ -79,8 +79,8 @@ public class DBHelper extends SQLiteOpenHelper {
                 + TABLE_2_COL_3 + " TEXT NOT NULL, "
                 + TABLE_2_COL_4 + " DATE NOT NULL, "
                 + TABLE_2_COL_5 + " DATE NOT NULL, "
-                + TABLE_2_COL_6 + " TEXT NOT NULL DEFAULT 'planning', "
-                + TABLE_2_COL_7 + " INTEGER NOT NULL DEFAULT 1, "
+                + TABLE_2_COL_6 + " TEXT NOT NULL DEFAULT 'Planning to Take', "
+                + TABLE_2_COL_7 + " INTEGER DEFAULT 1, "
                 + TABLE_2_COL_8 + " TEXT, "
                 // FK 'courses.termId' referencing 'terms.termId'
                 + "FOREIGN KEY (" + TABLE_2_COL_7 + ") REFERENCES " + TABLE_1 + " (" + TABLE_1_COL_1 + "))"

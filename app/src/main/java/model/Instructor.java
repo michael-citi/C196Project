@@ -2,6 +2,7 @@ package model;
 
 import android.content.Context;
 import android.database.Cursor;
+import android.database.SQLException;
 import android.database.sqlite.SQLiteDatabase;
 import android.os.Parcel;
 import android.os.Parcelable;
@@ -88,6 +89,26 @@ public class Instructor implements Parcelable {
             }
         }
         return instructorArrayList;
+    }
+
+    public static boolean compareCourseID(int courseId, Context context) {
+        boolean isFound = false;
+        final String QUERY_COURSE_ID = "SELECT courseId FROM objectives " +
+                "WHERE courseId = " + courseId;
+        SQLiteDatabase db = DBHelper.getInstance(context).getReadableDatabase();
+        Cursor cursor = db.rawQuery(QUERY_COURSE_ID, null);
+        try {
+            if (cursor.moveToFirst()) {
+                isFound = true;
+            }
+        } catch (SQLException ex) {
+            Log.d(TAG, ex.getMessage());
+        } finally {
+            if (cursor != null) {
+                cursor.close();
+            }
+        }
+        return isFound;
     }
 
     // getters & setters

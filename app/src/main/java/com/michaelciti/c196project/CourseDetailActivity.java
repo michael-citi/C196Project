@@ -6,6 +6,7 @@ import android.database.SQLException;
 import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteStatement;
 import android.os.Bundle;
+import android.support.v4.app.FragmentTransaction;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
@@ -22,6 +23,7 @@ import android.widget.Switch;
 import android.widget.TextView;
 import java.util.ArrayList;
 import java.util.Calendar;
+import fragments.DetailInstructFrag;
 import model.Course;
 import model.Instructor;
 import model.Objective;
@@ -30,8 +32,10 @@ import tools.DBHelper;
 
 public class CourseDetailActivity extends AppCompatActivity implements OnItemSelectedListener {
 
-    // Arraylists and variables
+    // ArrayLists and variables
     private static final String COURSE_KEY = "Course";
+    private static final String INSTRUCTOR_KEY = "Instructor";
+    private static final String CHECKED_KEY = "Checked";
     ArrayList<Term> termArrayList = new ArrayList<>();
     ArrayList<Course> courseArrayList = new ArrayList<>();
     ArrayList<Objective> objectiveArrayList = new ArrayList<>();
@@ -302,18 +306,20 @@ public class CourseDetailActivity extends AppCompatActivity implements OnItemSel
 
     public void showDetail(View view) {
         if (view == instructDetailBtn) {
-            if (selectedInstructors.size() < 1) {
-                MainActivity.showError(view, "You have not added any Instructors to the course yet.");
-            } else {
-
-            }
+            boolean isFound = Instructor.compareCourseID(tempCourse.getCourseId(), getApplicationContext());
+            String name = instructorSpinner.getSelectedItem().toString();
+            DetailInstructFrag frag = new DetailInstructFrag();
+            Bundle args = new Bundle(2);
+            args.putParcelable("Instructor", getInstructor(name));
+            args.putBoolean("Checked", isFound);
+            frag.setArguments(args);
+            FragmentTransaction transaction = getSupportFragmentManager().beginTransaction();
+            transaction.add(R.id.detailCourseLayout, frag);
+            transaction.commit();
         }
         if (view == objectiveDetailBtn) {
-            if (selectedObjectives.size() < 1) {
-                MainActivity.showError(view, "You have not added any Assessments to the course yet.");
-            } else {
+            int courseId = tempCourse.getCourseId();
 
-            }
         }
     }
 
@@ -324,13 +330,13 @@ public class CourseDetailActivity extends AppCompatActivity implements OnItemSel
             for (Instructor instructor : selectedInstructors) {
                 stringBuilder.append(instructor.getName()).append("\n")
                         .append(instructor.getEmail()).append(", ").append(instructor.getPhone())
-                        .append("\n").append("\n");
+                        .append("\n\n");
             }
         }
         if (view == objectiveSelectBtn) {
             for (Objective objective : selectedObjectives) {
                 stringBuilder.append(objective.getTitle()).append(", ").append(objective.getType())
-                        .append("\n").append(objective.getDescription()).append("\n").append("\n");
+                        .append("\n").append(objective.getDescription()).append("\n\n");
             }
         }
         AlertDialog.Builder builder = new AlertDialog.Builder(this);

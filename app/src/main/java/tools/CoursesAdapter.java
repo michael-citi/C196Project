@@ -26,8 +26,6 @@ public class CoursesAdapter extends RecyclerView.Adapter<CoursesAdapter.CourseVi
     public class CourseViewHolder extends RecyclerView.ViewHolder {
         public TextView courseName;
         public TextView courseDescription;
-        public TextView courseStartDate;
-        public TextView courseEndDate;
         public Button delCourseBtn;
         public Button detailsBtn;
 
@@ -35,8 +33,6 @@ public class CoursesAdapter extends RecyclerView.Adapter<CoursesAdapter.CourseVi
             super(view);
             courseName = view.findViewById(R.id.courseName);
             courseDescription = view.findViewById(R.id.courseDescription);
-            courseStartDate = view.findViewById(R.id.courseStartDate);
-            courseEndDate = view.findViewById(R.id.courseEndDate);
             delCourseBtn = view.findViewById(R.id.delCourseBtn);
             detailsBtn = view.findViewById(R.id.detailsButton);
         }
@@ -55,13 +51,9 @@ public class CoursesAdapter extends RecyclerView.Adapter<CoursesAdapter.CourseVi
         Course course = courseList.get(i);
         final String name = "Course Name: " + course.getTitle();
         final String desc = "Description: " + course.getDescription();
-        final String start = "Begin: " + course.getStartDate();
-        final String expectEnd = "Expected End: " + course.getExpectedEnd();
 
         viewHolder.courseName.setText(name);
         viewHolder.courseDescription.setText(desc);
-        viewHolder.courseStartDate.setText(start);
-        viewHolder.courseEndDate.setText(expectEnd);
 
         viewHolder.delCourseBtn.setOnClickListener(view -> {
             AlertDialog.Builder alertBuilder = new AlertDialog.Builder(view.getContext());

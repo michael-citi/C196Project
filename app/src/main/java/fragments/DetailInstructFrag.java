@@ -4,28 +4,33 @@ import android.content.Context;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
-import android.support.v4.app.Fragment;
+import android.support.v4.app.DialogFragment;
+import android.support.v4.app.FragmentManager;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.CheckBox;
-import android.widget.EditText;
+import android.widget.TextView;
 import com.michaelciti.c196project.R;
 import model.Instructor;
-import static android.support.constraint.Constraints.TAG;
 
-public class DetailInstructFrag extends Fragment {
+public class DetailInstructFrag extends DialogFragment {
+    private static final String TAG = "DetailInstructorFragment";
     private static final String INSTRUCTOR_KEY = "Instructor";
-    private static final String CHECKED_KEY = "Checked";
     private Instructor instructor;
-    boolean isChecked;
 
-    EditText name, email, phone;
-    CheckBox checkBox;
+    TextView name, email, phone;
 
     public DetailInstructFrag() {
         // Required empty public constructor
+    }
+
+    public static DetailInstructFrag newInstance(Instructor instructor) {
+        DetailInstructFrag frag = new DetailInstructFrag();
+        Bundle args = new Bundle();
+        args.putParcelable(INSTRUCTOR_KEY, instructor);
+        frag.setArguments(args);
+        return frag;
     }
 
     @Override
@@ -37,8 +42,12 @@ public class DetailInstructFrag extends Fragment {
             throw new NullPointerException();
         } else {
             instructor = args.getParcelable(INSTRUCTOR_KEY);
-            isChecked = args.getBoolean(CHECKED_KEY);
         }
+    }
+
+    @Override
+    public void show(FragmentManager manager, String tag) {
+        super.show(manager, tag);
     }
 
     @Override
@@ -54,17 +63,10 @@ public class DetailInstructFrag extends Fragment {
         name = view.findViewById(R.id.diNameEditText);
         email = view.findViewById(R.id.diEmailEditText);
         phone = view.findViewById(R.id.diPhoneEditText);
-        checkBox = view.findViewById(R.id.diCheckBox);
 
         name.setText(instructor.getName());
         email.setText(instructor.getEmail());
         phone.setText(instructor.getPhone());
-
-        if (isChecked) {
-            checkBox.setChecked(true);
-        } else {
-            checkBox.setChecked(false);
-        }
     }
 
     @Override

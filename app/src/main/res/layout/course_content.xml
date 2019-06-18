@@ -20,24 +20,13 @@
             android:layout_height="wrap_content"
             android:layout_weight="1"/>
 
-        <TextView
-            android:id="@+id/courseStartDate"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_weight="1"/>
-
-        <TextView
-            android:id="@+id/courseEndDate"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_weight="1"/>
-
         <Button
             android:id="@+id/delCourseBtn"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_weight="0"
             android:layout_margin="8dp"
+            android:textAppearance="@style/TextAppearance.AppCompat.Body1"
             android:text="@string/del_button" />
 
     </LinearLayout>
@@ -58,6 +47,8 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_weight="0"
+            android:layout_margin="8dp"
+            android:textAppearance="@style/TextAppearance.AppCompat.Body1"
             android:text="@string/details_button"/>
 
     </LinearLayout>

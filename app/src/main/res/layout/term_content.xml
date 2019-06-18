@@ -26,39 +26,27 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_weight="1"
+            android:layout_margin="8dp"
             android:text="@string/none"
             android:textAppearance="@style/TextAppearance.AppCompat.Large" />
+
+        <Button
+            android:id="@+id/detailTermBtn"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_weight="0"
+            android:layout_margin="8dp"
+            android:text="@string/details_button"
+            android:textAppearance="@style/TextAppearance.AppCompat.Body1"/>
 
         <Button
             android:id="@+id/delTermBtn"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_weight="1"
+            android:layout_weight="0"
+            android:layout_margin="8dp"
             android:text="@string/del_button"
             android:textAppearance="@style/TextAppearance.AppCompat.Body1" />
-
-    </LinearLayout>
-
-    <LinearLayout
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:orientation="horizontal"
-        android:paddingTop="8dp"
-        android:paddingBottom="8dp">
-
-        <TextView
-            android:id="@+id/termStart"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_weight="1"
-            android:text="@string/none" />
-
-        <TextView
-            android:id="@+id/termEnd"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_weight="1"
-            android:text="@string/none" />
 
     </LinearLayout>
 

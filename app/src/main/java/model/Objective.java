@@ -7,12 +7,16 @@ import android.database.sqlite.SQLiteDatabase;
 import android.os.Parcel;
 import android.os.Parcelable;
 import android.util.Log;
+import android.view.View;
+
+import com.michaelciti.c196project.MainActivity;
+
 import java.util.ArrayList;
 import tools.DBHelper;
-import static android.support.constraint.Constraints.TAG;
 
 public class Objective implements Parcelable {
 
+    private static final String TAG = "Objective.java";
     private int objectiveId;
     private int courseId;
     private String title;
@@ -120,6 +124,15 @@ public class Objective implements Parcelable {
             }
         }
         return  conflictResult;
+    }
+
+    public static void deleteObjective(View view, Objective objective, Context context) {
+        int objectiveId = objective.getObjectiveId();
+        final String DELETE_OBJECTIVE = "DELETE FROM objectives WHERE " +
+                "objectiveId = " + objectiveId;
+        SQLiteDatabase db = DBHelper.getInstance(context).getWritableDatabase();
+        db.execSQL(DELETE_OBJECTIVE);
+        MainActivity.showError(view, "Assessment successfully deleted.");
     }
 
     public int getObjectiveId() {

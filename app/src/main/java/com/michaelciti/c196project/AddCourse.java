@@ -13,7 +13,6 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.TextView;
-import static android.support.constraint.Constraints.TAG;
 import android.database.SQLException;
 import java.util.ArrayList;
 import java.util.Calendar;
@@ -22,6 +21,7 @@ import tools.DBHelper;
 
 public class AddCourse extends AppCompatActivity {
 
+    private static final String TAG = "AddCourseActivity";
     private static final String KEY = "Course";
     Course pkgCourse;
     ArrayList<Course> courseArrayList = new ArrayList<>();

@@ -2,17 +2,18 @@ package com.michaelciti.c196project;
 
 import android.app.DatePickerDialog;
 import android.app.TimePickerDialog;
+import android.content.Intent;
 import android.database.SQLException;
 import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteStatement;
 import android.os.Bundle;
+import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentTransaction;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.util.Log;
 import android.view.View;
-import static android.support.constraint.Constraints.TAG;
 import android.widget.AdapterView;
 import android.widget.AdapterView.OnItemSelectedListener;
 import android.widget.ArrayAdapter;
@@ -24,6 +25,7 @@ import android.widget.TextView;
 import java.util.ArrayList;
 import java.util.Calendar;
 import fragments.DetailInstructFrag;
+import fragments.DetailObjFrag;
 import model.Course;
 import model.Instructor;
 import model.Objective;
@@ -33,9 +35,8 @@ import tools.DBHelper;
 public class CourseDetailActivity extends AppCompatActivity implements OnItemSelectedListener {
 
     // ArrayLists and variables
+    private static final String TAG = "CourseDetailActivity";
     private static final String COURSE_KEY = "Course";
-    private static final String INSTRUCTOR_KEY = "Instructor";
-    private static final String CHECKED_KEY = "Checked";
     ArrayList<Term> termArrayList = new ArrayList<>();
     ArrayList<Course> courseArrayList = new ArrayList<>();
     ArrayList<Objective> objectiveArrayList = new ArrayList<>();
@@ -262,13 +263,33 @@ public class CourseDetailActivity extends AppCompatActivity implements OnItemSel
         } catch (SQLException ex) {
             Log.d(TAG, ex.getMessage());
         }
+        updateSQL(courseId);
+    }
+
+    private void updateSQL(int courseId) {
+        final String UPDATE_OBJECTIVES = "UPDATE objectives SET courseId = ? WHERE objectiveId = ?";
+        final String UPDATE_INSTRUCTORS = "UPDATE instructors SET courseId = ? WHERE instructorId = ?";
+        SQLiteDatabase db = DBHelper.getInstance(getApplicationContext()).getWritableDatabase();
+        for (Objective objective : selectedObjectives) {
+            SQLiteStatement stm = db.compileStatement(UPDATE_OBJECTIVES);
+            stm.bindDouble(1, courseId);
+            stm.bindDouble(2, objective.getObjectiveId());
+            stm.execute();
+        }
+        for (Instructor instructor : selectedInstructors) {
+            SQLiteStatement stm = db.compileStatement(UPDATE_INSTRUCTORS);
+            stm.bindDouble(1, courseId);
+            stm.bindDouble(2, instructor.getInstructorId());
+            stm.execute();
+        }
     }
 
     public void cancelDetails(View view) {
         AlertDialog.Builder builder = new AlertDialog.Builder(this);
-        builder.setMessage("Cancel new course?");
+        builder.setMessage("Cancel Changes?");
         builder.setPositiveButton("Yes", (dialogInterface, i) -> {
-
+            Intent intent = new Intent(this, ViewCourses.class);
+            startActivity(intent);
         });
         builder.setNegativeButton("No", (dialogInterface, i) -> finish());
         builder.create().show();
@@ -306,25 +327,20 @@ public class CourseDetailActivity extends AppCompatActivity implements OnItemSel
 
     public void showDetail(View view) {
         if (view == instructDetailBtn) {
-            boolean isFound = Instructor.compareCourseID(tempCourse.getCourseId(), getApplicationContext());
             String name = instructorSpinner.getSelectedItem().toString();
-            DetailInstructFrag frag = new DetailInstructFrag();
-            Bundle args = new Bundle(2);
-            args.putParcelable("Instructor", getInstructor(name));
-            args.putBoolean("Checked", isFound);
-            frag.setArguments(args);
-            FragmentTransaction transaction = getSupportFragmentManager().beginTransaction();
-            transaction.add(R.id.detailCourseLayout, frag);
-            transaction.commit();
+            DetailInstructFrag frag = DetailInstructFrag.newInstance(getInstructor(name));
+            FragmentManager fm = getSupportFragmentManager();
+            frag.show(fm, "detail_instruct_frag");
         }
         if (view == objectiveDetailBtn) {
-            int courseId = tempCourse.getCourseId();
-
+            String name = objectiveSpinner.getSelectedItem().toString();
+            DetailObjFrag frag = DetailObjFrag.newInstance(getObjective(name));
+            FragmentManager fm = getSupportFragmentManager();
+            frag.show(fm, "detail_objective_frag");
         }
     }
 
     public void showSelected(View view) {
-        String message = "";
         StringBuilder stringBuilder = new StringBuilder();
         if (view == instructSelectBtn) {
             for (Instructor instructor : selectedInstructors) {
@@ -340,7 +356,7 @@ public class CourseDetailActivity extends AppCompatActivity implements OnItemSel
             }
         }
         AlertDialog.Builder builder = new AlertDialog.Builder(this);
-        builder.setMessage(message);
+        builder.setMessage(stringBuilder);
         builder.setNeutralButton("OK", (dialogInterface, i) -> dialogInterface.dismiss());
         builder.create().show();
     }

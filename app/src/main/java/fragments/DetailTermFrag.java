@@ -1,59 +1,53 @@
 package fragments;
 
-
+import android.content.Context;
 import android.os.Bundle;
-import android.support.v4.app.Fragment;
+import android.support.annotation.NonNull;
+import android.support.annotation.Nullable;
+import android.support.v4.app.DialogFragment;
+import android.support.v4.app.FragmentManager;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-
+import android.widget.TextView;
 import com.michaelciti.c196project.R;
+import model.Term;
 
-/**
- * A simple {@link Fragment} subclass.
- * Use the {@link DetailTermFrag#newInstance} factory method to
- * create an instance of this fragment.
- */
-public class DetailTermFrag extends Fragment {
-    // TODO: Rename parameter arguments, choose names that match
-    // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
-    private static final String ARG_PARAM1 = "param1";
-    private static final String ARG_PARAM2 = "param2";
+public class DetailTermFrag extends DialogFragment {
+    private static final String TAG = "DetailTermFragment";
+    private static final String TERM_KEY = "Term";
+    private Term term;
 
-    // TODO: Rename and change types of parameters
-    private String mParam1;
-    private String mParam2;
-
+    TextView title, startDate, endDate;
 
     public DetailTermFrag() {
         // Required empty public constructor
     }
 
-    /**
-     * Use this factory method to create a new instance of
-     * this fragment using the provided parameters.
-     *
-     * @param param1 Parameter 1.
-     * @param param2 Parameter 2.
-     * @return A new instance of fragment DetailTermFrag.
-     */
-    // TODO: Rename and change types and number of parameters
-    public static DetailTermFrag newInstance(String param1, String param2) {
-        DetailTermFrag fragment = new DetailTermFrag();
-        Bundle args = new Bundle();
-        args.putString(ARG_PARAM1, param1);
-        args.putString(ARG_PARAM2, param2);
-        fragment.setArguments(args);
-        return fragment;
+    public static DetailTermFrag newInstance(Term term) {
+        DetailTermFrag frag = new DetailTermFrag();
+        Bundle args = new Bundle(1);
+        args.putParcelable(TERM_KEY, term);
+        frag.setArguments(args);
+        return frag;
     }
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        if (getArguments() != null) {
-            mParam1 = getArguments().getString(ARG_PARAM1);
-            mParam2 = getArguments().getString(ARG_PARAM2);
+        Bundle args = getArguments();
+        if (args == null || !(args.containsKey(TERM_KEY))) {
+            Log.d(TAG, "Term object is null");
+            throw new NullPointerException();
+        } else {
+            term = args.getParcelable(TERM_KEY);
         }
+    }
+
+    @Override
+    public void show(FragmentManager manager, String tag) {
+        super.show(manager, tag);
     }
 
     @Override
@@ -63,4 +57,27 @@ public class DetailTermFrag extends Fragment {
         return inflater.inflate(R.layout.fragment_detail_term, container, false);
     }
 
+    @Override
+    public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
+        super.onViewCreated(view, savedInstanceState);
+
+        title = view.findViewById(R.id.dtTitle);
+        startDate = view.findViewById(R.id.dtStartDate);
+        endDate = view.findViewById(R.id.dtEndDate);
+
+        title.setText(term.getTitle());
+        startDate.setText(term.getStartDate());
+        endDate.setText(term.getEndDate());
+    }
+
+    @Override
+    public void onAttach(Context context) {
+        super.onAttach(context);
+    }
+
+    @Override
+    public void onDetach() {
+        super.onDetach();
+        term = null;
+    }
 }

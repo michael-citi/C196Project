@@ -3,15 +3,17 @@ package model;
 import android.content.Context;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
+import android.os.Parcel;
+import android.os.Parcelable;
 import android.util.Log;
 import android.view.View;
 import com.michaelciti.c196project.MainActivity;
 import java.util.ArrayList;
 import tools.DBHelper;
-import static android.support.constraint.Constraints.TAG;
 
-public class Term {
+public class Term implements Parcelable {
 
+    private static final String TAG = "Term.java";
     private int termId;
     private String title;
     private String startDate;
@@ -23,6 +25,35 @@ public class Term {
         this.title = title;
         this.startDate = startDate;
         this.endDate = endDate;
+    }
+
+    // parcel Term constructor
+    public Term(Parcel parcel) {
+        termId = parcel.readInt();
+        title = parcel.readString();
+        startDate = parcel.readString();
+        endDate = parcel.readString();
+    }
+
+    public static final Parcelable.Creator<Term> CREATOR = new Parcelable.Creator<Term>(){
+
+        @Override
+        public Term createFromParcel(Parcel parcel) {
+            return new Term(parcel);
+        }
+
+        @Override
+        public Term[] newArray(int i) {
+            return new Term[0];
+        }
+    };
+
+    @Override
+    public void writeToParcel(Parcel parcel, int i) {
+        parcel.writeInt(termId);
+        parcel.writeString(title);
+        parcel.writeString(startDate);
+        parcel.writeString(endDate);
     }
 
     public static ArrayList<Term> queryAll(Context context) {
@@ -97,5 +128,10 @@ public class Term {
 
     public void setEndDate(String endDate) {
         this.endDate = endDate;
+    }
+
+    @Override
+    public int describeContents() {
+        return 0;
     }
 }

@@ -16,12 +16,12 @@ import android.widget.EditText;
 import android.widget.TextView;
 import java.util.ArrayList;
 import java.util.Calendar;
-import static android.support.constraint.Constraints.TAG;
 import model.Term;
 import tools.DBHelper;
 
 public class AddTerm extends AppCompatActivity {
 
+    private static final String TAG = "AddTermActivity";
     Button startDateBtn, endDateBtn;
     EditText termTitle;
     TextView startDate, endDate;
@@ -68,8 +68,8 @@ public class AddTerm extends AppCompatActivity {
     public void cancelTerm(View view) {
         AlertDialog.Builder builder = new AlertDialog.Builder(this);
         builder.setMessage("Cancel new term? No changes will be saved.");
-        builder.setPositiveButton("Cancel", (dialogInterface, i) -> goHome());
-        builder.setNegativeButton("Oops!", (dialogInterface, i) -> finish());
+        builder.setPositiveButton("Yes", (dialogInterface, i) -> goHome());
+        builder.setNegativeButton("No", (dialogInterface, i) -> finish());
         builder.create().show();
     }
 

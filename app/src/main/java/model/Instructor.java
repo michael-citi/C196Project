@@ -9,10 +9,10 @@ import android.os.Parcelable;
 import android.util.Log;
 import java.util.ArrayList;
 import tools.DBHelper;
-import static android.support.constraint.Constraints.TAG;
 
 public class Instructor implements Parcelable {
 
+    private static final String TAG = "Instructor.java";
     private int instructorId;
     private int courseId;
     private String name;
@@ -89,26 +89,6 @@ public class Instructor implements Parcelable {
             }
         }
         return instructorArrayList;
-    }
-
-    public static boolean compareCourseID(int courseId, Context context) {
-        boolean isFound = false;
-        final String QUERY_COURSE_ID = "SELECT courseId FROM objectives " +
-                "WHERE courseId = " + courseId;
-        SQLiteDatabase db = DBHelper.getInstance(context).getReadableDatabase();
-        Cursor cursor = db.rawQuery(QUERY_COURSE_ID, null);
-        try {
-            if (cursor.moveToFirst()) {
-                isFound = true;
-            }
-        } catch (SQLException ex) {
-            Log.d(TAG, ex.getMessage());
-        } finally {
-            if (cursor != null) {
-                cursor.close();
-            }
-        }
-        return isFound;
     }
 
     // getters & setters

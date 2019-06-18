@@ -4,7 +4,7 @@
     <string name="action_settings">Settings</string>
     <string name="none">None</string>
     <string name="del_button">Delete</string>
-    <string name="details_button">Details</string>
+    <string name="details_button">Info</string>
     <string name="channel_name">Notification</string>
     <string name="channel_desc">Notifications for C196 App</string>
 
@@ -53,7 +53,16 @@
 
     <!--AddObjective Strings-->
     <string name="title_activity_add_objective">Add An Assessment</string>
-
+    <string name="ao_button_save">Save</string>
+    <string name="ao_button_cancel">Cancel</string>
+    <string name="ao_obj_title">Assessment Title</string>
+    <string name="ao_obj_type">Assessment Type</string>
+    <string name="ao_obj_description">Description</string>
+    <string name="ao_obj_notes">Notes</string>
+    <string-array name="ao_type_spinner">
+        <item>Performance</item>
+        <item>Objective</item>
+    </string-array>
 
     <!--CourseDetail Strings-->
     <string name="CD_title_tv">Course Title</string>
@@ -86,7 +95,9 @@
     <string name="title_activity_course_detail">Course Detail</string>
 
     <!--DetailTermFrag Strings-->
-
+    <string name="DT_term_title">Term Title</string>
+    <string name="DT_term_start">Start Date</string>
+    <string name="DT_term_end">End Date</string>
 
     <!--DetailInstructFrag Strings-->
     <string name="DI_name">Instructor Name</string>
@@ -98,6 +109,10 @@
 
 
     <!--DetailObjFrag Strings-->
-
+    <string name="DO_assessment_title">Assessment Title</string>
+    <string name="DO_assessment_datetime">Time</string>
+    <string name="DO_assessment_type">Type</string>
+    <string name="DO_assessment_description">Description</string>
+    <string name="DO_assessment_notes">Notes</string>
 
 </resources>

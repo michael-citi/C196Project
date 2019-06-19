@@ -4,7 +4,6 @@ import android.app.AlarmManager;
 import android.app.DatePickerDialog;
 import android.app.PendingIntent;
 import android.app.TimePickerDialog;
-import android.content.Context;
 import android.content.Intent;
 import android.database.SQLException;
 import android.database.sqlite.SQLiteDatabase;
@@ -15,6 +14,9 @@ import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.util.Log;
+import android.view.Menu;
+import android.view.MenuInflater;
+import android.view.MenuItem;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.AdapterView.OnItemSelectedListener;
@@ -24,8 +26,11 @@ import android.widget.EditText;
 import android.widget.Spinner;
 import android.widget.Switch;
 import android.widget.TextView;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Calendar;
+import java.util.Date;
 import fragments.DetailInstructFrag;
 import fragments.DetailObjFrag;
 import model.Course;
@@ -33,14 +38,14 @@ import model.Instructor;
 import model.Objective;
 import model.Term;
 import tools.DBHelper;
-import tools.NotifyMe;
 
 public class CourseDetailActivity extends AppCompatActivity implements OnItemSelectedListener {
 
     // ArrayLists and variables
     private static final String TAG = "CourseDetailActivity";
-    private static final String NOTIFICATION = "Notification";
     private static final String COURSE_KEY = "Course";
+    private static final String NOTIFICATION_TITLE = "Title";
+    private static final String NOTIFICATION_MESSAGE = "Message";
     ArrayList<Term> termArrayList = new ArrayList<>();
     ArrayList<Course> courseArrayList = new ArrayList<>();
     ArrayList<Objective> objectiveArrayList = new ArrayList<>();
@@ -52,10 +57,10 @@ public class CourseDetailActivity extends AppCompatActivity implements OnItemSel
     Course tempCourse;
 
     // views
-    TextView startDate, endDate, notifyEndText;
+    TextView startDate, endDate;
     Button startDateBtn, endDateBtn, instructAddBtn, instructDetailBtn, instructSelectBtn;
     Button objectiveAddBtn, objectiveDetailBtn, objectiveSelectBtn;
-    Switch notifyEndDate;
+    Switch notifyCourseDate;
     EditText titleText, descText, notesText;
     Spinner statusSpinner, termSpinner, instructorSpinner, objectiveSpinner;
 
@@ -85,8 +90,7 @@ public class CourseDetailActivity extends AppCompatActivity implements OnItemSel
         termSpinner = findViewById(R.id.dcTermSpinner);
         instructorSpinner = findViewById(R.id.dcInstructSpinner);
         objectiveSpinner = findViewById(R.id.dcObjectiveSpinner);
-        notifyEndDate = findViewById(R.id.dcEndDateSwitch);
-        notifyEndText = findViewById(R.id.dcEndDateNotifyText);
+        notifyCourseDate = findViewById(R.id.dcEndDateSwitch);
 
         // methods to build the activity
         assignClickListeners();
@@ -96,6 +100,32 @@ public class CourseDetailActivity extends AppCompatActivity implements OnItemSel
         setSpinnerAdapters();
         populateFields();
         populateSelectedItems();
+    }
+
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+        MenuInflater inflater = getMenuInflater();
+        inflater.inflate(R.menu.menu_course_detail, menu);
+        return true;
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        switch (item.getItemId()) {
+            case R.id.share:
+                Intent sharingIntent = new Intent(Intent.ACTION_SEND);
+                sharingIntent.setType("text/plain");
+                String subject = tempCourse.getTitle() + " Notes";
+                String message = tempCourse.getNotes();
+                if (message.equalsIgnoreCase("")) {
+                    Log.d(TAG, "Unable to share empty string.");
+                } else {
+                    sharingIntent.putExtra(Intent.EXTRA_SUBJECT, subject);
+                    sharingIntent.putExtra(Intent.EXTRA_TEXT, message);
+                    startActivity(Intent.createChooser(sharingIntent, "Share via: "));
+                }
+        }
+        return super.onOptionsItemSelected(item);
     }
 
     private void populateTempCourse() {
@@ -116,12 +146,9 @@ public class CourseDetailActivity extends AppCompatActivity implements OnItemSel
     }
 
     private void assignClickListeners() {
-        notifyEndDate.setOnCheckedChangeListener((compoundButton, b) -> {
+        notifyCourseDate.setOnCheckedChangeListener((compoundButton, b) -> {
             if (b) {
-                detailTimePicker(notifyEndDate);
-            } else {
-                notifyEndText.setText(R.string.CD_notify_text);
-                cancelAlarm();
+                detailTimePicker(notifyCourseDate);
             }
         });
     }
@@ -162,6 +189,9 @@ public class CourseDetailActivity extends AppCompatActivity implements OnItemSel
         descText.setText(tempCourse.getDescription());
         startDate.setText(tempCourse.getStartDate());
         endDate.setText(tempCourse.getExpectedEnd());
+        if (!(tempCourse.getNotes().equalsIgnoreCase(""))) {
+            notesText.setText(tempCourse.getNotes());
+        }
         for (Term term : termArrayList) {
             if (term.getTermId() == tempCourse.getTermId()) {
                 setSpinner(term.getTitle(), termSpinner);
@@ -390,15 +420,15 @@ public class CourseDetailActivity extends AppCompatActivity implements OnItemSel
         int month = calendar.get(Calendar.MONTH);
         int day = calendar.get(Calendar.DAY_OF_MONTH);
         if (view == startDateBtn) {
-            DatePickerDialog dialog = new DatePickerDialog(this, (datePicker, i, i1, i2) -> {
-                String date = year + "-" + (month + 1) + "-" + day;
+            DatePickerDialog dialog = new DatePickerDialog(this, (datePicker, mYear, mMonth, mDay) -> {
+                String date = mYear + "-" + (mMonth + 1) + "-" + mDay;
                 startDate.setText(date);
             }, year, month, day);
             dialog.show();
         }
         if (view == endDateBtn) {
-            DatePickerDialog dialog = new DatePickerDialog(this, (datePicker, i, i1, i2) -> {
-                String date = year + "-" + (month + 1) + "-" + day;
+            DatePickerDialog dialog = new DatePickerDialog(this, (datePicker, mYear, mMonth, mDay) -> {
+                String date = mYear + "-" + (mMonth + 1) + "-" + mDay;
                 endDate.setText(date);
             }, year, month, day);
             dialog.show();
@@ -407,40 +437,52 @@ public class CourseDetailActivity extends AppCompatActivity implements OnItemSel
 
     public void detailTimePicker(View view) {
         Calendar calendar = Calendar.getInstance();
-        int hour = calendar.get(Calendar.HOUR_OF_DAY);
+        int hour = calendar.get(Calendar.HOUR);
         int minute = calendar.get(Calendar.MINUTE);
         TimePickerDialog dialog = new TimePickerDialog(this, (timePickerDialog, sHour, sMinute) -> {
-            Calendar cal1 = Calendar.getInstance();
-            Calendar cal2 = (Calendar) cal1.clone();
-            cal2.set(Calendar.HOUR_OF_DAY, sHour);
-            cal2.set(Calendar.MINUTE, sMinute);
-            cal2.set(Calendar.SECOND, 0);
-            cal2.set(Calendar.MILLISECOND, 0);
-            if (cal2.compareTo(cal1) <= 0) {
-                cal2.add(Calendar.DATE, 1);
-            }
-            setAlarm(cal2);
-            String timeText = sHour + ":" + sMinute;
-            notifyEndText.setText(timeText);
+            Calendar sCal = (Calendar) calendar.clone();
+            sCal.set(Calendar.HOUR, sHour);
+            sCal.set(Calendar.MINUTE, sMinute);
+            sCal.set(Calendar.SECOND, 0);
+            sCal.set(Calendar.MILLISECOND, 0);
+            String time = sHour + ":" + sMinute + ":00";
+            setAlarm(sCal, time);
         }, hour, minute, false);
         dialog.setTitle("Select Notification Time");
         dialog.show();
     }
 
-    private void setAlarm(Calendar calendar) {
-        String time = calendar.getTime().toString();
-        Intent intent = new Intent(this, NotifyMe.class);
-        intent.putExtra(NOTIFICATION, time);
-        PendingIntent pIntent = PendingIntent.getBroadcast(getApplicationContext(), 1, intent, PendingIntent.FLAG_UPDATE_CURRENT);
-        AlarmManager am = (AlarmManager) getSystemService(Context.ALARM_SERVICE);
-        am.set(AlarmManager.RTC_WAKEUP, calendar.getTimeInMillis(), pIntent);
-    }
-
-    private void cancelAlarm() {
-        Intent intent = new Intent(this, NotifyMe.class);
-        PendingIntent pIntent = PendingIntent.getBroadcast(getApplicationContext(), 1, intent, PendingIntent.FLAG_UPDATE_CURRENT);
-        AlarmManager am = (AlarmManager) getSystemService(Context.ALARM_SERVICE);
-        am.cancel(pIntent);
+    private void setAlarm(Calendar calendar, String time) {
+        // configure Intent data
+        Intent startIntent = new Intent(this, NotifyMe.class);
+        startIntent.putExtra(NOTIFICATION_TITLE, "Course Starting");
+        startIntent.putExtra(NOTIFICATION_MESSAGE, "Your course is starting today.");
+        Intent endIntent = new Intent(this, NotifyMe.class);
+        endIntent.putExtra(NOTIFICATION_TITLE, "Course is Ending");
+        endIntent.putExtra(NOTIFICATION_MESSAGE, "Your course is ending today.");
+        // build PendingIntent objects for Alarm
+        PendingIntent stPendingIntent = PendingIntent.getBroadcast(this.getApplicationContext(), 0, startIntent, PendingIntent.FLAG_UPDATE_CURRENT);
+        PendingIntent endPendingIntent = PendingIntent.getBroadcast(this.getApplicationContext(), 1, endIntent, PendingIntent.FLAG_UPDATE_CURRENT);
+        // Alarm setup
+        AlarmManager sam = (AlarmManager) getSystemService(ALARM_SERVICE);
+        AlarmManager eam = (AlarmManager) getSystemService(ALARM_SERVICE);
+        SimpleDateFormat sdf = new SimpleDateFormat("YYYY-MM-DD HH:MM:SS");
+        SimpleDateFormat stf = new SimpleDateFormat("HH:MM:SS");
+        try {
+            String notifyTime = stf.parse(time).toString();
+            Date start = sdf.parse(tempCourse.getStartDate() + " " + notifyTime);
+            Date end = sdf.parse(tempCourse.getExpectedEnd() + " " + notifyTime);
+            // setting start date alarm
+            Calendar sCalendar = (Calendar) calendar.clone();
+            sCalendar.setTime(start);
+            sam.set(AlarmManager.RTC_WAKEUP, sCalendar.getTimeInMillis(), stPendingIntent);
+            // setting end date alarm
+            Calendar eCalendar = (Calendar) calendar.clone();
+            eCalendar.setTime(end);
+            eam.set(AlarmManager.RTC_WAKEUP, eCalendar.getTimeInMillis(), endPendingIntent);
+        } catch (ParseException ex) {
+            Log.d(TAG, ex.getMessage());
+        }
     }
 
     private void setSpinner(String string, Spinner spinner) {

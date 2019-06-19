@@ -7,6 +7,7 @@
     <string name="details_button">Info</string>
     <string name="channel_name">Notification</string>
     <string name="channel_desc">Notifications for C196 App</string>
+    <string name="menu_share">Share Notes</string>
 
     <!--MainActivity Strings-->
     <string name="title_activity_main">Home Page</string>

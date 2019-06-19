@@ -1,14 +1,16 @@
 package com.michaelciti.c196project;
 
+import android.app.AlarmManager;
 import android.app.DatePickerDialog;
+import android.app.PendingIntent;
 import android.app.TimePickerDialog;
+import android.content.Context;
 import android.content.Intent;
 import android.database.SQLException;
 import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteStatement;
 import android.os.Bundle;
 import android.support.v4.app.FragmentManager;
-import android.support.v4.app.FragmentTransaction;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
@@ -31,11 +33,13 @@ import model.Instructor;
 import model.Objective;
 import model.Term;
 import tools.DBHelper;
+import tools.NotifyMe;
 
 public class CourseDetailActivity extends AppCompatActivity implements OnItemSelectedListener {
 
     // ArrayLists and variables
     private static final String TAG = "CourseDetailActivity";
+    private static final String NOTIFICATION = "Notification";
     private static final String COURSE_KEY = "Course";
     ArrayList<Term> termArrayList = new ArrayList<>();
     ArrayList<Course> courseArrayList = new ArrayList<>();
@@ -48,10 +52,10 @@ public class CourseDetailActivity extends AppCompatActivity implements OnItemSel
     Course tempCourse;
 
     // views
-    TextView startDate, endDate, notifyStartText, notifyEndText;
+    TextView startDate, endDate, notifyEndText;
     Button startDateBtn, endDateBtn, instructAddBtn, instructDetailBtn, instructSelectBtn;
     Button objectiveAddBtn, objectiveDetailBtn, objectiveSelectBtn;
-    Switch notifyStartDate, notifyEndDate;
+    Switch notifyEndDate;
     EditText titleText, descText, notesText;
     Spinner statusSpinner, termSpinner, instructorSpinner, objectiveSpinner;
 
@@ -81,9 +85,7 @@ public class CourseDetailActivity extends AppCompatActivity implements OnItemSel
         termSpinner = findViewById(R.id.dcTermSpinner);
         instructorSpinner = findViewById(R.id.dcInstructSpinner);
         objectiveSpinner = findViewById(R.id.dcObjectiveSpinner);
-        notifyStartDate = findViewById(R.id.dcStartDateSwitch);
         notifyEndDate = findViewById(R.id.dcEndDateSwitch);
-        notifyStartText = findViewById(R.id.dcStartDateNotifyText);
         notifyEndText = findViewById(R.id.dcEndDateNotifyText);
 
         // methods to build the activity
@@ -114,19 +116,12 @@ public class CourseDetailActivity extends AppCompatActivity implements OnItemSel
     }
 
     private void assignClickListeners() {
-        // OnCheckedChangeListeners built for the two switch buttons
-        notifyStartDate.setOnCheckedChangeListener((compoundButton, b) -> {
-            if (b) {
-                detailTimePicker(notifyStartDate);
-            } else {
-                notifyStartText.setText(R.string.CD_notify_text);
-            }
-        });
         notifyEndDate.setOnCheckedChangeListener((compoundButton, b) -> {
             if (b) {
                 detailTimePicker(notifyEndDate);
             } else {
                 notifyEndText.setText(R.string.CD_notify_text);
+                cancelAlarm();
             }
         });
     }
@@ -415,16 +410,37 @@ public class CourseDetailActivity extends AppCompatActivity implements OnItemSel
         int hour = calendar.get(Calendar.HOUR_OF_DAY);
         int minute = calendar.get(Calendar.MINUTE);
         TimePickerDialog dialog = new TimePickerDialog(this, (timePickerDialog, sHour, sMinute) -> {
+            Calendar cal1 = Calendar.getInstance();
+            Calendar cal2 = (Calendar) cal1.clone();
+            cal2.set(Calendar.HOUR_OF_DAY, sHour);
+            cal2.set(Calendar.MINUTE, sMinute);
+            cal2.set(Calendar.SECOND, 0);
+            cal2.set(Calendar.MILLISECOND, 0);
+            if (cal2.compareTo(cal1) <= 0) {
+                cal2.add(Calendar.DATE, 1);
+            }
+            setAlarm(cal2);
             String timeText = sHour + ":" + sMinute;
-            if (view == notifyStartDate) {
-                notifyStartText.setText(timeText);
-            }
-            if (view == notifyEndDate) {
-                notifyEndText.setText(timeText);
-            }
+            notifyEndText.setText(timeText);
         }, hour, minute, false);
-        dialog.setTitle("Select Time");
+        dialog.setTitle("Select Notification Time");
         dialog.show();
+    }
+
+    private void setAlarm(Calendar calendar) {
+        String time = calendar.getTime().toString();
+        Intent intent = new Intent(this, NotifyMe.class);
+        intent.putExtra(NOTIFICATION, time);
+        PendingIntent pIntent = PendingIntent.getBroadcast(getApplicationContext(), 1, intent, PendingIntent.FLAG_UPDATE_CURRENT);
+        AlarmManager am = (AlarmManager) getSystemService(Context.ALARM_SERVICE);
+        am.set(AlarmManager.RTC_WAKEUP, calendar.getTimeInMillis(), pIntent);
+    }
+
+    private void cancelAlarm() {
+        Intent intent = new Intent(this, NotifyMe.class);
+        PendingIntent pIntent = PendingIntent.getBroadcast(getApplicationContext(), 1, intent, PendingIntent.FLAG_UPDATE_CURRENT);
+        AlarmManager am = (AlarmManager) getSystemService(Context.ALARM_SERVICE);
+        am.cancel(pIntent);
     }
 
     private void setSpinner(String string, Spinner spinner) {

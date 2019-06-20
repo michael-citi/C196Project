@@ -26,7 +26,7 @@ public class NotifyMe extends BroadcastReceiver {
         NotificationCompat.Builder builder = new NotificationCompat.Builder(context, CHANNEL_ID);
         builder.setContentTitle(title);
         builder.setContentText(message);
-        builder.setSmallIcon(R.drawable.ic_launcher_foreground);
+        builder.setSmallIcon(R.drawable.ic_stat_name);
         builder.setContentIntent(pIntent);
 
         NotificationManager nm = (NotificationManager) context.getSystemService(Context.NOTIFICATION_SERVICE);

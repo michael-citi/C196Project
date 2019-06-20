@@ -8,127 +8,121 @@
     tools:context=".AddObjective"
     tools:showIn="@layout/activity_add_objective">
 
-    <TextView
-        android:id="@+id/aoObjTitle"
-        android:layout_width="wrap_content"
+    <ScrollView
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginStart="8dp"
-        android:layout_marginTop="24dp"
-        android:layout_marginEnd="8dp"
-        android:text="@string/ao_obj_title"
-        android:fontFamily="@font/archivo_black"
-        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
+        app:layout_constraintEnd_toEndOf="parent">
 
-    <EditText
-        android:id="@+id/aoObjTitleEdit"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="16dp"
-        android:ems="10"
-        android:inputType="textPersonName"
-        app:layout_constraintEnd_toEndOf="@+id/aoObjTitle"
-        app:layout_constraintStart_toStartOf="@+id/aoObjTitle"
-        app:layout_constraintTop_toBottomOf="@+id/aoObjTitle" />
-
-    <TextView
-        android:id="@+id/aoObjType"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="16dp"
-        android:text="@string/ao_obj_type"
-        android:fontFamily="@font/archivo_black"
-        app:layout_constraintEnd_toEndOf="@+id/aoObjTitleEdit"
-        app:layout_constraintStart_toStartOf="@+id/aoObjTitleEdit"
-        app:layout_constraintTop_toBottomOf="@+id/aoObjTitleEdit" />
-
-    <Spinner
-        android:id="@+id/aoObjTypeSpinner"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        app:layout_constraintEnd_toEndOf="@+id/aoObjType"
-        app:layout_constraintStart_toStartOf="@+id/aoObjType"
-        app:layout_constraintTop_toBottomOf="@+id/aoObjType"
-        android:layout_marginTop="16dp"
-        android:entries="@array/ao_type_spinner"
-        />
-
-    <TextView
-        android:id="@+id/aoObjDescription"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="16dp"
-        android:text="@string/ao_obj_description"
-        android:fontFamily="@font/archivo_black"
-        app:layout_constraintEnd_toEndOf="@+id/aoObjTypeSpinner"
-        app:layout_constraintStart_toStartOf="@+id/aoObjTypeSpinner"
-        app:layout_constraintTop_toBottomOf="@+id/aoObjTypeSpinner" />
-
-    <EditText
-        android:id="@+id/aoObjDescriptionEdit"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="16dp"
-        android:ems="10"
-        android:gravity="start|top"
-        android:inputType="textMultiLine"
-        app:layout_constraintEnd_toEndOf="@+id/aoObjDescription"
-        app:layout_constraintStart_toStartOf="@+id/aoObjDescription"
-        app:layout_constraintTop_toBottomOf="@+id/aoObjDescription" />
-
-    <TextView
-        android:id="@+id/aoObjNotes"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="16dp"
-        android:text="@string/ao_obj_notes"
-        android:fontFamily="@font/archivo_black"
-        app:layout_constraintEnd_toEndOf="@+id/aoObjDescriptionEdit"
-        app:layout_constraintStart_toStartOf="@+id/aoObjDescriptionEdit"
-        app:layout_constraintTop_toBottomOf="@+id/aoObjDescriptionEdit" />
-
-    <EditText
-        android:id="@+id/aoObjNotesEdit"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="16dp"
-        android:ems="10"
-        android:gravity="start|top"
-        android:inputType="textMultiLine"
-        app:layout_constraintEnd_toEndOf="@+id/aoObjNotes"
-        app:layout_constraintStart_toStartOf="@+id/aoObjNotes"
-        app:layout_constraintTop_toBottomOf="@+id/aoObjNotes" />
-
-    <LinearLayout
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_marginStart="8dp"
-        android:layout_marginTop="16dp"
-        android:layout_marginEnd="8dp"
-        android:orientation="horizontal"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/aoObjNotesEdit">
-
-        <Button
-            android:id="@+id/aoSaveBtn"
-            android:layout_width="wrap_content"
+        <LinearLayout
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_weight="1"
-            android:layout_margin="8dp"
-            android:text="@string/ao_button_save"
-            android:onClick="addNewObjective"
-            android:textAppearance="@style/TextAppearance.AppCompat.Body1"/>
+            android:orientation="vertical" >
 
-        <Button
-            android:id="@+id/aoCancelBtn"
-            android:layout_margin="8dp"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_weight="1"
-            android:text="@string/ao_button_cancel"
-            android:onClick="cancelNewObjective"
-            android:textAppearance="@style/TextAppearance.AppCompat.Body1"/>
-    </LinearLayout>
+            <TextView
+                android:id="@+id/aoObjTitle"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="8dp"
+                android:layout_marginTop="24dp"
+                android:layout_marginEnd="8dp"
+                android:fontFamily="@font/archivo_black"
+                android:text="@string/ao_obj_title"
+                android:layout_gravity="center"/>
+
+            <EditText
+                android:id="@+id/aoObjTitleEdit"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="16dp"
+                android:ems="10"
+                android:inputType="textPersonName"
+                android:layout_gravity="center"/>
+
+            <TextView
+                android:id="@+id/aoObjType"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="16dp"
+                android:fontFamily="@font/archivo_black"
+                android:text="@string/ao_obj_type"
+                android:layout_gravity="center"/>
+
+            <Spinner
+                android:id="@+id/aoObjTypeSpinner"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="16dp"
+                android:entries="@array/ao_type_spinner" />
+
+            <TextView
+                android:id="@+id/aoObjDescription"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="16dp"
+                android:fontFamily="@font/archivo_black"
+                android:text="@string/ao_obj_description"
+                android:layout_gravity="center"/>
+
+            <EditText
+                android:id="@+id/aoObjDescriptionEdit"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="16dp"
+                android:ems="10"
+                android:gravity="start|top"
+                android:inputType="textMultiLine"
+                android:layout_gravity="center"/>
+
+            <TextView
+                android:id="@+id/aoObjNotes"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="16dp"
+                android:fontFamily="@font/archivo_black"
+                android:text="@string/ao_obj_notes"
+                android:layout_gravity="center"/>
+
+            <EditText
+                android:id="@+id/aoObjNotesEdit"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="16dp"
+                android:ems="10"
+                android:gravity="start|top"
+                android:inputType="textMultiLine"
+                android:layout_gravity="center"/>
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="8dp"
+                android:layout_marginTop="16dp"
+                android:layout_marginEnd="8dp"
+                android:orientation="horizontal">
+
+                <Button
+                    android:id="@+id/aoSaveBtn"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_margin="8dp"
+                    android:layout_weight="1"
+                    android:onClick="addNewObjective"
+                    android:text="@string/ao_button_save"
+                    android:textAppearance="@style/TextAppearance.AppCompat.Body1" />
+
+                <Button
+                    android:id="@+id/aoCancelBtn"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_margin="8dp"
+                    android:layout_weight="1"
+                    android:onClick="cancelNewObjective"
+                    android:text="@string/ao_button_cancel"
+                    android:textAppearance="@style/TextAppearance.AppCompat.Body1" />
+            </LinearLayout>
+        </LinearLayout>
+    </ScrollView>
+
 </android.support.constraint.ConstraintLayout>

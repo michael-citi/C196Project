@@ -33,8 +33,8 @@ public class ObjectiveDetailActivity extends AppCompatActivity {
     EditText title, notes, description;
     Spinner typeSpinner;
     TextView goalDateText;
-    SimpleDateFormat sdf = new SimpleDateFormat("YYYY-MM-DD HH:MM:SS");
-    SimpleDateFormat stf = new SimpleDateFormat("HH:MM:SS.SSS");
+    SimpleDateFormat syf = new SimpleDateFormat("yyyy-MM-dd");
+    SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -127,6 +127,7 @@ public class ObjectiveDetailActivity extends AppCompatActivity {
     }
 
     private void updateObjSQL() {
+        int objId = objective.getObjectiveId();
         String objTitle = title.getText().toString();
         String objType = typeSpinner.getSelectedItem().toString();
         String objTime = "";
@@ -137,11 +138,11 @@ public class ObjectiveDetailActivity extends AppCompatActivity {
         String objNotes = notes.getText().toString();
         final String UPDATE_OBJECTIVE = "UPDATE objectives SET " +
                 "title = ?, " +
-                "type = datetime(?), " +
+                "type = ?, " +
                 "time = ?, " +
                 "description = ?, " +
                 "notes = ? " +
-                "WHERE objectiveId = " + objective.getObjectiveId();
+                "WHERE objectiveId = " + objId;
         try {
             SQLiteDatabase db = DBHelper.getInstance(getApplicationContext()).getWritableDatabase();
             SQLiteStatement stm = db.compileStatement(UPDATE_OBJECTIVE);
@@ -150,7 +151,7 @@ public class ObjectiveDetailActivity extends AppCompatActivity {
             stm.bindString(3, objTime);
             stm.bindString(4, objDesc);
             stm.bindString(5, objNotes);
-            stm.execute();
+            stm.executeUpdateDelete();
         } catch (SQLException ex) {
             Log.d(TAG, ex.getMessage());
         }
@@ -162,7 +163,8 @@ public class ObjectiveDetailActivity extends AppCompatActivity {
         int month = calendar.get(Calendar.MONTH);
         int day = calendar.get(Calendar.DAY_OF_MONTH);
         DatePickerDialog datePickerDialog = new DatePickerDialog(this, (datePicker, mYear, mMonth, mDay) -> {
-            String date = mYear + "-" + (mMonth + 1) + "-" + mDay;
+            calendar.set(mYear, mMonth, mDay);
+            String date = syf.format(calendar.getTime());
             setGoalDate(date);
         }, year, month, day);
         datePickerDialog.show();
@@ -173,13 +175,13 @@ public class ObjectiveDetailActivity extends AppCompatActivity {
         int hour = calendar.get(Calendar.HOUR);
         int minute = calendar.get(Calendar.MINUTE);
         TimePickerDialog timePickerDialog = new TimePickerDialog(this, (timePicker, sHour, sMinute) -> {
-            String time = sHour + ":" + sMinute + ":00";
+            String time = String.format("%02d:%02d", sHour, sMinute) + ":00";
+            String dateTime = date + " " + time;
+            goalDateText.setText(dateTime);
+            updateSQL(dateTime, objective.getObjectiveId());
             try {
-                Date sendTime = stf.parse(time);
-                Date dateTime = sdf.parse(date + " " + time);
-                goalDateText.setText(dateTime.toString());
-                updateSQL(dateTime.toString(), objective.getObjectiveId());
-                setAlarm(calendar, sendTime);
+                Date parseDateTime = sdf.parse(dateTime);
+                setAlarm(calendar, parseDateTime);
             } catch (ParseException ex) {
                 ex.printStackTrace();
             }
@@ -189,12 +191,12 @@ public class ObjectiveDetailActivity extends AppCompatActivity {
 
     private void updateSQL(String dateTime, int objectiveId) {
         final String UPDATE_OBJECTIVE = "UPDATE objectives SET " +
-                "time = datetime(" + dateTime + ") WHERE objectiveId = " + objectiveId;
+                "time = " + dateTime + " WHERE objectiveId = " + objectiveId;
         SQLiteDatabase db = DBHelper.getInstance(getApplicationContext()).getWritableDatabase();
         try {
             db.execSQL(UPDATE_OBJECTIVE);
         } catch (SQLException ex) {
-            ex.printStackTrace();
+            Log.d(TAG, ex.getMessage());
         }
     }
 

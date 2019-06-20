@@ -16,7 +16,7 @@
     <string name="term_view">View Terms</string>
     <string name="course_name">Courses</string>
     <string name="course_view">View Courses</string>
-    <string name="obj_name">Objectives</string>
+    <string name="obj_name">Assessments</string>
     <string name="obj_view">View Assessments</string>
 
     <!--ViewCourses Strings-->

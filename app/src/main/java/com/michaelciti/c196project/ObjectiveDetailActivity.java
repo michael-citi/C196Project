@@ -34,7 +34,7 @@ public class ObjectiveDetailActivity extends AppCompatActivity {
     Spinner typeSpinner;
     TextView goalDateText;
     SimpleDateFormat sdf = new SimpleDateFormat("YYYY-MM-DD HH:MM:SS");
-    SimpleDateFormat stf = new SimpleDateFormat("HH:MM:SS");
+    SimpleDateFormat stf = new SimpleDateFormat("HH:MM:SS.SSS");
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -47,6 +47,7 @@ public class ObjectiveDetailActivity extends AppCompatActivity {
         notes = findViewById(R.id.detailNotesEditText);
         description = findViewById(R.id.objDescriptionEditText);
         typeSpinner = findViewById(R.id.detObjSpinner);
+        goalDateText = findViewById(R.id.goalDateTextView);
 
         populateFields();
     }
@@ -128,12 +129,15 @@ public class ObjectiveDetailActivity extends AppCompatActivity {
     private void updateObjSQL() {
         String objTitle = title.getText().toString();
         String objType = typeSpinner.getSelectedItem().toString();
-        String objTime = goalDateText.getText().toString();
+        String objTime = "";
+        if (!(goalDateText.getText().toString().equalsIgnoreCase("No Goal Date Selected"))) {
+            objTime = goalDateText.getText().toString();
+        }
         String objDesc = description.getText().toString();
         String objNotes = notes.getText().toString();
         final String UPDATE_OBJECTIVE = "UPDATE objectives SET " +
                 "title = ?, " +
-                "type = ?, " +
+                "type = datetime(?), " +
                 "time = ?, " +
                 "description = ?, " +
                 "notes = ? " +
@@ -172,8 +176,9 @@ public class ObjectiveDetailActivity extends AppCompatActivity {
             String time = sHour + ":" + sMinute + ":00";
             try {
                 Date sendTime = stf.parse(time);
-                String dateTime = sdf.parse(date + " " + time).toString();
-                updateSQL(dateTime, objective.getObjectiveId());
+                Date dateTime = sdf.parse(date + " " + time);
+                goalDateText.setText(dateTime.toString());
+                updateSQL(dateTime.toString(), objective.getObjectiveId());
                 setAlarm(calendar, sendTime);
             } catch (ParseException ex) {
                 ex.printStackTrace();
@@ -184,7 +189,7 @@ public class ObjectiveDetailActivity extends AppCompatActivity {
 
     private void updateSQL(String dateTime, int objectiveId) {
         final String UPDATE_OBJECTIVE = "UPDATE objectives SET " +
-                "time = " + dateTime + " WHERE objectiveId = " + objectiveId;
+                "time = datetime(" + dateTime + ") WHERE objectiveId = " + objectiveId;
         SQLiteDatabase db = DBHelper.getInstance(getApplicationContext()).getWritableDatabase();
         try {
             db.execSQL(UPDATE_OBJECTIVE);

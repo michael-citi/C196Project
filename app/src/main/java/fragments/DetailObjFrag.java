@@ -1,5 +1,6 @@
 package fragments;
 
+import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
@@ -13,6 +14,8 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.TextView;
+
+import com.michaelciti.c196project.ObjectiveDetailActivity;
 import com.michaelciti.c196project.R;
 import model.Objective;
 
@@ -22,7 +25,7 @@ public class DetailObjFrag extends DialogFragment {
     private Objective objective;
 
     TextView title, time, type, description, notes;
-    Button shareBtn;
+    Button shareBtn, editBtn;
 
     public DetailObjFrag() {
         // Required empty public constructor
@@ -69,6 +72,7 @@ public class DetailObjFrag extends DialogFragment {
         description = view.findViewById(R.id.doDescription);
         notes = view.findViewById(R.id.doNotes);
         shareBtn = view.findViewById(R.id.shareBtn);
+        editBtn = view.findViewById(R.id.objEditBtn);
 
         title.setText(objective.getTitle());
         time.setText(objective.getTime());
@@ -84,6 +88,12 @@ public class DetailObjFrag extends DialogFragment {
             sharingIntent.putExtra(Intent.EXTRA_SUBJECT, subject);
             sharingIntent.putExtra(Intent.EXTRA_TEXT, message);
             startActivity(Intent.createChooser(sharingIntent, "Share via:"));
+        });
+
+        editBtn.setOnClickListener(editView -> {
+            Intent intent = new Intent(editView.getContext().getApplicationContext(), ObjectiveDetailActivity.class);
+            intent.putExtra("Objective", objective);
+            editView.getContext().startActivity(intent);
         });
     }
 

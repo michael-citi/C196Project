@@ -436,7 +436,7 @@ public class CourseDetailActivity extends AppCompatActivity implements OnItemSel
     }
 
     public void detailTimePicker(View view) {
-        Calendar calendar = Calendar.getInstance();
+        final Calendar calendar = Calendar.getInstance();
         int hour = calendar.get(Calendar.HOUR);
         int minute = calendar.get(Calendar.MINUTE);
         TimePickerDialog dialog = new TimePickerDialog(this, (timePickerDialog, sHour, sMinute) -> {

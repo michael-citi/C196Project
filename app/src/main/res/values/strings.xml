@@ -27,6 +27,9 @@
 
     <!--ViewObjectives Strings-->
     <string name="title_activity_view_objectives">View Your Assessments</string>
+    <string name="obj_no_goal_date">No Goal Date Selected</string>
+    <string name="obj_goal_date_button">Set Date</string>
+    <string name="obj_notify_button">Notify Me!</string>
 
     <!--AddTerm Strings-->
     <string name="title_activity_add_term">Add A Term</string>
@@ -64,6 +67,12 @@
         <item>Performance</item>
         <item>Objective</item>
     </string-array>
+
+    <!--ObjectiveDetail Strings-->
+    <string name="od_title">Assessment Title</string>
+    <string name="od_type">Assessment Type</string>
+    <string name="od_description">Description</string>
+    <string name="od_notes">Notes</string>
 
     <!--CourseDetail Strings-->
     <string name="CD_title_tv">Course Title</string>
@@ -107,7 +116,7 @@
     <string name="DI_button_done">Done</string>
     <string name="DI_check_box">Assigned to Course</string>
     <string name="DI_button_save">Save Changes</string>
-
+    <string name="DI_button_edit">Edit Assessment</string>
 
     <!--DetailObjFrag Strings-->
     <string name="DO_assessment_title">Assessment Title</string>
@@ -115,5 +124,6 @@
     <string name="DO_assessment_type">Type</string>
     <string name="DO_assessment_description">Description</string>
     <string name="DO_assessment_notes">Notes</string>
+    <string name="title_activity_objective_detail">View Assessment Details</string>
 
 </resources>

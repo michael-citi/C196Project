@@ -36,6 +36,9 @@ public class Objective implements Parcelable {
         this.notes = notes;
     }
 
+    // empty constructor
+    public Objective() {}
+
     // parcel Objective constructor
     private Objective(Parcel parcel) {
         objectiveId = parcel.readInt();
